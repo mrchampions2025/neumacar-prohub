@@ -11,10 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccesoRouteImport } from './routes/acceso'
+import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as CitaRouteImport } from './routes/cita'
 import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PresupuestoRouteImport } from './routes/presupuesto'
+import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as TallerRouteImport } from './routes/taller'
 import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
 import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
@@ -32,6 +35,11 @@ const AccesoRoute = AccesoRouteImport.update({
   path: '/acceso',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AvisoLegalRoute = AvisoLegalRouteImport.update({
+  id: '/aviso-legal',
+  path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CitaRoute = CitaRouteImport.update({
   id: '/cita',
   path: '/cita',
@@ -42,6 +50,11 @@ const ContactoRoute = ContactoRouteImport.update({
   path: '/contacto',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
@@ -50,6 +63,11 @@ const FaqRoute = FaqRouteImport.update({
 const PresupuestoRoute = PresupuestoRouteImport.update({
   id: '/presupuesto',
   path: '/presupuesto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadRoute = PrivacidadRouteImport.update({
+  id: '/privacidad',
+  path: '/privacidad',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TallerRoute = TallerRouteImport.update({
@@ -86,10 +104,13 @@ const VehiculosVehicleIdRoute = VehiculosVehicleIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/cita': typeof CitaRoute
   '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
   '/presupuesto': typeof PresupuestoRoute
+  '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -100,10 +121,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/cita': typeof CitaRoute
   '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
   '/presupuesto': typeof PresupuestoRoute
+  '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -115,10 +139,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/cita': typeof CitaRoute
   '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
   '/presupuesto': typeof PresupuestoRoute
+  '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -131,10 +158,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/acceso'
+    | '/aviso-legal'
     | '/cita'
     | '/contacto'
+    | '/cookies'
     | '/faq'
     | '/presupuesto'
+    | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
     | '/servicios/$slug'
@@ -145,10 +175,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/acceso'
+    | '/aviso-legal'
     | '/cita'
     | '/contacto'
+    | '/cookies'
     | '/faq'
     | '/presupuesto'
+    | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
     | '/servicios/$slug'
@@ -159,10 +192,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/acceso'
+    | '/aviso-legal'
     | '/cita'
     | '/contacto'
+    | '/cookies'
     | '/faq'
     | '/presupuesto'
+    | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
     | '/servicios/$slug'
@@ -174,10 +210,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccesoRoute: typeof AccesoRoute
+  AvisoLegalRoute: typeof AvisoLegalRoute
   CitaRoute: typeof CitaRoute
   ContactoRoute: typeof ContactoRoute
+  CookiesRoute: typeof CookiesRoute
   FaqRoute: typeof FaqRoute
   PresupuestoRoute: typeof PresupuestoRoute
+  PrivacidadRoute: typeof PrivacidadRoute
   TallerRoute: typeof TallerRoute
   VenderMiCocheRoute: typeof VenderMiCocheRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
@@ -202,6 +241,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccesoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aviso-legal': {
+      id: '/aviso-legal'
+      path: '/aviso-legal'
+      fullPath: '/aviso-legal'
+      preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cita': {
       id: '/cita'
       path: '/cita'
@@ -216,6 +262,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faq': {
       id: '/faq'
       path: '/faq'
@@ -228,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/presupuesto'
       fullPath: '/presupuesto'
       preLoaderRoute: typeof PresupuestoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidad': {
+      id: '/privacidad'
+      path: '/privacidad'
+      fullPath: '/privacidad'
+      preLoaderRoute: typeof PrivacidadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/taller': {
@@ -278,10 +338,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccesoRoute: AccesoRoute,
+  AvisoLegalRoute: AvisoLegalRoute,
   CitaRoute: CitaRoute,
   ContactoRoute: ContactoRoute,
+  CookiesRoute: CookiesRoute,
   FaqRoute: FaqRoute,
   PresupuestoRoute: PresupuestoRoute,
+  PrivacidadRoute: PrivacidadRoute,
   TallerRoute: TallerRoute,
   VenderMiCocheRoute: VenderMiCocheRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
