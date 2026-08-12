@@ -10,6 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CitaRouteImport } from './routes/cita'
+import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as PresupuestoRouteImport } from './routes/presupuesto'
+import { Route as TallerRouteImport } from './routes/taller'
+import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
 import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
 import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
 import { Route as VehiculosIndexRouteImport } from './routes/vehiculos.index'
@@ -18,6 +23,31 @@ import { Route as VehiculosVehicleIdRouteImport } from './routes/vehiculos.$vehi
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CitaRoute = CitaRouteImport.update({
+  id: '/cita',
+  path: '/cita',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresupuestoRoute = PresupuestoRouteImport.update({
+  id: '/presupuesto',
+  path: '/presupuesto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TallerRoute = TallerRouteImport.update({
+  id: '/taller',
+  path: '/taller',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VenderMiCocheRoute = VenderMiCocheRouteImport.update({
+  id: '/vender-mi-coche',
+  path: '/vender-mi-coche',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServiciosIndexRoute = ServiciosIndexRouteImport.update({
@@ -43,6 +73,11 @@ const VehiculosVehicleIdRoute = VehiculosVehicleIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cita': typeof CitaRoute
+  '/contacto': typeof ContactoRoute
+  '/presupuesto': typeof PresupuestoRoute
+  '/taller': typeof TallerRoute
+  '/vender-mi-coche': typeof VenderMiCocheRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
   '/servicios/': typeof ServiciosIndexRoute
@@ -50,6 +85,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cita': typeof CitaRoute
+  '/contacto': typeof ContactoRoute
+  '/presupuesto': typeof PresupuestoRoute
+  '/taller': typeof TallerRoute
+  '/vender-mi-coche': typeof VenderMiCocheRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
   '/servicios': typeof ServiciosIndexRoute
@@ -58,6 +98,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cita': typeof CitaRoute
+  '/contacto': typeof ContactoRoute
+  '/presupuesto': typeof PresupuestoRoute
+  '/taller': typeof TallerRoute
+  '/vender-mi-coche': typeof VenderMiCocheRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
   '/servicios/': typeof ServiciosIndexRoute
@@ -67,6 +112,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cita'
+    | '/contacto'
+    | '/presupuesto'
+    | '/taller'
+    | '/vender-mi-coche'
     | '/servicios/$slug'
     | '/vehiculos/$vehicleId'
     | '/servicios/'
@@ -74,6 +124,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cita'
+    | '/contacto'
+    | '/presupuesto'
+    | '/taller'
+    | '/vender-mi-coche'
     | '/servicios/$slug'
     | '/vehiculos/$vehicleId'
     | '/servicios'
@@ -81,6 +136,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cita'
+    | '/contacto'
+    | '/presupuesto'
+    | '/taller'
+    | '/vender-mi-coche'
     | '/servicios/$slug'
     | '/vehiculos/$vehicleId'
     | '/servicios/'
@@ -89,6 +149,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CitaRoute: typeof CitaRoute
+  ContactoRoute: typeof ContactoRoute
+  PresupuestoRoute: typeof PresupuestoRoute
+  TallerRoute: typeof TallerRoute
+  VenderMiCocheRoute: typeof VenderMiCocheRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
   VehiculosVehicleIdRoute: typeof VehiculosVehicleIdRoute
   ServiciosIndexRoute: typeof ServiciosIndexRoute
@@ -102,6 +167,41 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cita': {
+      id: '/cita'
+      path: '/cita'
+      fullPath: '/cita'
+      preLoaderRoute: typeof CitaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presupuesto': {
+      id: '/presupuesto'
+      path: '/presupuesto'
+      fullPath: '/presupuesto'
+      preLoaderRoute: typeof PresupuestoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taller': {
+      id: '/taller'
+      path: '/taller'
+      fullPath: '/taller'
+      preLoaderRoute: typeof TallerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vender-mi-coche': {
+      id: '/vender-mi-coche'
+      path: '/vender-mi-coche'
+      fullPath: '/vender-mi-coche'
+      preLoaderRoute: typeof VenderMiCocheRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/servicios/': {
@@ -137,6 +237,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CitaRoute: CitaRoute,
+  ContactoRoute: ContactoRoute,
+  PresupuestoRoute: PresupuestoRoute,
+  TallerRoute: TallerRoute,
+  VenderMiCocheRoute: VenderMiCocheRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
   VehiculosVehicleIdRoute: VehiculosVehicleIdRoute,
   ServiciosIndexRoute: ServiciosIndexRoute,

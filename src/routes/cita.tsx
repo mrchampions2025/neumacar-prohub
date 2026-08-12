@@ -9,9 +9,9 @@ import { site } from "@/config/site";
 import { whatsapp } from "@/services/whatsapp";
 
 export const Route = createFileRoute("/cita")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    servicio: typeof search.servicio === "string" ? search.servicio : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { servicio?: string } =>
+    typeof search["servicio"] === "string" ? { servicio: search["servicio"] } : {},
+
   head: () => ({
     meta: [
       { title: "Reservar cita en el taller — Neumacar Motors" },
