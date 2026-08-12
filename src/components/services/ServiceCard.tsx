@@ -19,7 +19,9 @@ export function ServiceCard({ service }: { service: Service }) {
         </span>
       </div>
 
-      <h3 className="mt-5 font-display text-xl font-bold uppercase leading-tight">{service.name}</h3>
+      <h3 className="mt-5 font-display text-xl font-bold uppercase leading-tight">
+        {service.name}
+      </h3>
       <p className="mt-2 flex-1 text-sm text-muted-foreground">{service.short}</p>
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">

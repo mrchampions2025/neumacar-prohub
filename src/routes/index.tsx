@@ -97,7 +97,9 @@ function Home() {
               { k: "Ocasión", v: "Vehículos revisados" },
             ].map((i) => (
               <div key={i.k}>
-                <dt className="font-display text-sm uppercase tracking-wider text-primary">{i.k}</dt>
+                <dt className="font-display text-sm uppercase tracking-wider text-primary">
+                  {i.k}
+                </dt>
                 <dd className="mt-1 text-sm text-muted-foreground">{i.v}</dd>
               </div>
             ))}
@@ -238,7 +240,8 @@ function Home() {
         <div className="container-page">
           <SectionHeading eyebrow="Opiniones" title="Lo que dicen nuestros clientes" />
           <DemoDataNotice>
-            Reseñas de demostración. Antes de publicar, se sustituirán por reseñas reales verificadas.
+            Reseñas de demostración. Antes de publicar, se sustituirán por reseñas reales
+            verificadas.
           </DemoDataNotice>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {demoTestimonials.map((t) => (

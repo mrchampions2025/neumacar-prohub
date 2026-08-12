@@ -70,7 +70,16 @@ export const stockVehicles: StockVehicle[] = [
     images: [bmw1],
     description:
       "BMW Serie 1 en acabado Sport con cambio automático Steptronic. Un único propietario y mantenimiento al día en red oficial.",
-    equipment: ["Navegador", "Cámara trasera", "Sensores de aparcamiento", "Faros LED", "Control de crucero", "Climatizador bizona", "Apple CarPlay", "Llantas 17\""],
+    equipment: [
+      "Navegador",
+      "Cámara trasera",
+      "Sensores de aparcamiento",
+      "Faros LED",
+      "Control de crucero",
+      "Climatizador bizona",
+      "Apple CarPlay",
+      'Llantas 17"',
+    ],
     condition: {
       general: "Excelente",
       itv: "En vigor hasta 2027",
@@ -103,7 +112,15 @@ export const stockVehicles: StockVehicle[] = [
     images: [audia3],
     description:
       "Audi A3 Sportback S line con equipamiento deportivo, muy eficiente para uso diario y viajes largos.",
-    equipment: ["Virtual Cockpit", "Navegador MMI", "Sensores traseros", "Faros LED", "Control de crucero", "Volante multifunción", "Tapicería mixta"],
+    equipment: [
+      "Virtual Cockpit",
+      "Navegador MMI",
+      "Sensores traseros",
+      "Faros LED",
+      "Control de crucero",
+      "Volante multifunción",
+      "Tapicería mixta",
+    ],
     condition: {
       general: "Muy bueno",
       itv: "En vigor hasta 2026",
@@ -135,7 +152,15 @@ export const stockVehicles: StockVehicle[] = [
     images: [mercedesa],
     description:
       "Mercedes Clase A con paquete AMG Line, doble pantalla MBUX y cambio automático 8G-DCT. Estado impecable.",
-    equipment: ["MBUX doble pantalla", "Navegador", "Cámara 360", "Asientos calefactados", "Techo panorámico", "Faros LED High Performance", "Cuero sintético ARTICO"],
+    equipment: [
+      "MBUX doble pantalla",
+      "Navegador",
+      "Cámara 360",
+      "Asientos calefactados",
+      "Techo panorámico",
+      "Faros LED High Performance",
+      "Cuero sintético ARTICO",
+    ],
     condition: {
       general: "Excelente",
       itv: "No requiere hasta 2026",
@@ -166,7 +191,14 @@ export const stockVehicles: StockVehicle[] = [
     images: [golf],
     description:
       "Golf VIII 1.5 TSI en acabado Life, con Digital Cockpit y asistentes de conducción. Reservado pendiente de entrega.",
-    equipment: ["Digital Cockpit", "Navegador Discover", "Front Assist", "Faros LED", "Control de crucero adaptativo", "Climatizador"],
+    equipment: [
+      "Digital Cockpit",
+      "Navegador Discover",
+      "Front Assist",
+      "Faros LED",
+      "Control de crucero adaptativo",
+      "Climatizador",
+    ],
     condition: {
       general: "Muy bueno",
       itv: "En vigor",
@@ -199,7 +231,15 @@ export const stockVehicles: StockVehicle[] = [
     images: [corolla],
     description:
       "Toyota Corolla híbrido autorecargable, etiqueta ECO y consumos muy bajos en ciudad. Ideal para uso urbano intensivo.",
-    equipment: ["Navegador", "Cámara trasera", "Toyota Safety Sense", "Control de crucero adaptativo", "Faros LED", "Bluetooth", "Llantas 16\""],
+    equipment: [
+      "Navegador",
+      "Cámara trasera",
+      "Toyota Safety Sense",
+      "Control de crucero adaptativo",
+      "Faros LED",
+      "Bluetooth",
+      'Llantas 16"',
+    ],
     condition: {
       general: "Excelente",
       itv: "No requiere hasta 2026",

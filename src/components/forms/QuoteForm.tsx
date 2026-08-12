@@ -34,7 +34,19 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
     formState: { errors, isSubmitting },
   } = useForm<QuoteValues>({
     resolver: zodResolver(quoteSchema),
-    defaultValues: { name: "", phone: "", email: "", plate: "", brand: "", model: "", mileage: "", service: defaultService ?? "", description: "", contactPreference: "telefono", consent: false },
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      plate: "",
+      brand: "",
+      model: "",
+      mileage: "",
+      service: defaultService ?? "",
+      description: "",
+      contactPreference: "telefono",
+      consent: false,
+    },
   });
 
   const onSubmit = async (values: QuoteValues) => {
@@ -97,7 +109,10 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
           <Input id="q-model" {...register("model")} />
         </Field>
         <Field label="Servicio" error={errors.service} className="sm:col-span-2">
-          <Select value={watch("service")} onValueChange={(v) => setValue("service", v, { shouldValidate: true })}>
+          <Select
+            value={watch("service")}
+            onValueChange={(v) => setValue("service", v, { shouldValidate: true })}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Selecciona un servicio" />
             </SelectTrigger>
@@ -136,7 +151,9 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
         <div className="sm:col-span-2">
           <RadioGroup
             value={watch("contactPreference")}
-            onValueChange={(v) => setValue("contactPreference", v as QuoteValues["contactPreference"])}
+            onValueChange={(v) =>
+              setValue("contactPreference", v as QuoteValues["contactPreference"])
+            }
             className="flex flex-wrap gap-4"
           >
             {[

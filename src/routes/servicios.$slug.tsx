@@ -23,7 +23,10 @@ export const Route = createFileRoute("/servicios/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Servicio no disponible — Neumacar Motors" }, { name: "robots", content: "noindex" }],
+        meta: [
+          { title: "Servicio no disponible — Neumacar Motors" },
+          { name: "robots", content: "noindex" },
+        ],
       };
     }
     const { service } = loaderData;

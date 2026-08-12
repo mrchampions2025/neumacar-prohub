@@ -45,7 +45,22 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
     formState: { errors, isSubmitting },
   } = useForm<AppointmentValues>({
     resolver: zodResolver(appointmentSchema),
-    defaultValues: { name: "", surname: "", phone: "", email: "", plate: "", brand: "", model: "", year: "", mileage: "", service: defaultService ?? "", date: "", time: "", notes: "", consent: false },
+    defaultValues: {
+      name: "",
+      surname: "",
+      phone: "",
+      email: "",
+      plate: "",
+      brand: "",
+      model: "",
+      year: "",
+      mileage: "",
+      service: defaultService ?? "",
+      date: "",
+      time: "",
+      notes: "",
+      consent: false,
+    },
   });
 
   const onSubmit = async (values: AppointmentValues) => {
@@ -128,7 +143,10 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
 
       <FormSection title="Servicio y fecha">
         <Field label="Servicio" error={errors.service} className="sm:col-span-2">
-          <Select value={watch("service")} onValueChange={(v) => setValue("service", v, { shouldValidate: true })}>
+          <Select
+            value={watch("service")}
+            onValueChange={(v) => setValue("service", v, { shouldValidate: true })}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Selecciona un servicio" />
             </SelectTrigger>
@@ -145,8 +163,15 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
         <Field label="Fecha" htmlFor="date" error={errors.date}>
           <Input id="date" type="date" min={today} {...register("date")} />
         </Field>
-        <Field label="Hora" error={errors.time} hint="Franjas orientativas; confirmamos disponibilidad.">
-          <Select value={watch("time")} onValueChange={(v) => setValue("time", v, { shouldValidate: true })}>
+        <Field
+          label="Hora"
+          error={errors.time}
+          hint="Franjas orientativas; confirmamos disponibilidad."
+        >
+          <Select
+            value={watch("time")}
+            onValueChange={(v) => setValue("time", v, { shouldValidate: true })}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Selecciona una franja" />
             </SelectTrigger>

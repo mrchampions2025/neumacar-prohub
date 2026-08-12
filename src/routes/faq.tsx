@@ -21,7 +21,10 @@ export const Route = createFileRoute("/faq")({
           "Dudas sobre citas, presupuestos, garantías, neumáticos, ITV, financiación y compra de vehículos en Neumacar Motors.",
       },
       { property: "og:title", content: "Preguntas frecuentes — Neumacar Motors" },
-      { property: "og:description", content: "Respuestas a las dudas más habituales de nuestros clientes." },
+      {
+        property: "og:description",
+        content: "Respuestas a las dudas más habituales de nuestros clientes.",
+      },
     ],
   }),
   component: FaqPage,

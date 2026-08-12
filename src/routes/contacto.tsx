@@ -18,7 +18,10 @@ export const Route = createFileRoute("/contacto")({
           "Teléfono, WhatsApp, email y horario de Neumacar Motors. Escríbenos y te respondemos lo antes posible.",
       },
       { property: "og:title", content: "Contacto — Neumacar Motors" },
-      { property: "og:description", content: "Cómo localizarnos: teléfono, WhatsApp, email y horario." },
+      {
+        property: "og:description",
+        content: "Cómo localizarnos: teléfono, WhatsApp, email y horario.",
+      },
     ],
   }),
   component: ContactPage,

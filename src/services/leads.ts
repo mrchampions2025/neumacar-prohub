@@ -21,8 +21,7 @@ export interface LeadPayload {
 }
 
 export type SubmitResult =
-  | { status: "pending_backend"; reference: string }
-  | { status: "ok"; reference: string };
+  { status: "pending_backend"; reference: string } | { status: "ok"; reference: string };
 
 /**
  * Punto único de envío de formularios.

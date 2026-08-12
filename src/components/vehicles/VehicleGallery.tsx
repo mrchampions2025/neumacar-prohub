@@ -35,12 +35,7 @@ export function VehicleGallery({ images, title }: { images: string[]; title: str
                 i === active ? "border-primary" : "border-border hover:border-muted-foreground"
               }`}
             >
-              <img
-                src={img}
-                alt=""
-                loading="lazy"
-                className="aspect-[3/2] w-full object-cover"
-              />
+              <img src={img} alt="" loading="lazy" className="aspect-[3/2] w-full object-cover" />
             </button>
           ))}
         </div>

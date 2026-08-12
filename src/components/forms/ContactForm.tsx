@@ -55,7 +55,11 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="surface-card space-y-4 rounded-lg p-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="surface-card space-y-4 rounded-lg p-6"
+    >
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Nombre" htmlFor="c-name" error={errors.name}>
           <Input id="c-name" autoComplete="name" {...register("name")} />

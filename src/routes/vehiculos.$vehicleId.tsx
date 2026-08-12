@@ -61,7 +61,12 @@ function VehicleNotFound() {
   );
 }
 
-const euro = (n: number) => new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
+const euro = (n: number) =>
+  new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  }).format(n);
 
 function VehicleDetail() {
   const { vehicle } = Route.useLoaderData();
@@ -104,7 +109,9 @@ function VehicleDetail() {
                 {vehicle.isOffer && <Badge>Oferta</Badge>}
                 <Badge variant="outline">Etiqueta {vehicle.envLabel}</Badge>
               </div>
-              <h1 className="mt-4 text-3xl font-bold uppercase leading-tight md:text-4xl">{title}</h1>
+              <h1 className="mt-4 text-3xl font-bold uppercase leading-tight md:text-4xl">
+                {title}
+              </h1>
 
               <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {specs.map((s) => (
@@ -140,7 +147,9 @@ function VehicleDetail() {
                 ))}
               </ul>
 
-              <h2 className="mt-10 font-display text-xl font-bold uppercase">Estado del vehículo</h2>
+              <h2 className="mt-10 font-display text-xl font-bold uppercase">
+                Estado del vehículo
+              </h2>
               <dl className="mt-4 divide-y divide-border rounded-lg border border-border">
                 {[
                   ["Estado general", vehicle.condition.general],
@@ -150,7 +159,10 @@ function VehicleDetail() {
                   ["Frenos", vehicle.condition.brakes],
                   ["Historial", vehicle.condition.history],
                 ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-4 px-4 py-3 text-sm">
+                  <div
+                    key={k}
+                    className="flex items-center justify-between gap-4 px-4 py-3 text-sm"
+                  >
                     <dt className="text-muted-foreground">{k}</dt>
                     <dd className="text-right font-medium">{v}</dd>
                   </div>

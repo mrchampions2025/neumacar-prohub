@@ -35,15 +35,31 @@ export const services: Service[] = [
     short: "Reparación integral de tu vehículo con diagnóstico previo y presupuesto cerrado.",
     description:
       "Reparamos motor, transmisión, refrigeración, escape y todos los sistemas mecánicos del vehículo. Siempre con diagnóstico previo y presupuesto aprobado antes de intervenir.",
-    includes: ["Diagnóstico inicial", "Presupuesto detallado", "Recambios de calidad", "Prueba en carretera"],
-    when: ["Ruidos o vibraciones anómalas", "Pérdida de potencia", "Fugas de líquidos", "Testigos encendidos"],
+    includes: [
+      "Diagnóstico inicial",
+      "Presupuesto detallado",
+      "Recambios de calidad",
+      "Prueba en carretera",
+    ],
+    when: [
+      "Ruidos o vibraciones anómalas",
+      "Pérdida de potencia",
+      "Fugas de líquidos",
+      "Testigos encendidos",
+    ],
     priceFrom: 45,
     duration: "Según intervención",
     active: true,
     featured: true,
     faqs: [
-      { q: "¿El presupuesto es sin compromiso?", a: "Sí. Elaboramos el presupuesto tras el diagnóstico y no intervenimos hasta que lo autorizas." },
-      { q: "¿Usáis recambios originales?", a: "Trabajamos con recambio original y equivalente homologado. Te indicamos la opción en el presupuesto." },
+      {
+        q: "¿El presupuesto es sin compromiso?",
+        a: "Sí. Elaboramos el presupuesto tras el diagnóstico y no intervenimos hasta que lo autorizas.",
+      },
+      {
+        q: "¿Usáis recambios originales?",
+        a: "Trabajamos con recambio original y equivalente homologado. Te indicamos la opción en el presupuesto.",
+      },
     ],
   },
   {
@@ -55,15 +71,31 @@ export const services: Service[] = [
     short: "Venta y montaje de neumáticos de todas las marcas, con equilibrado y alineación.",
     description:
       "Trabajamos las principales marcas de neumáticos para turismo, SUV, 4x4 y furgoneta, en versiones de verano, invierno y all season. Montaje, equilibrado, válvulas y reciclaje incluidos.",
-    includes: ["Montaje y desmontaje", "Equilibrado electrónico", "Válvula nueva", "Gestión de residuos"],
-    when: ["Profundidad inferior a 3 mm", "Desgaste irregular", "Más de 5 años de antigüedad", "Deformaciones o cortes"],
+    includes: [
+      "Montaje y desmontaje",
+      "Equilibrado electrónico",
+      "Válvula nueva",
+      "Gestión de residuos",
+    ],
+    when: [
+      "Profundidad inferior a 3 mm",
+      "Desgaste irregular",
+      "Más de 5 años de antigüedad",
+      "Deformaciones o cortes",
+    ],
     priceFrom: 35,
     duration: "45 min",
     active: true,
     featured: true,
     faqs: [
-      { q: "¿Cada cuánto debo cambiar los neumáticos?", a: "El límite legal es 1,6 mm, pero recomendamos sustituirlos a partir de 3 mm para mantener la frenada en mojado." },
-      { q: "¿Incluye alineación?", a: "La alineación se presupuesta aparte; te avisamos si el desgaste indica que es necesaria." },
+      {
+        q: "¿Cada cuánto debo cambiar los neumáticos?",
+        a: "El límite legal es 1,6 mm, pero recomendamos sustituirlos a partir de 3 mm para mantener la frenada en mojado.",
+      },
+      {
+        q: "¿Incluye alineación?",
+        a: "La alineación se presupuesta aparte; te avisamos si el desgaste indica que es necesaria.",
+      },
     ],
   },
   {
@@ -75,14 +107,27 @@ export const services: Service[] = [
     short: "Pastillas, discos, líquido y revisión completa del sistema de frenado.",
     description:
       "Revisamos y sustituimos pastillas, discos, tambores, latiguillos y líquido de frenos, comprobando el reparto de frenada y el estado del ABS.",
-    includes: ["Medición de discos y pastillas", "Purga de circuito", "Comprobación de ABS", "Prueba dinámica"],
-    when: ["Chirridos al frenar", "Pedal esponjoso", "Vibración al frenar", "Mayor distancia de frenado"],
+    includes: [
+      "Medición de discos y pastillas",
+      "Purga de circuito",
+      "Comprobación de ABS",
+      "Prueba dinámica",
+    ],
+    when: [
+      "Chirridos al frenar",
+      "Pedal esponjoso",
+      "Vibración al frenar",
+      "Mayor distancia de frenado",
+    ],
     priceFrom: 79,
     duration: "1 h 30 min",
     active: true,
     featured: true,
     faqs: [
-      { q: "¿Cada cuánto se cambia el líquido de frenos?", a: "Cada 2 años o 40.000 km, ya que absorbe humedad y pierde eficacia." },
+      {
+        q: "¿Cada cuánto se cambia el líquido de frenos?",
+        a: "Cada 2 años o 40.000 km, ya que absorbe humedad y pierde eficacia.",
+      },
     ],
   },
   {
@@ -94,14 +139,26 @@ export const services: Service[] = [
     short: "Aceite homologado según fabricante y sustitución de filtros.",
     description:
       "Sustituimos el aceite con la especificación exacta que exige tu fabricante y renovamos los filtros necesarios, con reseteo del intervalo de servicio.",
-    includes: ["Aceite según especificación", "Filtro de aceite", "Reseteo del mantenimiento", "Revisión de niveles"],
-    when: ["Al alcanzar el intervalo del fabricante", "Al menos una vez al año", "Antes de un viaje largo"],
+    includes: [
+      "Aceite según especificación",
+      "Filtro de aceite",
+      "Reseteo del mantenimiento",
+      "Revisión de niveles",
+    ],
+    when: [
+      "Al alcanzar el intervalo del fabricante",
+      "Al menos una vez al año",
+      "Antes de un viaje largo",
+    ],
     priceFrom: 69,
     duration: "45 min",
     active: true,
     featured: true,
     faqs: [
-      { q: "¿Qué filtros se incluyen?", a: "El filtro de aceite está incluido. Aire, habitáculo y combustible se presupuestan según necesidad." },
+      {
+        q: "¿Qué filtros se incluyen?",
+        a: "El filtro de aceite está incluido. Aire, habitáculo y combustible se presupuestan según necesidad.",
+      },
     ],
   },
   {
@@ -113,13 +170,25 @@ export const services: Service[] = [
     short: "Kit de distribución y bomba de agua siguiendo el plan del fabricante.",
     description:
       "Sustitución de correa o cadena de distribución, tensores, rodillos y bomba de agua. Una intervención crítica: su rotura puede destruir el motor.",
-    includes: ["Kit completo de distribución", "Bomba de agua", "Refrigerante nuevo", "Puesta a punto"],
-    when: ["Al llegar al km indicado por el fabricante", "Ruidos en la zona de la correa", "Sin historial de cambio"],
+    includes: [
+      "Kit completo de distribución",
+      "Bomba de agua",
+      "Refrigerante nuevo",
+      "Puesta a punto",
+    ],
+    when: [
+      "Al llegar al km indicado por el fabricante",
+      "Ruidos en la zona de la correa",
+      "Sin historial de cambio",
+    ],
     priceFrom: 349,
     duration: "4 – 6 h",
     active: true,
     faqs: [
-      { q: "¿Cuándo toca cambiarla?", a: "Depende del modelo: entre 60.000 y 160.000 km o 5-10 años. Lo verificamos con la matrícula." },
+      {
+        q: "¿Cuándo toca cambiarla?",
+        a: "Depende del modelo: entre 60.000 y 160.000 km o 5-10 años. Lo verificamos con la matrícula.",
+      },
     ],
   },
   {
@@ -131,12 +200,27 @@ export const services: Service[] = [
     short: "Kit de embrague, volante bimasa y bombines.",
     description:
       "Diagnóstico y sustitución completa del kit de embrague, incluyendo disco, maza, cojinete, y volante bimasa cuando procede.",
-    includes: ["Kit de embrague", "Revisión de volante motor", "Sangrado hidráulico", "Prueba en carretera"],
-    when: ["El embrague patina", "Ruidos al pisar", "Recorrido del pedal alterado", "Dificultad al meter marchas"],
+    includes: [
+      "Kit de embrague",
+      "Revisión de volante motor",
+      "Sangrado hidráulico",
+      "Prueba en carretera",
+    ],
+    when: [
+      "El embrague patina",
+      "Ruidos al pisar",
+      "Recorrido del pedal alterado",
+      "Dificultad al meter marchas",
+    ],
     priceFrom: 549,
     duration: "5 – 8 h",
     active: true,
-    faqs: [{ q: "¿Se puede reparar sin cambiar el kit?", a: "En la mayoría de casos no: se sustituye el conjunto para garantizar durabilidad." }],
+    faqs: [
+      {
+        q: "¿Se puede reparar sin cambiar el kit?",
+        a: "En la mayoría de casos no: se sustituye el conjunto para garantizar durabilidad.",
+      },
+    ],
   },
   {
     id: "s7",
@@ -147,12 +231,27 @@ export const services: Service[] = [
     short: "Amortiguadores, silentblocks, rótulas y alineación de dirección.",
     description:
       "Revisamos y sustituimos amortiguadores, muelles, bieletas, rótulas y brazos, con alineación de dirección posterior.",
-    includes: ["Diagnóstico en elevador", "Sustitución de componentes", "Alineación de dirección", "Prueba dinámica"],
-    when: ["Rebote excesivo", "Ruidos en baches", "Desgaste irregular de neumáticos", "El coche se va de línea"],
+    includes: [
+      "Diagnóstico en elevador",
+      "Sustitución de componentes",
+      "Alineación de dirección",
+      "Prueba dinámica",
+    ],
+    when: [
+      "Rebote excesivo",
+      "Ruidos en baches",
+      "Desgaste irregular de neumáticos",
+      "El coche se va de línea",
+    ],
     priceFrom: 129,
     duration: "2 – 4 h",
     active: true,
-    faqs: [{ q: "¿Se cambian por parejas?", a: "Sí, recomendamos sustituir los amortiguadores por eje para mantener el equilibrio." }],
+    faqs: [
+      {
+        q: "¿Se cambian por parejas?",
+        a: "Sí, recomendamos sustituir los amortiguadores por eje para mantener el equilibrio.",
+      },
+    ],
   },
   {
     id: "s8",
@@ -163,13 +262,28 @@ export const services: Service[] = [
     short: "Lectura de centralitas, análisis de averías y borrado de fallos.",
     description:
       "Conectamos equipos de diagnosis multimarca para leer todas las centralitas, analizar parámetros en vivo y localizar el origen real de la avería, no solo el síntoma.",
-    includes: ["Lectura de todas las unidades", "Parámetros en tiempo real", "Informe de averías", "Plan de reparación"],
-    when: ["Testigo de motor encendido", "Fallos intermitentes", "Antes de comprar un coche usado", "Consumo anormal"],
+    includes: [
+      "Lectura de todas las unidades",
+      "Parámetros en tiempo real",
+      "Informe de averías",
+      "Plan de reparación",
+    ],
+    when: [
+      "Testigo de motor encendido",
+      "Fallos intermitentes",
+      "Antes de comprar un coche usado",
+      "Consumo anormal",
+    ],
     priceFrom: 39,
     duration: "1 h",
     active: true,
     featured: true,
-    faqs: [{ q: "¿Se descuenta del arreglo?", a: "Sí, si autorizas la reparación en nuestro taller descontamos el importe de la diagnosis." }],
+    faqs: [
+      {
+        q: "¿Se descuenta del arreglo?",
+        a: "Sí, si autorizas la reparación en nuestro taller descontamos el importe de la diagnosis.",
+      },
+    ],
   },
   {
     id: "s9",
@@ -180,7 +294,12 @@ export const services: Service[] = [
     short: "Carga de gas, detección de fugas y desinfección del circuito.",
     description:
       "Mantenimiento completo del climatizador: comprobación de presiones, carga de gas R134a o R1234yf, detección de fugas y limpieza del sistema.",
-    includes: ["Comprobación de presiones", "Carga de gas", "Detección de fugas", "Filtro de habitáculo"],
+    includes: [
+      "Comprobación de presiones",
+      "Carga de gas",
+      "Detección de fugas",
+      "Filtro de habitáculo",
+    ],
     when: ["Enfría menos que antes", "Malos olores al arrancar", "Cada 2 años de mantenimiento"],
     priceFrom: 59,
     duration: "1 h",
@@ -196,12 +315,27 @@ export const services: Service[] = [
     short: "Alternador, motor de arranque, cableado y sustitución de baterías.",
     description:
       "Localizamos averías eléctricas, medimos consumos parásitos y sustituimos baterías con codificación cuando el vehículo lo requiere.",
-    includes: ["Test de batería y carga", "Medición de consumos", "Reparación de cableado", "Codificación de batería"],
-    when: ["El coche no arranca", "Batería que se descarga", "Luces que fallan", "Errores eléctricos aleatorios"],
+    includes: [
+      "Test de batería y carga",
+      "Medición de consumos",
+      "Reparación de cableado",
+      "Codificación de batería",
+    ],
+    when: [
+      "El coche no arranca",
+      "Batería que se descarga",
+      "Luces que fallan",
+      "Errores eléctricos aleatorios",
+    ],
     priceFrom: 39,
     duration: "1 – 3 h",
     active: true,
-    faqs: [{ q: "¿Cuánto dura una batería?", a: "Entre 4 y 6 años según uso. Te hacemos el test de carga gratuito." }],
+    faqs: [
+      {
+        q: "¿Cuánto dura una batería?",
+        a: "Entre 4 y 6 años según uso. Te hacemos el test de carga gratuito.",
+      },
+    ],
   },
   {
     id: "s11",
@@ -213,12 +347,21 @@ export const services: Service[] = [
     description:
       "Comprobamos luces, frenos, emisiones, holguras, neumáticos y suspensión replicando los criterios de la ITV para que no te lleves sorpresas.",
     includes: ["Checklist completo", "Informe de puntos a corregir", "Presupuesto de correcciones"],
-    when: ["Antes de pasar la ITV", "Si has tenido un desfavorable", "Tras una reparación importante"],
+    when: [
+      "Antes de pasar la ITV",
+      "Si has tenido un desfavorable",
+      "Tras una reparación importante",
+    ],
     priceFrom: 29,
     duration: "45 min",
     active: true,
     featured: true,
-    faqs: [{ q: "¿Gestionáis la ITV?", a: "Podemos preparar el vehículo y orientarte en la gestión de la cita de inspección." }],
+    faqs: [
+      {
+        q: "¿Gestionáis la ITV?",
+        a: "Podemos preparar el vehículo y orientarte en la gestión de la cita de inspección.",
+      },
+    ],
   },
   {
     id: "s12",
@@ -234,7 +377,12 @@ export const services: Service[] = [
     priceFrom: null,
     duration: "Según caso",
     active: true,
-    faqs: [{ q: "¿Cada cuánto toca la ITV?", a: "Depende de la antigüedad y tipo de vehículo. Verificamos tu caso con la matrícula." }],
+    faqs: [
+      {
+        q: "¿Cada cuánto toca la ITV?",
+        a: "Depende de la antigüedad y tipo de vehículo. Verificamos tu caso con la matrícula.",
+      },
+    ],
   },
   {
     id: "s13",
@@ -250,7 +398,12 @@ export const services: Service[] = [
     priceFrom: 89,
     duration: "1 – 4 h",
     active: true,
-    faqs: [{ q: "¿Se puede limpiar el FAP sin cambiarlo?", a: "En muchos casos sí, mediante limpieza forzada o químicos específicos." }],
+    faqs: [
+      {
+        q: "¿Se puede limpiar el FAP sin cambiarlo?",
+        a: "En muchos casos sí, mediante limpieza forzada o químicos específicos.",
+      },
+    ],
   },
   {
     id: "s14",
@@ -266,7 +419,9 @@ export const services: Service[] = [
     priceFrom: 59,
     duration: "1 – 5 h",
     active: true,
-    faqs: [{ q: "¿Rellenáis AdBlue?", a: "Sí, y comprobamos el sistema si hay avisos en el cuadro." }],
+    faqs: [
+      { q: "¿Rellenáis AdBlue?", a: "Sí, y comprobamos el sistema si hay avisos en el cuadro." },
+    ],
   },
   {
     id: "s15",
@@ -277,16 +432,28 @@ export const services: Service[] = [
     short: "Revisiones oficiales sin perder la garantía del fabricante.",
     description:
       "Realizamos el mantenimiento según el plan del fabricante, sellando el libro de mantenimiento y conservando la garantía del vehículo.",
-    includes: ["Plan del fabricante", "Sellado del libro", "Informe de estado", "Presupuesto de extras"],
+    includes: [
+      "Plan del fabricante",
+      "Sellado del libro",
+      "Informe de estado",
+      "Presupuesto de extras",
+    ],
     when: ["Cada intervalo de km o tiempo", "Antes de un viaje", "Al comprar un coche usado"],
     priceFrom: 119,
     duration: "2 h",
     active: true,
     featured: true,
-    faqs: [{ q: "¿Pierdo la garantía si no voy al oficial?", a: "No. La normativa europea permite mantener la garantía en talleres independientes que respeten el plan del fabricante." }],
+    faqs: [
+      {
+        q: "¿Pierdo la garantía si no voy al oficial?",
+        a: "No. La normativa europea permite mantener la garantía en talleres independientes que respeten el plan del fabricante.",
+      },
+    ],
   },
 ];
 
 export const getService = (slug: string) => services.find((s) => s.slug === slug);
 export const featuredServices = () => services.filter((s) => s.featured);
-export const serviceOptions = services.filter((s) => s.active).map((s) => ({ value: s.slug, label: s.name }));
+export const serviceOptions = services
+  .filter((s) => s.active)
+  .map((s) => ({ value: s.slug, label: s.name }));

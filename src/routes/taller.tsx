@@ -33,7 +33,11 @@ function WorkshopPage() {
   return (
     <PublicLayout>
       <section className="relative isolate overflow-hidden border-b border-border">
-        <img src={heroTaller} alt="Taller de Neumacar Motors" className="absolute inset-0 size-full object-cover" />
+        <img
+          src={heroTaller}
+          alt="Taller de Neumacar Motors"
+          className="absolute inset-0 size-full object-cover"
+        />
         <div className="hero-overlay absolute inset-0" />
         <div className="container-page relative py-20">
           <p className="eyebrow">El taller</p>

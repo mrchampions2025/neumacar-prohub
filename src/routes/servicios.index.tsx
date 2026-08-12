@@ -27,7 +27,15 @@ export const Route = createFileRoute("/servicios/")({
   component: ServicesPage,
 });
 
-const CATEGORIES = ["Todos", "Mecánica", "Neumáticos", "Diagnóstico", "Mantenimiento", "Confort", "Inspección"] as const;
+const CATEGORIES = [
+  "Todos",
+  "Mecánica",
+  "Neumáticos",
+  "Diagnóstico",
+  "Mantenimiento",
+  "Confort",
+  "Inspección",
+] as const;
 
 function ServicesPage() {
   const [category, setCategory] = useState<string>("Todos");

@@ -26,17 +26,37 @@ export const Route = createFileRoute("/vender-mi-coche")({
 });
 
 const STEPS = [
-  { icon: Search, title: "Solicitas la valoración", text: "Completa el formulario con los datos y el estado real de tu vehículo." },
-  { icon: BadgeCheck, title: "Inspeccionamos el coche", text: "Concertamos una revisión presencial para confirmar el estado." },
-  { icon: HandCoins, title: "Recibes nuestra oferta", text: "Oferta de compra en firme, sin compromiso de aceptación." },
-  { icon: FileSignature, title: "Cerramos la operación", text: "Contrato, pago y gestión de la transferencia a nuestro cargo." },
+  {
+    icon: Search,
+    title: "Solicitas la valoración",
+    text: "Completa el formulario con los datos y el estado real de tu vehículo.",
+  },
+  {
+    icon: BadgeCheck,
+    title: "Inspeccionamos el coche",
+    text: "Concertamos una revisión presencial para confirmar el estado.",
+  },
+  {
+    icon: HandCoins,
+    title: "Recibes nuestra oferta",
+    text: "Oferta de compra en firme, sin compromiso de aceptación.",
+  },
+  {
+    icon: FileSignature,
+    title: "Cerramos la operación",
+    text: "Contrato, pago y gestión de la transferencia a nuestro cargo.",
+  },
 ];
 
 function SellCarPage() {
   return (
     <PublicLayout>
       <section className="relative isolate overflow-hidden border-b border-border">
-        <img src={compramos} alt="Valoración de vehículo" className="absolute inset-0 size-full object-cover" />
+        <img
+          src={compramos}
+          alt="Valoración de vehículo"
+          className="absolute inset-0 size-full object-cover"
+        />
         <div className="hero-overlay absolute inset-0" />
         <div className="container-page relative py-20">
           <p className="eyebrow">Compramos tu coche</p>
@@ -44,8 +64,8 @@ function SellCarPage() {
             Vende tu vehículo <span className="text-primary">sin complicaciones</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-            Sin anuncios, sin visitas de desconocidos y sin trámites. Nosotros valoramos, compramos y
-            gestionamos la transferencia.
+            Sin anuncios, sin visitas de desconocidos y sin trámites. Nosotros valoramos, compramos
+            y gestionamos la transferencia.
           </p>
         </div>
       </section>

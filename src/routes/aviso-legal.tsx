@@ -28,9 +28,9 @@ function LegalNoticePage() {
 
         <h2>1. Titularidad del sitio</h2>
         <p>
-          Este sitio web es titularidad de {site.legalName}, con domicilio en {site.address} y correo
-          electrónico de contacto {site.email}. Los datos registrales y el NIF deben completarse antes
-          de la publicación definitiva del sitio.
+          Este sitio web es titularidad de {site.legalName}, con domicilio en {site.address} y
+          correo electrónico de contacto {site.email}. Los datos registrales y el NIF deben
+          completarse antes de la publicación definitiva del sitio.
         </p>
 
         <h2>2. Objeto</h2>
@@ -70,8 +70,9 @@ function LegalNoticePage() {
 
         <h2>7. Legislación aplicable</h2>
         <p>
-          Las presentes condiciones se rigen por la legislación española. Para cualquier controversia
-          serán competentes los juzgados y tribunales que correspondan según la normativa aplicable.
+          Las presentes condiciones se rigen por la legislación española. Para cualquier
+          controversia serán competentes los juzgados y tribunales que correspondan según la
+          normativa aplicable.
         </p>
       </LegalPage>
     </PublicLayout>

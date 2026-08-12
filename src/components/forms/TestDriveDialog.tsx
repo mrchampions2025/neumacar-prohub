@@ -47,7 +47,15 @@ export function TestDriveDialog({ vehicleTitle, trigger, intent }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<TestDriveValues>({
     resolver: zodResolver(testDriveSchema),
-    defaultValues: { name: "", phone: "", email: "", date: "", time: "", notes: "", consent: false },
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      date: "",
+      time: "",
+      notes: "",
+      consent: false,
+    },
   });
 
   const onSubmit = async (values: TestDriveValues) => {
@@ -123,7 +131,13 @@ export function TestDriveDialog({ vehicleTitle, trigger, intent }: Props) {
               </label>
             </div>
 
-            <Button type="submit" variant="hero" size="lg" className="w-full" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              variant="hero"
+              size="lg"
+              className="w-full"
+              disabled={isSubmitting}
+            >
               {isSubmitting && <Loader2 className="animate-spin" />}
               {COPY[intent].cta}
             </Button>

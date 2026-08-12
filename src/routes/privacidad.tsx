@@ -68,8 +68,8 @@ function PrivacyPage() {
         <p>
           No cedemos datos a terceros salvo obligación legal. Podemos comunicar datos a proveedores
           de servicios necesarios para la actividad (gestoría, entidades financieras en operaciones
-          de financiación, servicios de mensajería o proveedores tecnológicos), siempre bajo contrato
-          de encargo de tratamiento.
+          de financiación, servicios de mensajería o proveedores tecnológicos), siempre bajo
+          contrato de encargo de tratamiento.
         </p>
 
         <h2>7. Derechos</h2>
@@ -81,9 +81,9 @@ function PrivacyPage() {
 
         <h2>8. Seguridad</h2>
         <p>
-          Aplicamos medidas técnicas y organizativas razonables para proteger la información. Mientras
-          el sistema de gestión de datos no esté conectado, las solicitudes enviadas desde este sitio
-          no se almacenan de forma permanente.
+          Aplicamos medidas técnicas y organizativas razonables para proteger la información.
+          Mientras el sistema de gestión de datos no esté conectado, las solicitudes enviadas desde
+          este sitio no se almacenan de forma permanente.
         </p>
       </LegalPage>
     </PublicLayout>

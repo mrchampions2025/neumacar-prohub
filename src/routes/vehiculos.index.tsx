@@ -74,8 +74,8 @@ function VehiclesPage() {
           description="Todos nuestros vehículos se entregan revisados y con la garantía legal correspondiente. La financiación es orientativa y queda sujeta a aprobación de la entidad."
         />
         <DemoDataNotice>
-          Stock de demostración. Al conectar la base de datos, el inventario real se gestionará desde
-          el panel de administración.
+          Stock de demostración. Al conectar la base de datos, el inventario real se gestionará
+          desde el panel de administración.
         </DemoDataNotice>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[280px_1fr]">

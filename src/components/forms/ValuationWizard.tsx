@@ -225,9 +225,20 @@ export function ValuationWizard() {
             <Input id="v-plate" placeholder="1234 ABC" {...register("plate")} />
           </Field>
           <Field label="Kilómetros" htmlFor="v-mileage" error={errors.mileage}>
-            <Input id="v-mileage" inputMode="numeric" placeholder="98000" {...register("mileage")} />
+            <Input
+              id="v-mileage"
+              inputMode="numeric"
+              placeholder="98000"
+              {...register("mileage")}
+            />
           </Field>
-          {selectField("fuel", "Combustible", ["Gasolina", "Diésel", "Híbrido", "Eléctrico", "GLP"])}
+          {selectField("fuel", "Combustible", [
+            "Gasolina",
+            "Diésel",
+            "Híbrido",
+            "Eléctrico",
+            "GLP",
+          ])}
           {selectField("transmission", "Cambio", ["Manual", "Automático"])}
           <Field label="Potencia (CV)" htmlFor="v-power" error={errors.power}>
             <Input id="v-power" inputMode="numeric" placeholder="150" {...register("power")} />
@@ -246,7 +257,10 @@ export function ValuationWizard() {
       )}
 
       {step === 1 && (
-        <FormSection title="Estado del vehículo" description="Sé realista: nos permite ofrecerte un precio ajustado y sin sorpresas.">
+        <FormSection
+          title="Estado del vehículo"
+          description="Sé realista: nos permite ofrecerte un precio ajustado y sin sorpresas."
+        >
           {selectField("conditionGeneral", "Estado general", CONDITIONS)}
           {selectField("conditionBody", "Carrocería", CONDITIONS)}
           {selectField("conditionInterior", "Interior", CONDITIONS)}
@@ -290,7 +304,10 @@ export function ValuationWizard() {
             {EQUIPMENT.map((item) => {
               const checked = equipment.includes(item);
               return (
-                <div key={item} className="flex items-center gap-3 rounded-md border border-border p-3">
+                <div
+                  key={item}
+                  className="flex items-center gap-3 rounded-md border border-border p-3"
+                >
                   <Checkbox
                     id={`eq-${item}`}
                     checked={checked}
@@ -346,7 +363,12 @@ export function ValuationWizard() {
               <Input id="v-email" type="email" autoComplete="email" {...register("email")} />
             </Field>
             <Field label="Código postal" htmlFor="v-cp" error={errors.postalCode}>
-              <Input id="v-cp" inputMode="numeric" placeholder="28001" {...register("postalCode")} />
+              <Input
+                id="v-cp"
+                inputMode="numeric"
+                placeholder="28001"
+                {...register("postalCode")}
+              />
             </Field>
           </FormSection>
 

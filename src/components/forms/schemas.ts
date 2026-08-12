@@ -39,8 +39,14 @@ export const appointmentSchema = z.object({
   plate: plateSchema,
   brand: z.string().trim().min(2, { message: "Indica la marca" }).max(40),
   model: z.string().trim().min(1, { message: "Indica el modelo" }).max(40),
-  year: z.string().trim().regex(/^(19|20)\d{2}$/, { message: "Año no válido" }),
-  mileage: z.string().trim().regex(/^\d{1,7}$/, { message: "Kilómetros no válidos" }),
+  year: z
+    .string()
+    .trim()
+    .regex(/^(19|20)\d{2}$/, { message: "Año no válido" }),
+  mileage: z
+    .string()
+    .trim()
+    .regex(/^\d{1,7}$/, { message: "Kilómetros no válidos" }),
   service: z.string().min(1, { message: "Selecciona un servicio" }),
   date: z.string().min(1, { message: "Selecciona una fecha" }),
   time: z.string().min(1, { message: "Selecciona una hora" }),
@@ -56,7 +62,10 @@ export const quoteSchema = z.object({
   plate: z.string().trim().max(12, { message: "Matrícula no válida" }),
   brand: z.string().trim().min(2, { message: "Indica la marca" }).max(40),
   model: z.string().trim().min(1, { message: "Indica el modelo" }).max(40),
-  mileage: z.string().trim().regex(/^\d{1,7}$/, { message: "Kilómetros no válidos" }),
+  mileage: z
+    .string()
+    .trim()
+    .regex(/^\d{1,7}$/, { message: "Kilómetros no válidos" }),
   service: z.string().min(1, { message: "Selecciona un servicio" }),
   description: z
     .string()
@@ -100,12 +109,21 @@ export const valuationSchema = z.object({
   brand: z.string().trim().min(2, { message: "Indica la marca" }).max(40),
   model: z.string().trim().min(1, { message: "Indica el modelo" }).max(40),
   version: z.string().trim().max(80, { message: "Texto demasiado largo" }),
-  year: z.string().trim().regex(/^(19|20)\d{2}$/, { message: "Año no válido" }),
+  year: z
+    .string()
+    .trim()
+    .regex(/^(19|20)\d{2}$/, { message: "Año no válido" }),
   plate: plateSchema,
-  mileage: z.string().trim().regex(/^\d{1,7}$/, { message: "Kilómetros no válidos" }),
+  mileage: z
+    .string()
+    .trim()
+    .regex(/^\d{1,7}$/, { message: "Kilómetros no válidos" }),
   fuel: z.string().min(1, { message: "Selecciona el combustible" }),
   transmission: z.string().min(1, { message: "Selecciona el cambio" }),
-  power: z.string().trim().regex(/^\d{1,4}$/, { message: "Potencia no válida" }),
+  power: z
+    .string()
+    .trim()
+    .regex(/^\d{1,4}$/, { message: "Potencia no válida" }),
   bodyType: z.string().min(1, { message: "Selecciona la carrocería" }),
   // Paso 2 — estado
   conditionGeneral: z.string().min(1, { message: "Selecciona una opción" }),
@@ -114,7 +132,10 @@ export const valuationSchema = z.object({
   conditionMechanical: z.string().min(1, { message: "Selecciona una opción" }),
   conditionTyres: z.string().min(1, { message: "Selecciona una opción" }),
   maintenanceHistory: z.string().min(1, { message: "Selecciona una opción" }),
-  owners: z.string().trim().regex(/^\d{1,2}$/, { message: "Indica un número" }),
+  owners: z
+    .string()
+    .trim()
+    .regex(/^\d{1,2}$/, { message: "Indica un número" }),
   itv: z.string().min(1, { message: "Selecciona una opción" }),
   accidents: z.string().min(1, { message: "Selecciona una opción" }),
   knownIssues: notes,
@@ -125,13 +146,27 @@ export const valuationSchema = z.object({
   surname: nameSchema,
   phone: phoneSchema,
   email: emailSchema,
-  postalCode: z.string().trim().regex(/^\d{5}$/, { message: "Código postal no válido" }),
+  postalCode: z
+    .string()
+    .trim()
+    .regex(/^\d{5}$/, { message: "Código postal no válido" }),
   consent: consentSchema,
 });
 export type ValuationValues = z.infer<typeof valuationSchema>;
 
 export const valuationStepFields: Array<Array<keyof ValuationValues>> = [
-  ["brand", "model", "version", "year", "plate", "mileage", "fuel", "transmission", "power", "bodyType"],
+  [
+    "brand",
+    "model",
+    "version",
+    "year",
+    "plate",
+    "mileage",
+    "fuel",
+    "transmission",
+    "power",
+    "bodyType",
+  ],
   [
     "conditionGeneral",
     "conditionBody",

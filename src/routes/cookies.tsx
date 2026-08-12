@@ -35,15 +35,15 @@ function CookiesPage() {
         <h2>2. Cookies utilizadas actualmente</h2>
         <p>
           En su estado actual, este sitio no utiliza cookies de analítica, publicidad ni seguimiento
-          de terceros. Únicamente podrían emplearse cookies técnicas estrictamente necesarias para el
-          funcionamiento de la navegación, que están exentas de consentimiento.
+          de terceros. Únicamente podrían emplearse cookies técnicas estrictamente necesarias para
+          el funcionamiento de la navegación, que están exentas de consentimiento.
         </p>
 
         <h2>3. Cookies previstas</h2>
         <p>
           Cuando se activen funcionalidades adicionales (analítica de visitas, mapas incrustados,
-          área de cliente con sesión o herramientas de marketing), esta política se actualizará con el
-          detalle de cada cookie —titular, finalidad y duración— y se implantará un banner de
+          área de cliente con sesión o herramientas de marketing), esta política se actualizará con
+          el detalle de cada cookie —titular, finalidad y duración— y se implantará un banner de
           consentimiento previo que permita aceptar, rechazar y configurar cada categoría.
         </p>
 
@@ -55,9 +55,7 @@ function CookiesPage() {
         </p>
 
         <h2>5. Contacto</h2>
-        <p>
-          Para cualquier duda sobre esta política puedes escribirnos a {site.email}.
-        </p>
+        <p>Para cualquier duda sobre esta política puedes escribirnos a {site.email}.</p>
       </LegalPage>
     </PublicLayout>
   );

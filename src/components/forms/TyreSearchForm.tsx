@@ -72,7 +72,9 @@ export function TyreSearchForm() {
                 </SelectTrigger>
                 <SelectContent>
                   {WIDTHS.map((w) => (
-                    <SelectItem key={w} value={w}>{w}</SelectItem>
+                    <SelectItem key={w} value={w}>
+                      {w}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -85,7 +87,9 @@ export function TyreSearchForm() {
                 </SelectTrigger>
                 <SelectContent>
                   {PROFILES.map((p) => (
-                    <SelectItem key={p} value={p}>{p}</SelectItem>
+                    <SelectItem key={p} value={p}>
+                      {p}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -98,7 +102,9 @@ export function TyreSearchForm() {
                 </SelectTrigger>
                 <SelectContent>
                   {DIAMETERS.map((d) => (
-                    <SelectItem key={d} value={d}>{d}</SelectItem>
+                    <SelectItem key={d} value={d}>
+                      {d}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -107,11 +113,23 @@ export function TyreSearchForm() {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label htmlFor="load">Índice de carga</Label>
-              <Input id="load" className="mt-1.5" placeholder="91" value={load} onChange={(e) => setLoad(e.target.value)} />
+              <Input
+                id="load"
+                className="mt-1.5"
+                placeholder="91"
+                value={load}
+                onChange={(e) => setLoad(e.target.value)}
+              />
             </div>
             <div>
               <Label htmlFor="speed">Código de velocidad</Label>
-              <Input id="speed" className="mt-1.5" placeholder="V" value={speed} onChange={(e) => setSpeed(e.target.value)} />
+              <Input
+                id="speed"
+                className="mt-1.5"
+                placeholder="V"
+                value={speed}
+                onChange={(e) => setSpeed(e.target.value)}
+              />
             </div>
           </div>
           {size && (
@@ -125,15 +143,33 @@ export function TyreSearchForm() {
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
               <Label htmlFor="t-brand">Marca</Label>
-              <Input id="t-brand" className="mt-1.5" placeholder="Seat" value={brand} onChange={(e) => setBrand(e.target.value)} />
+              <Input
+                id="t-brand"
+                className="mt-1.5"
+                placeholder="Seat"
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
+              />
             </div>
             <div>
               <Label htmlFor="t-model">Modelo</Label>
-              <Input id="t-model" className="mt-1.5" placeholder="León" value={model} onChange={(e) => setModel(e.target.value)} />
+              <Input
+                id="t-model"
+                className="mt-1.5"
+                placeholder="León"
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+              />
             </div>
             <div className="sm:col-span-2">
               <Label htmlFor="t-plate">Matrícula (opcional)</Label>
-              <Input id="t-plate" className="mt-1.5" placeholder="1234 ABC" value={plate} onChange={(e) => setPlate(e.target.value)} />
+              <Input
+                id="t-plate"
+                className="mt-1.5"
+                placeholder="1234 ABC"
+                value={plate}
+                onChange={(e) => setPlate(e.target.value)}
+              />
             </div>
           </div>
         </TabsContent>
@@ -146,7 +182,13 @@ export function TyreSearchForm() {
           </a>
         </Button>
         <Button asChild variant="outline" size="lg" className="flex-1">
-          <a href={whatsapp.link(`Hola, quiero solicitar montaje de neumáticos${size ? ` (${size})` : ""}.`)} target="_blank" rel="noopener noreferrer">
+          <a
+            href={whatsapp.link(
+              `Hola, quiero solicitar montaje de neumáticos${size ? ` (${size})` : ""}.`,
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Solicitar montaje
           </a>
         </Button>

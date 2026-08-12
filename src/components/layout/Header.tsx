@@ -100,7 +100,12 @@ export function Header() {
                 <SheetTitle className="font-display text-base uppercase tracking-widest">
                   Menú
                 </SheetTitle>
-                <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Cerrar menú">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setOpen(false)}
+                  aria-label="Cerrar menú"
+                >
                   <X />
                 </Button>
               </div>

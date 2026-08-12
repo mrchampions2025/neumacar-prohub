@@ -60,7 +60,8 @@ export function FinanceCalculator({ price }: { price: number }) {
           <div className="col-span-2">
             <dt className="text-muted-foreground">Cuota aproximada</dt>
             <dd className="font-display text-3xl font-bold text-primary">
-              {formatPrice(Math.round(quota))}<span className="text-base text-muted-foreground">/mes</span>
+              {formatPrice(Math.round(quota))}
+              <span className="text-base text-muted-foreground">/mes</span>
             </dd>
           </div>
         </dl>
