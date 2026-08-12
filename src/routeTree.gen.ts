@@ -10,33 +10,219 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccesoRouteImport } from './routes/acceso'
+import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
+import { Route as CitaRouteImport } from './routes/cita'
+import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as PresupuestoRouteImport } from './routes/presupuesto'
+import { Route as PrivacidadRouteImport } from './routes/privacidad'
+import { Route as TallerRouteImport } from './routes/taller'
+import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
+import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
+import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
+import { Route as VehiculosIndexRouteImport } from './routes/vehiculos.index'
+import { Route as VehiculosVehicleIdRouteImport } from './routes/vehiculos.$vehicleId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccesoRoute = AccesoRouteImport.update({
+  id: '/acceso',
+  path: '/acceso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvisoLegalRoute = AvisoLegalRouteImport.update({
+  id: '/aviso-legal',
+  path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CitaRoute = CitaRouteImport.update({
+  id: '/cita',
+  path: '/cita',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresupuestoRoute = PresupuestoRouteImport.update({
+  id: '/presupuesto',
+  path: '/presupuesto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadRoute = PrivacidadRouteImport.update({
+  id: '/privacidad',
+  path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TallerRoute = TallerRouteImport.update({
+  id: '/taller',
+  path: '/taller',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VenderMiCocheRoute = VenderMiCocheRouteImport.update({
+  id: '/vender-mi-coche',
+  path: '/vender-mi-coche',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiciosIndexRoute = ServiciosIndexRouteImport.update({
+  id: '/servicios/',
+  path: '/servicios/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiciosSlugRoute = ServiciosSlugRouteImport.update({
+  id: '/servicios/$slug',
+  path: '/servicios/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VehiculosIndexRoute = VehiculosIndexRouteImport.update({
+  id: '/vehiculos/',
+  path: '/vehiculos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VehiculosVehicleIdRoute = VehiculosVehicleIdRouteImport.update({
+  id: '/vehiculos/$vehicleId',
+  path: '/vehiculos/$vehicleId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
+  '/aviso-legal': typeof AvisoLegalRoute
+  '/cita': typeof CitaRoute
+  '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
+  '/faq': typeof FaqRoute
+  '/presupuesto': typeof PresupuestoRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/taller': typeof TallerRoute
+  '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
+  '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
+  '/servicios/': typeof ServiciosIndexRoute
+  '/vehiculos/': typeof VehiculosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
+  '/aviso-legal': typeof AvisoLegalRoute
+  '/cita': typeof CitaRoute
+  '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
+  '/faq': typeof FaqRoute
+  '/presupuesto': typeof PresupuestoRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/taller': typeof TallerRoute
+  '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
+  '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
+  '/servicios': typeof ServiciosIndexRoute
+  '/vehiculos': typeof VehiculosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
+  '/aviso-legal': typeof AvisoLegalRoute
+  '/cita': typeof CitaRoute
+  '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
+  '/faq': typeof FaqRoute
+  '/presupuesto': typeof PresupuestoRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/taller': typeof TallerRoute
+  '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
+  '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
+  '/servicios/': typeof ServiciosIndexRoute
+  '/vehiculos/': typeof VehiculosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/acceso'
+    | '/aviso-legal'
+    | '/cita'
+    | '/contacto'
+    | '/cookies'
+    | '/faq'
+    | '/presupuesto'
+    | '/privacidad'
+    | '/taller'
+    | '/vender-mi-coche'
+    | '/servicios/$slug'
+    | '/vehiculos/$vehicleId'
+    | '/servicios/'
+    | '/vehiculos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/acceso'
+    | '/aviso-legal'
+    | '/cita'
+    | '/contacto'
+    | '/cookies'
+    | '/faq'
+    | '/presupuesto'
+    | '/privacidad'
+    | '/taller'
+    | '/vender-mi-coche'
+    | '/servicios/$slug'
+    | '/vehiculos/$vehicleId'
+    | '/servicios'
+    | '/vehiculos'
+  id:
+    | '__root__'
+    | '/'
+    | '/acceso'
+    | '/aviso-legal'
+    | '/cita'
+    | '/contacto'
+    | '/cookies'
+    | '/faq'
+    | '/presupuesto'
+    | '/privacidad'
+    | '/taller'
+    | '/vender-mi-coche'
+    | '/servicios/$slug'
+    | '/vehiculos/$vehicleId'
+    | '/servicios/'
+    | '/vehiculos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccesoRoute: typeof AccesoRoute
+  AvisoLegalRoute: typeof AvisoLegalRoute
+  CitaRoute: typeof CitaRoute
+  ContactoRoute: typeof ContactoRoute
+  CookiesRoute: typeof CookiesRoute
+  FaqRoute: typeof FaqRoute
+  PresupuestoRoute: typeof PresupuestoRoute
+  PrivacidadRoute: typeof PrivacidadRoute
+  TallerRoute: typeof TallerRoute
+  VenderMiCocheRoute: typeof VenderMiCocheRoute
+  ServiciosSlugRoute: typeof ServiciosSlugRoute
+  VehiculosVehicleIdRoute: typeof VehiculosVehicleIdRoute
+  ServiciosIndexRoute: typeof ServiciosIndexRoute
+  VehiculosIndexRoute: typeof VehiculosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +234,123 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/acceso': {
+      id: '/acceso'
+      path: '/acceso'
+      fullPath: '/acceso'
+      preLoaderRoute: typeof AccesoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aviso-legal': {
+      id: '/aviso-legal'
+      path: '/aviso-legal'
+      fullPath: '/aviso-legal'
+      preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cita': {
+      id: '/cita'
+      path: '/cita'
+      fullPath: '/cita'
+      preLoaderRoute: typeof CitaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presupuesto': {
+      id: '/presupuesto'
+      path: '/presupuesto'
+      fullPath: '/presupuesto'
+      preLoaderRoute: typeof PresupuestoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidad': {
+      id: '/privacidad'
+      path: '/privacidad'
+      fullPath: '/privacidad'
+      preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taller': {
+      id: '/taller'
+      path: '/taller'
+      fullPath: '/taller'
+      preLoaderRoute: typeof TallerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vender-mi-coche': {
+      id: '/vender-mi-coche'
+      path: '/vender-mi-coche'
+      fullPath: '/vender-mi-coche'
+      preLoaderRoute: typeof VenderMiCocheRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicios/': {
+      id: '/servicios/'
+      path: '/servicios'
+      fullPath: '/servicios/'
+      preLoaderRoute: typeof ServiciosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicios/$slug': {
+      id: '/servicios/$slug'
+      path: '/servicios/$slug'
+      fullPath: '/servicios/$slug'
+      preLoaderRoute: typeof ServiciosSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehiculos/': {
+      id: '/vehiculos/'
+      path: '/vehiculos'
+      fullPath: '/vehiculos/'
+      preLoaderRoute: typeof VehiculosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehiculos/$vehicleId': {
+      id: '/vehiculos/$vehicleId'
+      path: '/vehiculos/$vehicleId'
+      fullPath: '/vehiculos/$vehicleId'
+      preLoaderRoute: typeof VehiculosVehicleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccesoRoute: AccesoRoute,
+  AvisoLegalRoute: AvisoLegalRoute,
+  CitaRoute: CitaRoute,
+  ContactoRoute: ContactoRoute,
+  CookiesRoute: CookiesRoute,
+  FaqRoute: FaqRoute,
+  PresupuestoRoute: PresupuestoRoute,
+  PrivacidadRoute: PrivacidadRoute,
+  TallerRoute: TallerRoute,
+  VenderMiCocheRoute: VenderMiCocheRoute,
+  ServiciosSlugRoute: ServiciosSlugRoute,
+  VehiculosVehicleIdRoute: VehiculosVehicleIdRoute,
+  ServiciosIndexRoute: ServiciosIndexRoute,
+  VehiculosIndexRoute: VehiculosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
