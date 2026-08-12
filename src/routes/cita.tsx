@@ -45,7 +45,7 @@ function AppointmentPage() {
               description="Indícanos el servicio y cuándo te viene bien. Revisamos la disponibilidad real de taller y te confirmamos la cita."
             />
             <div className="mt-8">
-              <AppointmentForm defaultService={servicio} />
+              <AppointmentForm {...(servicio ? { defaultService: servicio } : {})} />
             </div>
           </div>
 

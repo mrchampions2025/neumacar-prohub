@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccesoRouteImport } from './routes/acceso'
 import { Route as CitaRouteImport } from './routes/cita'
 import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PresupuestoRouteImport } from './routes/presupuesto'
 import { Route as TallerRouteImport } from './routes/taller'
 import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
@@ -25,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccesoRoute = AccesoRouteImport.update({
+  id: '/acceso',
+  path: '/acceso',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CitaRoute = CitaRouteImport.update({
   id: '/cita',
   path: '/cita',
@@ -33,6 +40,11 @@ const CitaRoute = CitaRouteImport.update({
 const ContactoRoute = ContactoRouteImport.update({
   id: '/contacto',
   path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PresupuestoRoute = PresupuestoRouteImport.update({
@@ -73,8 +85,10 @@ const VehiculosVehicleIdRoute = VehiculosVehicleIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
   '/cita': typeof CitaRoute
   '/contacto': typeof ContactoRoute
+  '/faq': typeof FaqRoute
   '/presupuesto': typeof PresupuestoRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
@@ -85,8 +99,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
   '/cita': typeof CitaRoute
   '/contacto': typeof ContactoRoute
+  '/faq': typeof FaqRoute
   '/presupuesto': typeof PresupuestoRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
@@ -98,8 +114,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
   '/cita': typeof CitaRoute
   '/contacto': typeof ContactoRoute
+  '/faq': typeof FaqRoute
   '/presupuesto': typeof PresupuestoRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
@@ -112,8 +130,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/acceso'
     | '/cita'
     | '/contacto'
+    | '/faq'
     | '/presupuesto'
     | '/taller'
     | '/vender-mi-coche'
@@ -124,8 +144,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/acceso'
     | '/cita'
     | '/contacto'
+    | '/faq'
     | '/presupuesto'
     | '/taller'
     | '/vender-mi-coche'
@@ -136,8 +158,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/acceso'
     | '/cita'
     | '/contacto'
+    | '/faq'
     | '/presupuesto'
     | '/taller'
     | '/vender-mi-coche'
@@ -149,8 +173,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccesoRoute: typeof AccesoRoute
   CitaRoute: typeof CitaRoute
   ContactoRoute: typeof ContactoRoute
+  FaqRoute: typeof FaqRoute
   PresupuestoRoute: typeof PresupuestoRoute
   TallerRoute: typeof TallerRoute
   VenderMiCocheRoute: typeof VenderMiCocheRoute
@@ -169,6 +195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/acceso': {
+      id: '/acceso'
+      path: '/acceso'
+      fullPath: '/acceso'
+      preLoaderRoute: typeof AccesoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cita': {
       id: '/cita'
       path: '/cita'
@@ -181,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/contacto'
       fullPath: '/contacto'
       preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/presupuesto': {
@@ -237,8 +277,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccesoRoute: AccesoRoute,
   CitaRoute: CitaRoute,
   ContactoRoute: ContactoRoute,
+  FaqRoute: FaqRoute,
   PresupuestoRoute: PresupuestoRoute,
   TallerRoute: TallerRoute,
   VenderMiCocheRoute: VenderMiCocheRoute,

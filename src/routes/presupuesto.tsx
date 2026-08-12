@@ -45,7 +45,7 @@ function QuotePage() {
               description="Cuanta más información nos des sobre el vehículo y el síntoma, más ajustado será el presupuesto. Nunca intervenimos sin tu autorización."
             />
             <div className="mt-8">
-              <QuoteForm defaultService={servicio} />
+              <QuoteForm {...(servicio ? { defaultService: servicio } : {})} />
             </div>
           </div>
 
