@@ -88,7 +88,8 @@ export function TestDriveDialog({ vehicleTitle, trigger, intent }: Props) {
 
         {reference ? (
           <SubmittedState
-            title="Solicitud recibida"
+            title="Solicitud enviada"
+            pendingBackend={false}
             reference={reference}
             description="Nuestro equipo comercial revisará tu solicitud y se pondrá en contacto contigo."
           />

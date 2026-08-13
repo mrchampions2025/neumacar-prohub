@@ -70,6 +70,7 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
     return (
       <SubmittedState
         title="Solicitud recibida"
+        pendingBackend={false}
         reference={reference}
         description="Nuestro equipo revisará los datos de tu vehículo para preparar el presupuesto."
         action={

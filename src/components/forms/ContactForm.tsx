@@ -47,7 +47,8 @@ export function ContactForm() {
   if (reference) {
     return (
       <SubmittedState
-        title="Mensaje registrado"
+        title="Mensaje enviado"
+        pendingBackend={false}
         reference={reference}
         description="Gracias por escribirnos. Para una respuesta inmediata, llámanos o escríbenos por WhatsApp."
       />

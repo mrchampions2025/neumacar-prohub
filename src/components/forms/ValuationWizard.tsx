@@ -163,9 +163,10 @@ export function ValuationWizard() {
     return (
       <div className="space-y-6">
         <SubmittedState
-          title="Solicitud recibida"
+          title="Valoración enviada"
+          pendingBackend={false}
           reference={reference}
-          description="Nuestro equipo revisará la información de tu vehículo y contactará contigo para realizar una valoración. No emitimos valoraciones automáticas: la oferta se realiza tras revisar los datos y, si procede, inspeccionar el vehículo."
+          description="Hemos recibido los datos de tu vehículo. En las próximas 24 horas laborables nos pondremos en contacto contigo con nuestra oferta."
           action={
             <Button asChild variant="outline">
               <Link to="/">Volver al inicio</Link>
