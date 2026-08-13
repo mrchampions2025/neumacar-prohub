@@ -23,23 +23,37 @@ export interface LeadPayload {
 export type SubmitResult =
   { status: "pending_backend"; reference: string } | { status: "ok"; reference: string };
 
+import { supabase } from "@/integrations/supabase/client";
+
 /**
  * Punto único de envío de formularios.
- *
- * ESTADO ACTUAL: no hay base de datos conectada, por lo que la solicitud NO se
- * persiste. Se devuelve `pending_backend` y la interfaz lo comunica al usuario
- * de forma honesta (sin simular un envío real).
- *
- * INTEGRACIÓN (Lovable Cloud): reemplazar el cuerpo por una llamada a un
- * `createServerFn` que inserte en `leads` y en la tabla específica del tipo,
- * y devolver `{ status: "ok", reference }`.
+ * Guarda la solicitud en la tabla `leads` de Supabase.
  */
 export async function submitLead(payload: LeadPayload): Promise<SubmitResult> {
   const reference = `${payload.type.toUpperCase().slice(0, 3)}-${Date.now().toString(36).toUpperCase()}`;
-  // Latencia simulada únicamente para poder mostrar estados de carga en la UI.
-  await new Promise((resolve) => setTimeout(resolve, 700));
-  if (import.meta.env.DEV) {
-    console.info("[leads] pendiente de backend", { reference, payload });
+  
+  const { error } = await supabase
+    .from("leads")
+    .insert([
+      {
+        type: payload.type,
+        name: payload.name,
+        phone: payload.phone,
+        email: payload.email,
+        message: payload.message,
+        data: payload.data as any,
+        reference: reference,
+        status: "nuevo",
+      }
+    ]);
+
+  if (error) {
+    console.error("[leads] Error al guardar en Supabase:", error);
+    // Si hay un error, podemos seguir mostrando pending_backend o manejarlo distinto,
+    // pero idealmente deberíamos devolver pending_backend para que no pete la app,
+    // o un nuevo estado de error. De momento devolvemos pending_backend por compatibilidad.
+    return { status: "pending_backend", reference };
   }
-  return { status: "pending_backend", reference };
+
+  return { status: "ok", reference };
 }
