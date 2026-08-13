@@ -25,7 +25,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { featuredServices } from "@/data/services";
-import { stockVehicles } from "@/data/vehicles";
+import { fetchPublishedVehicles } from "@/data/vehicles";
 import { trustPoints, workflow, demoTestimonials, faqs } from "@/data/content";
 import { site } from "@/config/site";
 import { whatsapp } from "@/services/whatsapp";
@@ -47,12 +47,16 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
+  loader: async () => {
+    const vehicles = await fetchPublishedVehicles();
+    return { vehicles: vehicles.slice(0, 3) };
+  },
   component: Home,
 });
 
 function Home() {
+  const { vehicles } = Route.useLoaderData();
   const featured = featuredServices().slice(0, 6);
-  const vehicles = stockVehicles.filter((v) => v.status === "publicado").slice(0, 3);
 
   return (
     <PublicLayout>

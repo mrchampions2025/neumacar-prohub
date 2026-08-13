@@ -31,21 +31,19 @@ import { supabase } from "@/integrations/supabase/client";
  */
 export async function submitLead(payload: LeadPayload): Promise<SubmitResult> {
   const reference = `${payload.type.toUpperCase().slice(0, 3)}-${Date.now().toString(36).toUpperCase()}`;
-  
-  const { error } = await supabase
-    .from("leads")
-    .insert([
-      {
-        type: payload.type,
-        name: payload.name,
-        phone: payload.phone,
-        email: payload.email,
-        message: payload.message,
-        data: payload.data as any,
-        reference: reference,
-        status: "nuevo",
-      }
-    ]);
+
+  const { error } = await supabase.from("leads").insert([
+    {
+      type: payload.type,
+      name: payload.name,
+      phone: payload.phone,
+      email: payload.email,
+      message: payload.message,
+      data: payload.data as any,
+      reference: reference,
+      status: "nuevo",
+    },
+  ]);
 
   if (error) {
     console.error("[leads] Error al guardar en Supabase:", error);

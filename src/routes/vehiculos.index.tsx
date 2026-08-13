@@ -12,7 +12,7 @@ import {
   type VehicleFilterState,
 } from "@/components/vehicles/VehicleFilters";
 import { Button } from "@/components/ui/button";
-import { stockVehicles } from "@/data/vehicles";
+import { fetchPublishedVehicles } from "@/data/vehicles";
 
 export const Route = createFileRoute("/vehiculos/")({
   head: () => ({
@@ -30,14 +30,19 @@ export const Route = createFileRoute("/vehiculos/")({
       },
     ],
   }),
+  loader: async () => {
+    const vehicles = await fetchPublishedVehicles();
+    return { vehicles };
+  },
   component: VehiclesPage,
 });
 
 function VehiclesPage() {
+  const { vehicles } = Route.useLoaderData();
   const [filters, setFilters] = useState<VehicleFilterState>(emptyFilters);
 
   const results = useMemo(() => {
-    const list = stockVehicles.filter((v) => {
+    const list = vehicles.filter((v) => {
       if (v.status !== "publicado" && v.status !== "reservado") return false;
       if (filters.brand !== "all" && v.brand !== filters.brand) return false;
       if (filters.fuel !== "all" && v.fuel !== filters.fuel) return false;

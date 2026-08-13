@@ -9,12 +9,12 @@ import { EmptyState } from "@/components/common/states";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { getVehicle, vehicleTitle } from "@/data/vehicles";
+import { fetchVehicleById, vehicleTitle } from "@/data/vehicles";
 import { whatsapp } from "@/services/whatsapp";
 
 export const Route = createFileRoute("/vehiculos/$vehicleId")({
-  loader: ({ params }) => {
-    const vehicle = getVehicle(params.vehicleId);
+  loader: async ({ params }) => {
+    const vehicle = await fetchVehicleById(params.vehicleId);
     if (!vehicle) throw notFound();
     return { vehicle };
   },
