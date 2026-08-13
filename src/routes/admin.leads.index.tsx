@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 export const Route = createFileRoute("/admin/leads/")({
   component: AdminLeads,
@@ -253,15 +254,7 @@ function AdminLeads() {
       </div>
 
       <Dialog open={!!selectedLead} onOpenChange={(open) => !open && setSelectedLead(null)}>
-        <DialogContent 
-          className="max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-200 text-slate-800 border-slate-300"
-          onEscapeKeyDown={(e) => {
-            if (expandedImageIndex !== null) e.preventDefault();
-          }}
-          onInteractOutside={(e) => {
-            if (expandedImageIndex !== null) e.preventDefault();
-          }}
-        >
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-200 text-slate-800 border-slate-300">
           <DialogHeader>
             <DialogTitle className="uppercase tracking-wider font-display text-[#1da1f2]">
               Detalles de Tasación {selectedLead?.reference ? `- ${selectedLead.reference}` : ''}
@@ -394,48 +387,55 @@ function AdminLeads() {
       </Dialog>
       
       {/* Lightbox para Imágenes */}
-      {expandedImageIndex !== null && selectedLead?.data?.images && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
-          onClick={() => setExpandedImageIndex(null)}
-        >
-          <button 
-            className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 z-50"
-            onClick={(e) => { e.stopPropagation(); setExpandedImageIndex(null); }}
-          >
-            <X className="size-8" />
-          </button>
+      {selectedLead?.data?.images && (
+        <DialogPrimitive.Root open={expandedImageIndex !== null} onOpenChange={(open) => !open && setExpandedImageIndex(null)}>
+          <DialogPrimitive.Portal>
+            <DialogPrimitive.Overlay className="fixed inset-0 z-[100] bg-black/95 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+            <DialogPrimitive.Content 
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 outline-none"
+              onClick={() => setExpandedImageIndex(null)}
+            >
+              <button 
+                className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 z-50 cursor-pointer"
+                onClick={(e) => { e.stopPropagation(); setExpandedImageIndex(null); }}
+              >
+                <X className="size-8" />
+              </button>
 
-          {totalImages > 1 && (
-            <>
-              <button 
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-2 z-50 bg-black/50 rounded-full"
-                onClick={handlePrevImage}
-              >
-                <ChevronLeft className="size-10" />
-              </button>
-              <button 
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-2 z-50 bg-black/50 rounded-full"
-                onClick={handleNextImage}
-              >
-                <ChevronRight className="size-10" />
-              </button>
-            </>
-          )}
-          
-          <div className="relative w-full max-w-5xl max-h-[90vh] flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
-            <img 
-              src={selectedLead.data.images[expandedImageIndex]} 
-              alt={`Ampliación ${expandedImageIndex + 1}`} 
-              className="max-w-full max-h-[85vh] object-contain rounded-md" 
-            />
-            {totalImages > 1 && (
-              <div className="mt-4 text-white text-sm">
-                Imagen {expandedImageIndex + 1} de {totalImages}
-              </div>
-            )}
-          </div>
-        </div>
+              {totalImages > 1 && (
+                <>
+                  <button 
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-2 z-50 bg-black/50 rounded-full cursor-pointer"
+                    onClick={handlePrevImage}
+                  >
+                    <ChevronLeft className="size-10" />
+                  </button>
+                  <button 
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-2 z-50 bg-black/50 rounded-full cursor-pointer"
+                    onClick={handleNextImage}
+                  >
+                    <ChevronRight className="size-10" />
+                  </button>
+                </>
+              )}
+              
+              {expandedImageIndex !== null && (
+                <div className="relative w-full max-w-5xl max-h-[90vh] flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+                  <img 
+                    src={selectedLead.data.images[expandedImageIndex]} 
+                    alt={`Ampliación ${expandedImageIndex + 1}`} 
+                    className="max-w-full max-h-[85vh] object-contain rounded-md select-none" 
+                  />
+                  {totalImages > 1 && (
+                    <div className="mt-4 text-white text-sm">
+                      Imagen {expandedImageIndex + 1} de {totalImages}
+                    </div>
+                  )}
+                </div>
+              )}
+            </DialogPrimitive.Content>
+          </DialogPrimitive.Portal>
+        </DialogPrimitive.Root>
       )}
     </div>
   );
