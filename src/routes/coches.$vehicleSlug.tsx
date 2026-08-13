@@ -9,14 +9,21 @@ import { EmptyState } from "@/components/common/states";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { fetchVehicleById, vehicleTitle } from "@/data/vehicles";
+import { fetchVehicleById } from "@/data/vehicles";
 import { whatsapp } from "@/services/whatsapp";
+import { parseVehicleIdFromSlug, generateVehicleSEO } from "@/utils/seo";
 
-export const Route = createFileRoute("/vehiculos/$vehicleId")({
+export const Route = createFileRoute("/coches/$vehicleSlug")({
   loader: async ({ params }) => {
-    const vehicle = await fetchVehicleById(params.vehicleId);
+    const id = parseVehicleIdFromSlug(params.vehicleSlug);
+    if (!id) throw notFound();
+
+    const vehicle = await fetchVehicleById(id);
     if (!vehicle) throw notFound();
-    return { vehicle };
+    
+    const seo = generateVehicleSEO(vehicle);
+    
+    return { vehicle, seo };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -27,15 +34,13 @@ export const Route = createFileRoute("/vehiculos/$vehicleId")({
         ],
       };
     }
-    const { vehicle } = loaderData;
-    const title = vehicleTitle(vehicle);
-    const description = `${title} · ${vehicle.year} · ${vehicle.mileage.toLocaleString("es-ES")} km · ${vehicle.fuel}. Vehículo de ocasión revisado en Neumacar Motors.`;
+    const { seo } = loaderData;
     return {
       meta: [
-        { title: `${title} — Neumacar Motors` },
-        { name: "description", content: description },
-        { property: "og:title", content: `${title} — Neumacar Motors` },
-        { property: "og:description", content: description },
+        { title: seo.title },
+        { name: "description", content: seo.description },
+        { property: "og:title", content: seo.title },
+        { property: "og:description", content: seo.description },
       ],
     };
   },
@@ -52,7 +57,7 @@ function VehicleNotFound() {
           description="Este vehículo ya no está disponible o ha sido vendido."
           action={
             <Button asChild variant="hero">
-              <Link to="/vehiculos">Ver stock disponible</Link>
+              <Link to="/coches-segunda-mano-sevilla">Ver stock disponible</Link>
             </Button>
           }
         />
@@ -69,8 +74,7 @@ const euro = (n: number) =>
   }).format(n);
 
 function VehicleDetail() {
-  const { vehicle } = Route.useLoaderData();
-  const title = vehicleTitle(vehicle);
+  const { vehicle, seo } = Route.useLoaderData();
 
   const specs = [
     { label: "Año", value: String(vehicle.year), icon: Calendar },
@@ -93,7 +97,7 @@ function VehicleDetail() {
     <PublicLayout>
       <div className="container-page section-y">
         <Link
-          to="/vehiculos"
+          to="/coches-segunda-mano-sevilla"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="size-4" /> Volver al stock
@@ -101,7 +105,7 @@ function VehicleDetail() {
 
         <div className="mt-6 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
           <div>
-            <VehicleGallery images={vehicle.images} title={title} />
+            <VehicleGallery images={vehicle.images} title={`${vehicle.brand} ${vehicle.model}`} />
 
             <div className="mt-8">
               <div className="flex flex-wrap gap-2">
@@ -110,7 +114,7 @@ function VehicleDetail() {
                 <Badge variant="outline">Etiqueta {vehicle.envLabel}</Badge>
               </div>
               <h1 className="mt-4 text-3xl font-bold uppercase leading-tight md:text-4xl">
-                {title}
+                {seo.h1}
               </h1>
 
               <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -184,7 +188,7 @@ function VehicleDetail() {
               <div className="flex flex-col gap-3">
                 <TestDriveDialog
                   intent="prueba"
-                  vehicleTitle={title}
+                  vehicleTitle={`${vehicle.brand} ${vehicle.model}`}
                   trigger={
                     <Button variant="hero" size="lg">
                       Solicitar prueba
@@ -193,7 +197,7 @@ function VehicleDetail() {
                 />
                 <TestDriveDialog
                   intent="reserva"
-                  vehicleTitle={title}
+                  vehicleTitle={`${vehicle.brand} ${vehicle.model}`}
                   trigger={
                     <Button variant="chrome" size="lg" disabled={vehicle.status === "reservado"}>
                       {vehicle.status === "reservado" ? "Vehículo reservado" : "Reservar vehículo"}
@@ -201,7 +205,7 @@ function VehicleDetail() {
                   }
                 />
                 <Button asChild variant="whatsapp" size="lg">
-                  <a href={whatsapp.vehicle(title)} target="_blank" rel="noopener noreferrer">
+                  <a href={whatsapp.vehicle(`${vehicle.brand} ${vehicle.model}`)} target="_blank" rel="noopener noreferrer">
                     <MessageCircle /> Consultar por WhatsApp
                   </a>
                 </Button>

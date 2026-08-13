@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { generateVehicleSlug } from "@/utils/seo";
 import { Fuel, Gauge, Calendar, Cog } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -78,8 +79,8 @@ export function VehicleCard({ vehicle }: { vehicle: StockVehicle }) {
         </div>
 
         <Button asChild variant="hero" className="mt-4 w-full">
-          <Link to="/vehiculos/$vehicleId" params={{ vehicleId: vehicle.id }}>
-            Ver vehículo
+          <Link to={"/coches/$vehicleSlug"} params={{ vehicleSlug: generateVehicleSlug(vehicle) }}>
+            Ver detalles
           </Link>
         </Button>
       </div>

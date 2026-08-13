@@ -1,9 +1,6 @@
 import { useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { SectionHeading } from "@/components/common/SectionHeading";
-
 import { EmptyState } from "@/components/common/states";
 import { VehicleCard } from "@/components/vehicles/VehicleCard";
 import {
@@ -12,34 +9,29 @@ import {
   type VehicleFilterState,
 } from "@/components/vehicles/VehicleFilters";
 import { Button } from "@/components/ui/button";
-import { fetchPublishedVehicles } from "@/data/vehicles";
+import type { Database } from "@/types/supabase";
 
-export const Route = createFileRoute("/vehiculos/")({
-  head: () => ({
-    meta: [
-      { title: "Vehículos de ocasión — Neumacar Motors" },
-      {
-        name: "description",
-        content:
-          "Stock de vehículos de ocasión revisados: coches, SUV y furgonetas con garantía, historial verificado y financiación disponible.",
-      },
-      { property: "og:title", content: "Vehículos de ocasión — Neumacar Motors" },
-      {
-        property: "og:description",
-        content: "Coches de ocasión revisados con garantía y financiación sujeta a aprobación.",
-      },
-    ],
-  }),
-  loader: async () => {
-    const vehicles = await fetchPublishedVehicles();
-    return { vehicles };
-  },
-  component: VehiclesPage,
-});
+type Vehicle = Database["public"]["Tables"]["vehicles"]["Row"];
 
-function VehiclesPage() {
-  const { vehicles } = Route.useLoaderData();
-  const [filters, setFilters] = useState<VehicleFilterState>(emptyFilters);
+interface VehiclesListProps {
+  vehicles: any[]; // Using any to avoid complex TS types right now, but should ideally be Vehicle[]
+  defaultFilters?: Partial<VehicleFilterState>;
+  title?: string;
+  description?: string;
+  eyebrow?: string;
+}
+
+export function VehiclesList({
+  vehicles,
+  defaultFilters = {},
+  title = "Vehículos disponibles",
+  description = "Todos nuestros vehículos se entregan revisados y con la garantía legal correspondiente. La financiación es orientativa y queda sujeta a aprobación de la entidad.",
+  eyebrow = "Ocasión",
+}: VehiclesListProps) {
+  const [filters, setFilters] = useState<VehicleFilterState>({
+    ...emptyFilters,
+    ...defaultFilters,
+  });
 
   const results = useMemo(() => {
     const list = vehicles.filter((v) => {
@@ -67,24 +59,23 @@ function VehiclesPage() {
       default:
         return list;
     }
-  }, [filters]);
+  }, [vehicles, filters]);
 
   return (
     <PublicLayout>
       <div className="container-page section-y">
         <SectionHeading
           as="h1"
-          eyebrow="Ocasión"
-          title="Vehículos disponibles"
-          description="Todos nuestros vehículos se entregan revisados y con la garantía legal correspondiente. La financiación es orientativa y queda sujeta a aprobación de la entidad."
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
         />
-
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[280px_1fr]">
           <VehicleFilters
             value={filters}
             onChange={setFilters}
-            onReset={() => setFilters(emptyFilters)}
+            onReset={() => setFilters({ ...emptyFilters, ...defaultFilters })}
           />
 
           <div>
@@ -97,7 +88,7 @@ function VehiclesPage() {
                   title="Sin resultados"
                   description="No hay vehículos que coincidan con los filtros seleccionados."
                   action={
-                    <Button variant="hero" onClick={() => setFilters(emptyFilters)}>
+                    <Button variant="hero" onClick={() => setFilters({ ...emptyFilters, ...defaultFilters })}>
                       Quitar filtros
                     </Button>
                   }

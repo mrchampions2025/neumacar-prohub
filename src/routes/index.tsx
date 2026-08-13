@@ -167,7 +167,7 @@ function Home() {
           </div>
           <div className="mt-10">
             <Button asChild variant="hero" size="lg">
-              <Link to="/vehiculos">
+              <Link to="/coches-segunda-mano-sevilla">
                 <Car /> Ver todo el stock
               </Link>
             </Button>

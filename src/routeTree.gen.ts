@@ -10,10 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BrandSlugRouteImport } from './routes/$brandSlug'
 import { Route as AccesoRouteImport } from './routes/acceso'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as CitaRouteImport } from './routes/cita'
+import { Route as CochesBaratosSevillaRouteImport } from './routes/coches-baratos-sevilla'
+import { Route as CochesKm0SevillaRouteImport } from './routes/coches-km0-sevilla'
+import { Route as CochesOcasionSevillaRouteImport } from './routes/coches-ocasion-sevilla'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -23,10 +27,10 @@ import { Route as TallerRouteImport } from './routes/taller'
 import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as CochesSegundaManoSevillaIndexRouteImport } from './routes/coches-segunda-mano-sevilla.index'
+import { Route as CochesVehicleSlugRouteImport } from './routes/coches.$vehicleSlug'
 import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
 import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
-import { Route as VehiculosIndexRouteImport } from './routes/vehiculos.index'
-import { Route as VehiculosVehicleIdRouteImport } from './routes/vehiculos.$vehicleId'
 import { Route as AdminCitasIndexRouteImport } from './routes/admin.citas.index'
 import { Route as AdminLeadsIndexRouteImport } from './routes/admin.leads.index'
 import { Route as AdminPresupuestosIndexRouteImport } from './routes/admin.presupuestos.index'
@@ -36,6 +40,11 @@ import { Route as AdminVehiculosNuevoRouteImport } from './routes/admin.vehiculo
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandSlugRoute = BrandSlugRouteImport.update({
+  id: '/$brandSlug',
+  path: '/$brandSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccesoRoute = AccesoRouteImport.update({
@@ -56,6 +65,21 @@ const AvisoLegalRoute = AvisoLegalRouteImport.update({
 const CitaRoute = CitaRouteImport.update({
   id: '/cita',
   path: '/cita',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CochesBaratosSevillaRoute = CochesBaratosSevillaRouteImport.update({
+  id: '/coches-baratos-sevilla',
+  path: '/coches-baratos-sevilla',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CochesKm0SevillaRoute = CochesKm0SevillaRouteImport.update({
+  id: '/coches-km0-sevilla',
+  path: '/coches-km0-sevilla',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CochesOcasionSevillaRoute = CochesOcasionSevillaRouteImport.update({
+  id: '/coches-ocasion-sevilla',
+  path: '/coches-ocasion-sevilla',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -103,6 +127,17 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
+const CochesSegundaManoSevillaIndexRoute =
+  CochesSegundaManoSevillaIndexRouteImport.update({
+    id: '/coches-segunda-mano-sevilla/',
+    path: '/coches-segunda-mano-sevilla/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CochesVehicleSlugRoute = CochesVehicleSlugRouteImport.update({
+  id: '/coches/$vehicleSlug',
+  path: '/coches/$vehicleSlug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServiciosIndexRoute = ServiciosIndexRouteImport.update({
   id: '/servicios/',
   path: '/servicios/',
@@ -111,16 +146,6 @@ const ServiciosIndexRoute = ServiciosIndexRouteImport.update({
 const ServiciosSlugRoute = ServiciosSlugRouteImport.update({
   id: '/servicios/$slug',
   path: '/servicios/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VehiculosIndexRoute = VehiculosIndexRouteImport.update({
-  id: '/vehiculos/',
-  path: '/vehiculos/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VehiculosVehicleIdRoute = VehiculosVehicleIdRouteImport.update({
-  id: '/vehiculos/$vehicleId',
-  path: '/vehiculos/$vehicleId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCitasIndexRoute = AdminCitasIndexRouteImport.update({
@@ -151,10 +176,14 @@ const AdminVehiculosNuevoRoute = AdminVehiculosNuevoRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$brandSlug': typeof BrandSlugRoute
   '/acceso': typeof AccesoRoute
   '/admin': typeof AdminRouteWithChildren
   '/aviso-legal': typeof AvisoLegalRoute
   '/cita': typeof CitaRoute
+  '/coches-baratos-sevilla': typeof CochesBaratosSevillaRoute
+  '/coches-km0-sevilla': typeof CochesKm0SevillaRoute
+  '/coches-ocasion-sevilla': typeof CochesOcasionSevillaRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
@@ -163,11 +192,11 @@ export interface FileRoutesByFullPath {
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/login': typeof AdminLoginRoute
+  '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
-  '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/coches-segunda-mano-sevilla/': typeof CochesSegundaManoSevillaIndexRoute
   '/servicios/': typeof ServiciosIndexRoute
-  '/vehiculos/': typeof VehiculosIndexRoute
   '/admin/vehiculos/nuevo': typeof AdminVehiculosNuevoRoute
   '/admin/citas/': typeof AdminCitasIndexRoute
   '/admin/leads/': typeof AdminLeadsIndexRoute
@@ -176,9 +205,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$brandSlug': typeof BrandSlugRoute
   '/acceso': typeof AccesoRoute
   '/aviso-legal': typeof AvisoLegalRoute
   '/cita': typeof CitaRoute
+  '/coches-baratos-sevilla': typeof CochesBaratosSevillaRoute
+  '/coches-km0-sevilla': typeof CochesKm0SevillaRoute
+  '/coches-ocasion-sevilla': typeof CochesOcasionSevillaRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
@@ -187,11 +220,11 @@ export interface FileRoutesByTo {
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/login': typeof AdminLoginRoute
+  '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
-  '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
   '/admin': typeof AdminIndexRoute
+  '/coches-segunda-mano-sevilla': typeof CochesSegundaManoSevillaIndexRoute
   '/servicios': typeof ServiciosIndexRoute
-  '/vehiculos': typeof VehiculosIndexRoute
   '/admin/vehiculos/nuevo': typeof AdminVehiculosNuevoRoute
   '/admin/citas': typeof AdminCitasIndexRoute
   '/admin/leads': typeof AdminLeadsIndexRoute
@@ -201,10 +234,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$brandSlug': typeof BrandSlugRoute
   '/acceso': typeof AccesoRoute
   '/admin': typeof AdminRouteWithChildren
   '/aviso-legal': typeof AvisoLegalRoute
   '/cita': typeof CitaRoute
+  '/coches-baratos-sevilla': typeof CochesBaratosSevillaRoute
+  '/coches-km0-sevilla': typeof CochesKm0SevillaRoute
+  '/coches-ocasion-sevilla': typeof CochesOcasionSevillaRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
@@ -213,11 +250,11 @@ export interface FileRoutesById {
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/login': typeof AdminLoginRoute
+  '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
-  '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/coches-segunda-mano-sevilla/': typeof CochesSegundaManoSevillaIndexRoute
   '/servicios/': typeof ServiciosIndexRoute
-  '/vehiculos/': typeof VehiculosIndexRoute
   '/admin/vehiculos/nuevo': typeof AdminVehiculosNuevoRoute
   '/admin/citas/': typeof AdminCitasIndexRoute
   '/admin/leads/': typeof AdminLeadsIndexRoute
@@ -228,10 +265,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$brandSlug'
     | '/acceso'
     | '/admin'
     | '/aviso-legal'
     | '/cita'
+    | '/coches-baratos-sevilla'
+    | '/coches-km0-sevilla'
+    | '/coches-ocasion-sevilla'
     | '/contacto'
     | '/cookies'
     | '/faq'
@@ -240,11 +281,11 @@ export interface FileRouteTypes {
     | '/taller'
     | '/vender-mi-coche'
     | '/admin/login'
+    | '/coches/$vehicleSlug'
     | '/servicios/$slug'
-    | '/vehiculos/$vehicleId'
     | '/admin/'
+    | '/coches-segunda-mano-sevilla/'
     | '/servicios/'
-    | '/vehiculos/'
     | '/admin/vehiculos/nuevo'
     | '/admin/citas/'
     | '/admin/leads/'
@@ -253,9 +294,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$brandSlug'
     | '/acceso'
     | '/aviso-legal'
     | '/cita'
+    | '/coches-baratos-sevilla'
+    | '/coches-km0-sevilla'
+    | '/coches-ocasion-sevilla'
     | '/contacto'
     | '/cookies'
     | '/faq'
@@ -264,11 +309,11 @@ export interface FileRouteTypes {
     | '/taller'
     | '/vender-mi-coche'
     | '/admin/login'
+    | '/coches/$vehicleSlug'
     | '/servicios/$slug'
-    | '/vehiculos/$vehicleId'
     | '/admin'
+    | '/coches-segunda-mano-sevilla'
     | '/servicios'
-    | '/vehiculos'
     | '/admin/vehiculos/nuevo'
     | '/admin/citas'
     | '/admin/leads'
@@ -277,10 +322,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$brandSlug'
     | '/acceso'
     | '/admin'
     | '/aviso-legal'
     | '/cita'
+    | '/coches-baratos-sevilla'
+    | '/coches-km0-sevilla'
+    | '/coches-ocasion-sevilla'
     | '/contacto'
     | '/cookies'
     | '/faq'
@@ -289,11 +338,11 @@ export interface FileRouteTypes {
     | '/taller'
     | '/vender-mi-coche'
     | '/admin/login'
+    | '/coches/$vehicleSlug'
     | '/servicios/$slug'
-    | '/vehiculos/$vehicleId'
     | '/admin/'
+    | '/coches-segunda-mano-sevilla/'
     | '/servicios/'
-    | '/vehiculos/'
     | '/admin/vehiculos/nuevo'
     | '/admin/citas/'
     | '/admin/leads/'
@@ -303,10 +352,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrandSlugRoute: typeof BrandSlugRoute
   AccesoRoute: typeof AccesoRoute
   AdminRoute: typeof AdminRouteWithChildren
   AvisoLegalRoute: typeof AvisoLegalRoute
   CitaRoute: typeof CitaRoute
+  CochesBaratosSevillaRoute: typeof CochesBaratosSevillaRoute
+  CochesKm0SevillaRoute: typeof CochesKm0SevillaRoute
+  CochesOcasionSevillaRoute: typeof CochesOcasionSevillaRoute
   ContactoRoute: typeof ContactoRoute
   CookiesRoute: typeof CookiesRoute
   FaqRoute: typeof FaqRoute
@@ -314,10 +367,10 @@ export interface RootRouteChildren {
   PrivacidadRoute: typeof PrivacidadRoute
   TallerRoute: typeof TallerRoute
   VenderMiCocheRoute: typeof VenderMiCocheRoute
+  CochesVehicleSlugRoute: typeof CochesVehicleSlugRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
-  VehiculosVehicleIdRoute: typeof VehiculosVehicleIdRoute
+  CochesSegundaManoSevillaIndexRoute: typeof CochesSegundaManoSevillaIndexRoute
   ServiciosIndexRoute: typeof ServiciosIndexRoute
-  VehiculosIndexRoute: typeof VehiculosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -327,6 +380,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$brandSlug': {
+      id: '/$brandSlug'
+      path: '/$brandSlug'
+      fullPath: '/$brandSlug'
+      preLoaderRoute: typeof BrandSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/acceso': {
@@ -355,6 +415,27 @@ declare module '@tanstack/react-router' {
       path: '/cita'
       fullPath: '/cita'
       preLoaderRoute: typeof CitaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coches-baratos-sevilla': {
+      id: '/coches-baratos-sevilla'
+      path: '/coches-baratos-sevilla'
+      fullPath: '/coches-baratos-sevilla'
+      preLoaderRoute: typeof CochesBaratosSevillaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coches-km0-sevilla': {
+      id: '/coches-km0-sevilla'
+      path: '/coches-km0-sevilla'
+      fullPath: '/coches-km0-sevilla'
+      preLoaderRoute: typeof CochesKm0SevillaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coches-ocasion-sevilla': {
+      id: '/coches-ocasion-sevilla'
+      path: '/coches-ocasion-sevilla'
+      fullPath: '/coches-ocasion-sevilla'
+      preLoaderRoute: typeof CochesOcasionSevillaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -420,6 +501,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/coches-segunda-mano-sevilla/': {
+      id: '/coches-segunda-mano-sevilla/'
+      path: '/coches-segunda-mano-sevilla'
+      fullPath: '/coches-segunda-mano-sevilla/'
+      preLoaderRoute: typeof CochesSegundaManoSevillaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coches/$vehicleSlug': {
+      id: '/coches/$vehicleSlug'
+      path: '/coches/$vehicleSlug'
+      fullPath: '/coches/$vehicleSlug'
+      preLoaderRoute: typeof CochesVehicleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/servicios/': {
       id: '/servicios/'
       path: '/servicios'
@@ -432,20 +527,6 @@ declare module '@tanstack/react-router' {
       path: '/servicios/$slug'
       fullPath: '/servicios/$slug'
       preLoaderRoute: typeof ServiciosSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vehiculos/': {
-      id: '/vehiculos/'
-      path: '/vehiculos'
-      fullPath: '/vehiculos/'
-      preLoaderRoute: typeof VehiculosIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vehiculos/$vehicleId': {
-      id: '/vehiculos/$vehicleId'
-      path: '/vehiculos/$vehicleId'
-      fullPath: '/vehiculos/$vehicleId'
-      preLoaderRoute: typeof VehiculosVehicleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/citas/': {
@@ -510,10 +591,14 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrandSlugRoute: BrandSlugRoute,
   AccesoRoute: AccesoRoute,
   AdminRoute: AdminRouteWithChildren,
   AvisoLegalRoute: AvisoLegalRoute,
   CitaRoute: CitaRoute,
+  CochesBaratosSevillaRoute: CochesBaratosSevillaRoute,
+  CochesKm0SevillaRoute: CochesKm0SevillaRoute,
+  CochesOcasionSevillaRoute: CochesOcasionSevillaRoute,
   ContactoRoute: ContactoRoute,
   CookiesRoute: CookiesRoute,
   FaqRoute: FaqRoute,
@@ -521,10 +606,10 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadRoute: PrivacidadRoute,
   TallerRoute: TallerRoute,
   VenderMiCocheRoute: VenderMiCocheRoute,
+  CochesVehicleSlugRoute: CochesVehicleSlugRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
-  VehiculosVehicleIdRoute: VehiculosVehicleIdRoute,
+  CochesSegundaManoSevillaIndexRoute: CochesSegundaManoSevillaIndexRoute,
   ServiciosIndexRoute: ServiciosIndexRoute,
-  VehiculosIndexRoute: VehiculosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

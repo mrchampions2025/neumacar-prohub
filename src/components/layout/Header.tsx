@@ -11,7 +11,7 @@ const nav = [
   { to: "/", label: "Inicio" },
   { to: "/taller", label: "Taller" },
   { to: "/servicios", label: "Servicios" },
-  { to: "/vehiculos", label: "Vehículos" },
+  { to: "/coches-segunda-mano-sevilla", label: "Coches Ocasión" },
   { to: "/vender-mi-coche", label: "Compramos tu coche" },
   { to: "/presupuesto", label: "Presupuesto" },
   { to: "/cita", label: "Cita" },

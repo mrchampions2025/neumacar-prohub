@@ -60,7 +60,7 @@ export function Footer() {
               { to: "/taller", label: "Taller" },
               { to: "/servicios", label: "Servicios" },
               { to: "/neumaticos", label: "Neumáticos" },
-              { to: "/vehiculos", label: "Vehículos de ocasión" },
+              { to: "/coches-segunda-mano-sevilla", label: "Coches de ocasión" },
               { to: "/vender-mi-coche", label: "Comprar mi coche" },
               { to: "/presupuesto", label: "Presupuesto" },
               { to: "/cita", label: "Reservar cita" },
