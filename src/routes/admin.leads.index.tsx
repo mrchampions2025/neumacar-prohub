@@ -116,8 +116,8 @@ function AdminLeads() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl font-bold uppercase">Tasaciones de Vehículos</h1>
-          <p className="text-sm text-muted-foreground">
+          <h1 className="font-display text-2xl font-bold uppercase text-slate-800">Tasaciones de Vehículos</h1>
+          <p className="text-sm text-slate-500">
             Revisa solicitudes de "Compramos tu coche"
           </p>
         </div>
@@ -132,10 +132,10 @@ function AdminLeads() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-border bg-background shadow-sm">
+      <div className="rounded-xl border border-slate-200 bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-muted/30 uppercase text-muted-foreground">
+            <thead className="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
               <tr>
                 <th className="p-4 font-medium">Fecha</th>
                 <th className="p-4 font-medium">Referencia</th>
@@ -144,33 +144,33 @@ function AdminLeads() {
                 <th className="p-4 font-medium text-right">Acciones</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-muted-foreground">
+                  <td colSpan={5} className="p-8 text-center text-slate-500">
                     Cargando tasaciones...
                   </td>
                 </tr>
               ) : filteredLeads.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-muted-foreground">
+                  <td colSpan={5} className="p-8 text-center text-slate-500">
                     No se encontraron resultados.
                   </td>
                 </tr>
               ) : (
                 filteredLeads.map((l) => (
-                  <tr key={l.id} className="transition-colors hover:bg-muted/10">
-                    <td className="p-4 text-muted-foreground">
+                  <tr key={l.id} className="transition-colors hover:bg-slate-50">
+                    <td className="p-4 text-slate-500">
                       {new Date(l.created_at).toLocaleDateString()}
                     </td>
                     <td className="p-4">
                       {l.reference && (
-                        <div className="font-semibold text-primary">{l.reference}</div>
+                        <div className="font-semibold text-[#1da1f2]">{l.reference}</div>
                       )}
                     </td>
                     <td className="p-4">
-                      <div className="font-medium text-foreground">{l.name}</div>
-                      <div className="text-xs text-muted-foreground">{l.phone}</div>
+                      <div className="font-medium text-slate-800">{l.name}</div>
+                      <div className="text-xs text-slate-500">{l.phone}</div>
                     </td>
                     <td className="p-4">
                       <select
@@ -178,12 +178,12 @@ function AdminLeads() {
                         onChange={(e) => handleStatusChange(l.id, e.target.value)}
                         className={`rounded-full px-2 py-1 text-xs font-medium border-0 cursor-pointer ${
                           l.status === "nuevo"
-                            ? "bg-primary/10 text-primary"
+                            ? "bg-blue-100 text-blue-700"
                             : l.status === "contactado"
-                              ? "bg-blue-500/10 text-blue-500"
+                              ? "bg-indigo-100 text-indigo-700"
                               : l.status === "convertido"
-                                ? "bg-green-500/10 text-green-500"
-                                : "bg-muted text-muted-foreground"
+                                ? "bg-green-100 text-green-700"
+                                : "bg-slate-100 text-slate-700"
                         }`}
                       >
                         <option value="nuevo">Nuevo</option>

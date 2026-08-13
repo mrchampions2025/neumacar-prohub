@@ -121,8 +121,8 @@ function AdminCitas() {
     <div className="space-y-6 pb-12 h-full flex flex-col">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold uppercase">Gestión de Citas</h1>
-          <p className="text-sm text-muted-foreground">Calendario avanzado de taller</p>
+          <h1 className="font-display text-2xl font-bold uppercase text-slate-800">Gestión de Citas</h1>
+          <p className="text-sm text-slate-500">Calendario avanzado de taller</p>
         </div>
         <Button variant="hero">
           <Plus className="mr-2 size-4" />
@@ -130,25 +130,29 @@ function AdminCitas() {
         </Button>
       </div>
 
-      <div className="flex-grow bg-card rounded-xl border border-border shadow-sm p-4 overflow-hidden min-h-[700px]">
+      <div className="flex-grow bg-white rounded-xl border border-slate-200 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] p-4 overflow-hidden min-h-[700px] text-slate-800">
         {loading ? (
-          <div className="h-full flex items-center justify-center text-muted-foreground">Cargando calendario...</div>
+          <div className="h-full flex items-center justify-center text-slate-500">Cargando calendario...</div>
         ) : (
           <>
             <style dangerouslySetInnerHTML={{__html: `
               .rbc-calendar { font-family: inherit; }
-              .rbc-header { padding: 8px; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; color: hsl(var(--muted-foreground)); border-bottom: 1px solid hsl(var(--border)) !important; }
-              .rbc-month-view, .rbc-time-view, .rbc-agenda-view { border: 1px solid hsl(var(--border)); border-radius: 8px; overflow: hidden; }
-              .rbc-day-bg { border-left: 1px solid hsl(var(--border)) !important; }
-              .rbc-month-row { border-top: 1px solid hsl(var(--border)) !important; }
-              .rbc-off-range-bg { background-color: hsl(var(--muted)/0.3); }
-              .rbc-today { background-color: hsl(var(--primary)/0.05); }
+              .rbc-header { padding: 8px; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; color: #64748b; border-bottom: 1px solid #e2e8f0 !important; }
+              .rbc-month-view, .rbc-time-view, .rbc-agenda-view { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background: #ffffff; }
+              .rbc-day-bg { border-left: 1px solid #e2e8f0 !important; }
+              .rbc-month-row { border-top: 1px solid #e2e8f0 !important; }
+              .rbc-off-range-bg { background-color: #f8fafc; }
+              .rbc-today { background-color: #f1f5f9; }
               .rbc-event { padding: 2px 4px; font-size: 0.75rem; font-weight: 500; }
-              .rbc-toolbar button { color: hsl(var(--foreground)); border-color: hsl(var(--border)); }
-              .rbc-toolbar button:active, .rbc-toolbar button.rbc-active { background-color: hsl(var(--primary)); color: white; border-color: hsl(var(--primary)); box-shadow: none; }
-              .rbc-toolbar button:hover:not(.rbc-active) { background-color: hsl(var(--muted)); }
-              .rbc-time-content { border-top: 1px solid hsl(var(--border)); }
-              .rbc-timeslot-group { border-bottom: 1px solid hsl(var(--border)); }
+              .rbc-toolbar button { color: #475569; border-color: #cbd5e1; }
+              .rbc-toolbar button:active, .rbc-toolbar button.rbc-active { background-color: #1da1f2; color: white; border-color: #1da1f2; box-shadow: none; }
+              .rbc-toolbar button:hover:not(.rbc-active) { background-color: #f1f5f9; }
+              .rbc-time-content { border-top: 1px solid #e2e8f0; }
+              .rbc-timeslot-group { border-bottom: 1px solid #e2e8f0; }
+              .rbc-time-view .rbc-day-slot .rbc-time-slot { border-top: 1px solid #f1f5f9; }
+              .rbc-time-header-content { border-left: 1px solid #e2e8f0; }
+              .rbc-time-content > * + * > * { border-left: 1px solid #e2e8f0; }
+              .rbc-label { color: #64748b; padding: 0 4px; }
             `}} />
             <Calendar
               localizer={localizer}

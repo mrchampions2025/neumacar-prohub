@@ -54,29 +54,29 @@ function AdminDashboard() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl font-bold uppercase">Dashboard</h1>
+        <h1 className="font-display text-2xl font-bold uppercase text-slate-800">Dashboard</h1>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((card) => (
           <div
             key={card.title}
-            className="surface-card rounded-xl p-6 shadow-sm border border-border"
+            className="bg-white rounded-xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border border-slate-200"
           >
             <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-muted-foreground">{card.title}</p>
+              <p className="text-sm font-medium text-slate-500">{card.title}</p>
               <card.icon className={`size-5 ${card.color}`} />
             </div>
             <div className="mt-4 flex items-baseline gap-2">
-              <p className="text-4xl font-bold">{card.value}</p>
+              <p className="text-4xl font-bold text-slate-800">{card.value}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-8 rounded-xl border border-border bg-background p-8 text-center text-muted-foreground shadow-sm">
-        <TrendingUp className="mx-auto mb-4 size-8 text-muted-foreground/50" />
-        <h3 className="font-display text-lg font-semibold uppercase text-foreground">
+      <div className="mt-8 rounded-xl border border-slate-200 bg-white p-8 text-center text-slate-500 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+        <TrendingUp className="mx-auto mb-4 size-8 text-slate-300" />
+        <h3 className="font-display text-lg font-semibold uppercase text-slate-800">
           Bienvenido al Panel de Administración
         </h3>
         <p className="mt-2 text-sm">
