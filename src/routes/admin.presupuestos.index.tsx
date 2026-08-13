@@ -88,12 +88,27 @@ function AdminPresupuestos() {
     setQuoteItems([{ qty: 1, concept: selectedLead.data?.service || "", price: 0, discount: 0 }]);
   };
   
+  const [noteAuthor, setNoteAuthor] = useState("Experto");
+
   const handleSaveNotes = async () => {
-    if (!selectedLead) return;
+    if (!selectedLead || !adminNotes.trim()) return;
     setSavingNotes(true);
+    
+    const newNote = {
+      role: noteAuthor,
+      text: adminNotes,
+      date: new Date().toISOString()
+    };
+    
+    const currentNotes = Array.isArray(selectedLead.data?.adminNotes) 
+      ? selectedLead.data.adminNotes 
+      : (selectedLead.data?.adminNotes ? [{ role: "Admin", text: selectedLead.data.adminNotes, date: new Date().toISOString() }] : []);
+      
+    const updatedNotes = [...currentNotes, newNote];
+
     const updatedData = {
       ...selectedLead.data,
-      adminNotes: adminNotes
+      adminNotes: updatedNotes
     };
 
     const { error } = await supabase
@@ -107,6 +122,7 @@ function AdminPresupuestos() {
       toast.success("Comentario interno guardado");
       setLeads(leads.map(l => l.id === selectedLead.id ? { ...l, data: updatedData } : l));
       setSelectedLead({ ...selectedLead, data: updatedData });
+      setAdminNotes("");
     }
     setSavingNotes(false);
   };
@@ -606,18 +622,47 @@ function AdminPresupuestos() {
                 </div>
               )}
 
-              <div>
-                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Comentarios Internos (Admin)</h4>
+              <div className="border-t border-border pt-4 mt-6">
+                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Comentarios Internos</h4>
+                
+                {selectedLead.data?.adminNotes && Array.isArray(selectedLead.data.adminNotes) && (
+                  <div className="space-y-3 mb-6">
+                    {selectedLead.data.adminNotes.map((note: any, i: number) => (
+                      <div key={i} className="bg-muted/30 p-3 rounded-md text-sm">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="font-semibold text-primary">{note.role || 'Admin'}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {note.date ? new Date(note.date).toLocaleString() : ''}
+                          </span>
+                        </div>
+                        <p className="whitespace-pre-wrap">{note.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
                 <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-medium">Autor:</span>
+                    <select 
+                      className="text-sm border-0 bg-muted/50 rounded-md px-2 py-1"
+                      value={noteAuthor}
+                      onChange={(e) => setNoteAuthor(e.target.value)}
+                    >
+                      <option value="Experto">Experto</option>
+                      <option value="Cliente">Cliente</option>
+                      <option value="Admin">Administrador</option>
+                    </select>
+                  </div>
                   <Textarea 
-                    placeholder="Escribe notas sobre el cliente, piezas necesarias, o valoración..."
+                    placeholder="Escribe un nuevo comentario..."
                     className="min-h-[80px]"
                     value={adminNotes}
                     onChange={(e) => setAdminNotes(e.target.value)}
                   />
-                  <div className="flex justify-end">
-                    <Button onClick={handleSaveNotes} disabled={savingNotes} size="sm">
-                      {savingNotes ? "Guardando..." : "Guardar Comentario"}
+                  <div className="flex justify-end mt-1">
+                    <Button onClick={handleSaveNotes} disabled={savingNotes || !adminNotes.trim()} size="sm">
+                      {savingNotes ? "Guardando..." : "Añadir Comentario"}
                     </Button>
                   </div>
                 </div>

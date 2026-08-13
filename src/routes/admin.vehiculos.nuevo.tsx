@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { ArrowLeft, Save, Upload, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { CAR_BRANDS, getModelsForBrand } from "@/data/cars";
 
 export const Route = createFileRoute("/admin/vehiculos/nuevo")({
   component: AdminNuevoVehiculo,
@@ -19,6 +20,7 @@ function AdminNuevoVehiculo() {
 
   const [formData, setFormData] = useState({
     brand: "",
+    customBrand: "",
     model: "",
     version: "",
     year: new Date().getFullYear(),
@@ -86,9 +88,11 @@ function AdminNuevoVehiculo() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    
+    const finalBrand = formData.brand === "Otro" ? formData.customBrand : formData.brand;
 
     const id =
-      `${formData.brand.toLowerCase()}-${formData.model.toLowerCase()}-${Date.now()}`.replace(
+      `${finalBrand.toLowerCase()}-${formData.model.toLowerCase()}-${Date.now()}`.replace(
         /\s+/g,
         "-",
       );
@@ -102,7 +106,7 @@ function AdminNuevoVehiculo() {
     const { error } = await supabase.from("stock_vehicles").insert([
       {
         id,
-        brand: formData.brand,
+        brand: finalBrand,
         model: formData.model,
         version: formData.version,
         year: Number(formData.year),
@@ -206,25 +210,51 @@ function AdminNuevoVehiculo() {
                 <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
                   Marca *
                 </label>
-                <Input
+                <select
                   name="brand"
                   required
                   value={formData.brand}
-                  onChange={handleChange}
-                  placeholder="Ej: BMW"
-                />
+                  onChange={(e) => setFormData({ ...formData, brand: e.target.value, model: "" })}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                  <option value="">Selecciona la marca</option>
+                  {CAR_BRANDS.map(b => <option key={b} value={b}>{b}</option>)}
+                </select>
+                {formData.brand === "Otro" && (
+                  <Input
+                    className="mt-2"
+                    placeholder="Especifica la marca"
+                    value={formData.customBrand}
+                    onChange={(e) => setFormData({ ...formData, customBrand: e.target.value })}
+                    required
+                  />
+                )}
               </div>
               <div>
                 <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
                   Modelo *
                 </label>
-                <Input
-                  name="model"
-                  required
-                  value={formData.model}
-                  onChange={handleChange}
-                  placeholder="Ej: Serie 1"
-                />
+                {formData.brand === "Otro" ? (
+                  <Input
+                    name="model"
+                    required
+                    value={formData.model}
+                    onChange={handleChange}
+                    placeholder="Ej: Serie 1"
+                  />
+                ) : (
+                  <select
+                    name="model"
+                    required
+                    value={formData.model}
+                    onChange={handleChange}
+                    disabled={!formData.brand}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm disabled:opacity-50"
+                  >
+                    <option value="">{formData.brand ? "Selecciona el modelo" : "Elige una marca primero"}</option>
+                    {getModelsForBrand(formData.brand).map(m => <option key={m} value={m}>{m}</option>)}
+                  </select>
+                )}
               </div>
             </div>
 

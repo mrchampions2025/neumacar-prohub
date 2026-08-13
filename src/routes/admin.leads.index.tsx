@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Trash2, Search } from "lucide-react";
+import { Trash2, Search, X } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,7 +23,9 @@ function AdminLeads() {
   const [selectedLead, setSelectedLead] = useState<any | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [adminNotes, setAdminNotes] = useState("");
+  const [noteAuthor, setNoteAuthor] = useState("Experto");
   const [savingNotes, setSavingNotes] = useState(false);
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -68,11 +70,24 @@ function AdminLeads() {
   };
 
   const handleSaveNotes = async () => {
-    if (!selectedLead) return;
+    if (!selectedLead || !adminNotes.trim()) return;
     setSavingNotes(true);
+    
+    const newNote = {
+      role: noteAuthor,
+      text: adminNotes,
+      date: new Date().toISOString()
+    };
+    
+    const currentNotes = Array.isArray(selectedLead.data?.adminNotes) 
+      ? selectedLead.data.adminNotes 
+      : (selectedLead.data?.adminNotes ? [{ role: "Admin", text: selectedLead.data.adminNotes, date: new Date().toISOString() }] : []);
+      
+    const updatedNotes = [...currentNotes, newNote];
+
     const updatedData = {
       ...selectedLead.data,
-      adminNotes: adminNotes
+      adminNotes: updatedNotes
     };
 
     const { error } = await supabase
@@ -83,9 +98,10 @@ function AdminLeads() {
     if (error) {
       toast.error("Error al guardar el comentario");
     } else {
-      toast.success("Comentario interno guardado");
+      toast.success("Comentario guardado");
       setLeads(leads.map(l => l.id === selectedLead.id ? { ...l, data: updatedData } : l));
       setSelectedLead({ ...selectedLead, data: updatedData });
+      setAdminNotes("");
     }
     setSavingNotes(false);
   };
@@ -184,7 +200,7 @@ function AdminLeads() {
                         className="font-bold text-xs"
                         onClick={() => {
                           setSelectedLead(l);
-                          setAdminNotes(l.data?.adminNotes || "");
+                          setAdminNotes("");
                         }}
                       >
                         VER
@@ -275,28 +291,61 @@ function AdminLeads() {
               {selectedLead.data?.images && Array.isArray(selectedLead.data.images) && selectedLead.data.images.length > 0 && (
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Fotografías Adjuntas</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {selectedLead.data.images.map((img: string, i: number) => (
-                      <div key={i} className="rounded-md overflow-hidden border border-border bg-black">
-                        <img src={img} alt={`Foto ${i + 1}`} className="w-full h-auto object-contain max-h-64 mx-auto" />
+                      <div 
+                        key={i} 
+                        className="rounded-md overflow-hidden border border-border bg-black cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={() => setExpandedImage(img)}
+                      >
+                        <img src={img} alt={`Foto ${i + 1}`} className="w-full h-24 object-cover" />
                       </div>
                     ))}
                   </div>
                 </div>
               )}
 
-              <div>
-                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Comentarios Internos (Admin)</h4>
+              <div className="border-t border-border pt-4 mt-6">
+                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Comentarios Internos</h4>
+                
+                {selectedLead.data?.adminNotes && Array.isArray(selectedLead.data.adminNotes) && (
+                  <div className="space-y-3 mb-6">
+                    {selectedLead.data.adminNotes.map((note: any, i: number) => (
+                      <div key={i} className="bg-muted/30 p-3 rounded-md text-sm">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="font-semibold text-primary">{note.role || 'Admin'}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {note.date ? new Date(note.date).toLocaleString() : ''}
+                          </span>
+                        </div>
+                        <p className="whitespace-pre-wrap">{note.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
                 <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-medium">Autor:</span>
+                    <select 
+                      className="text-sm border-0 bg-muted/50 rounded-md px-2 py-1"
+                      value={noteAuthor}
+                      onChange={(e) => setNoteAuthor(e.target.value)}
+                    >
+                      <option value="Experto">Experto</option>
+                      <option value="Cliente">Cliente</option>
+                      <option value="Admin">Administrador</option>
+                    </select>
+                  </div>
                   <Textarea 
-                    placeholder="Añade una valoración aproximada o comentarios para el recepcionista..."
-                    className="min-h-[100px]"
+                    placeholder="Escribe un nuevo comentario..."
+                    className="min-h-[80px]"
                     value={adminNotes}
                     onChange={(e) => setAdminNotes(e.target.value)}
                   />
-                  <div className="flex justify-end">
-                    <Button onClick={handleSaveNotes} disabled={savingNotes} size="sm">
-                      {savingNotes ? "Guardando..." : "Guardar Comentario"}
+                  <div className="flex justify-end mt-1">
+                    <Button onClick={handleSaveNotes} disabled={savingNotes || !adminNotes.trim()} size="sm">
+                      {savingNotes ? "Guardando..." : "Añadir Comentario"}
                     </Button>
                   </div>
                 </div>
@@ -305,6 +354,27 @@ function AdminLeads() {
           )}
         </DialogContent>
       </Dialog>
+      
+      {/* Lightbox para Imágenes */}
+      {expandedImage && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-zoom-out"
+          onClick={() => setExpandedImage(null)}
+        >
+          <button 
+            className="absolute top-4 right-4 text-white hover:text-gray-300 p-2"
+            onClick={(e) => { e.stopPropagation(); setExpandedImage(null); }}
+          >
+            <X className="size-8" />
+          </button>
+          <img 
+            src={expandedImage} 
+            alt="Ampliación" 
+            className="max-w-full max-h-[90vh] object-contain rounded-md" 
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }
