@@ -23,6 +23,7 @@ import { quoteSchema, type QuoteValues } from "./schemas";
 import { serviceOptions } from "@/data/services";
 import { submitLead } from "@/services/leads";
 import { SubmittedState } from "@/components/common/states";
+import { CAR_BRANDS, getModelsForBrand } from "@/data/cars";
 
 export function QuoteForm({ defaultService }: { defaultService?: string }) {
   const [reference, setReference] = useState<string | null>(null);
@@ -104,10 +105,43 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
           <Input id="q-mileage" inputMode="numeric" placeholder="98000" {...register("mileage")} />
         </Field>
         <Field label="Marca" htmlFor="q-brand" error={errors.brand}>
-          <Input id="q-brand" {...register("brand")} />
+          <Select
+            value={watch("brand")}
+            onValueChange={(v) => {
+              setValue("brand", v, { shouldValidate: true });
+              setValue("model", "", { shouldValidate: true });
+            }}
+          >
+            <SelectTrigger id="q-brand">
+              <SelectValue placeholder="Selecciona la marca" />
+            </SelectTrigger>
+            <SelectContent>
+              {CAR_BRANDS.map((b) => (
+                <SelectItem key={b} value={b}>{b}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </Field>
+        
         <Field label="Modelo" htmlFor="q-model" error={errors.model}>
-          <Input id="q-model" {...register("model")} />
+          {watch("brand") === "Otro" ? (
+            <Input id="q-model" placeholder="Especifica el modelo" {...register("model")} />
+          ) : (
+            <Select
+              value={watch("model")}
+              onValueChange={(v) => setValue("model", v, { shouldValidate: true })}
+              disabled={!watch("brand")}
+            >
+              <SelectTrigger id="q-model">
+                <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
+              </SelectTrigger>
+              <SelectContent>
+                {getModelsForBrand(watch("brand")).map((m) => (
+                  <SelectItem key={m} value={m}>{m}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </Field>
         <Field label="Servicio" error={errors.service} className="sm:col-span-2">
           <Select

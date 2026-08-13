@@ -2,8 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Trash2, Eye } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/admin/leads/")({
   component: AdminLeads,
@@ -12,6 +18,7 @@ export const Route = createFileRoute("/admin/leads/")({
 function AdminLeads() {
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedLead, setSelectedLead] = useState<any | null>(null);
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -125,7 +132,15 @@ function AdminLeads() {
                         <option value="perdido">Perdido</option>
                       </select>
                     </td>
-                    <td className="p-4 text-right">
+                    <td className="p-4 text-right flex justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground hover:bg-muted"
+                        onClick={() => setSelectedLead(l)}
+                      >
+                        <Eye className="size-4" />
+                      </Button>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -142,6 +157,72 @@ function AdminLeads() {
           </table>
         </div>
       </div>
+
+      <Dialog open={!!selectedLead} onOpenChange={(open) => !open && setSelectedLead(null)}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="uppercase tracking-wider font-display text-primary">
+              Detalles de la Solicitud
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedLead && (
+            <div className="space-y-6 mt-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Cliente</h4>
+                  <p className="font-medium">{selectedLead.name}</p>
+                  <p className="text-sm text-muted-foreground">{selectedLead.email || 'Sin email'}</p>
+                  <p className="text-sm text-muted-foreground">{selectedLead.phone}</p>
+                </div>
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Tipo y Estado</h4>
+                  <p className="font-medium capitalize">{selectedLead.type.replace("_", " ")}</p>
+                  <p className="text-sm text-muted-foreground">Estado actual: <span className="capitalize">{selectedLead.status}</span></p>
+                  <p className="text-sm text-muted-foreground">Referencia: {selectedLead.reference}</p>
+                </div>
+              </div>
+
+              {selectedLead.data && (
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Datos del Vehículo / Formulario</h4>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    {Object.entries(selectedLead.data).map(([key, value]) => {
+                      if (key === 'images' || key === 'consent' || typeof value === 'object' || !value) return null;
+                      return (
+                        <div key={key}>
+                          <span className="text-muted-foreground capitalize mr-2">{key}:</span>
+                          <span className="font-medium">{String(value)}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {selectedLead.message && (
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Mensaje / Notas</h4>
+                  <p className="text-sm bg-muted/30 p-3 rounded-md">{selectedLead.message}</p>
+                </div>
+              )}
+
+              {selectedLead.data?.images && Array.isArray(selectedLead.data.images) && selectedLead.data.images.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Fotografías Adjuntas</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {selectedLead.data.images.map((img: string, i: number) => (
+                      <a href={img} target="_blank" rel="noopener noreferrer" key={i} className="block aspect-square rounded-md overflow-hidden border border-border hover:opacity-80 transition-opacity">
+                        <img src={img} alt={`Foto ${i + 1}`} className="w-full h-full object-cover" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -23,6 +23,8 @@ import { valuationSchema, valuationStepFields, type ValuationValues } from "./sc
 import { submitLead } from "@/services/leads";
 import { SubmittedState } from "@/components/common/states";
 import { StatusBadge } from "@/components/common/StatusBadge";
+import { CAR_BRANDS, getModelsForBrand } from "@/data/cars";
+import { ImageUploader } from "./ImageUploader";
 
 const STEPS = ["Vehículo", "Estado", "Equipamiento", "Fotografías", "Contacto"];
 
@@ -211,10 +213,43 @@ export function ValuationWizard() {
       {step === 0 && (
         <FormSection title="Datos del vehículo">
           <Field label="Marca" htmlFor="v-brand" error={errors.brand}>
-            <Input id="v-brand" placeholder="Seat" {...register("brand")} />
+            <Select
+              value={watch("brand")}
+              onValueChange={(v) => {
+                setValue("brand", v, { shouldValidate: true });
+                setValue("model", "", { shouldValidate: true }); // reset model
+              }}
+            >
+              <SelectTrigger id="v-brand">
+                <SelectValue placeholder="Selecciona la marca" />
+              </SelectTrigger>
+              <SelectContent>
+                {CAR_BRANDS.map((b) => (
+                  <SelectItem key={b} value={b}>{b}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </Field>
+          
           <Field label="Modelo" htmlFor="v-model" error={errors.model}>
-            <Input id="v-model" placeholder="León" {...register("model")} />
+            {watch("brand") === "Otro" ? (
+              <Input id="v-model" placeholder="Especifica el modelo" {...register("model")} />
+            ) : (
+              <Select
+                value={watch("model")}
+                onValueChange={(v) => setValue("model", v, { shouldValidate: true })}
+                disabled={!watch("brand")}
+              >
+                <SelectTrigger id="v-model">
+                  <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {getModelsForBrand(watch("brand")).map((m) => (
+                    <SelectItem key={m} value={m}>{m}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </Field>
           <Field label="Versión" htmlFor="v-version" error={errors.version}>
             <Input id="v-version" placeholder="1.5 TSI FR 150 CV" {...register("version")} />
@@ -332,19 +367,13 @@ export function ValuationWizard() {
       {step === 3 && (
         <FormSection
           title="Fotografías"
-          description="La subida de imágenes se activará al conectar el almacenamiento de archivos. Mientras tanto puedes enviárnoslas por WhatsApp cuando te contactemos."
+          description="Sube hasta 4 fotos de tu vehículo (Frontal, Trasera, Lateral e Interior) para ayudarnos a ajustar la tasación."
         >
-          <div className="sm:col-span-2 grid grid-cols-2 gap-3 sm:grid-cols-5">
-            {PHOTO_SLOTS.map((slot) => (
-              <div
-                key={slot}
-                className="flex aspect-square flex-col items-center justify-center gap-2 rounded-md border border-dashed border-border bg-muted/30 p-2 text-center text-xs text-muted-foreground"
-              >
-                <Camera className="size-5" />
-                {slot}
-              </div>
-            ))}
-          </div>
+          <ImageUploader 
+            maxImages={4}
+            value={watch("images") || []}
+            onChange={(imgs) => setValue("images", imgs, { shouldValidate: true })}
+          />
         </FormSection>
       )}
 

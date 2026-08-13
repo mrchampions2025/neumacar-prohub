@@ -21,6 +21,7 @@ import { appointmentSchema, type AppointmentValues } from "./schemas";
 import { serviceOptions } from "@/data/services";
 import { submitLead, fetchDailyAppointmentCount } from "@/services/leads";
 import { SubmittedState } from "@/components/common/states";
+import { CAR_BRANDS, getModelsForBrand } from "@/data/cars";
 
 const TIME_SLOTS = [
   "09:00",
@@ -164,10 +165,43 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
           <Input id="plate" placeholder="1234 ABC" {...register("plate")} />
         </Field>
         <Field label="Marca" htmlFor="brand" error={errors.brand}>
-          <Input id="brand" placeholder="Seat" {...register("brand")} />
+          <Select
+            value={watch("brand")}
+            onValueChange={(v) => {
+              setValue("brand", v, { shouldValidate: true });
+              setValue("model", "", { shouldValidate: true });
+            }}
+          >
+            <SelectTrigger id="brand">
+              <SelectValue placeholder="Selecciona la marca" />
+            </SelectTrigger>
+            <SelectContent>
+              {CAR_BRANDS.map((b) => (
+                <SelectItem key={b} value={b}>{b}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </Field>
+        
         <Field label="Modelo" htmlFor="model" error={errors.model}>
-          <Input id="model" placeholder="León" {...register("model")} />
+          {watch("brand") === "Otro" ? (
+            <Input id="model" placeholder="Especifica el modelo" {...register("model")} />
+          ) : (
+            <Select
+              value={watch("model")}
+              onValueChange={(v) => setValue("model", v, { shouldValidate: true })}
+              disabled={!watch("brand")}
+            >
+              <SelectTrigger id="model">
+                <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
+              </SelectTrigger>
+              <SelectContent>
+                {getModelsForBrand(watch("brand")).map((m) => (
+                  <SelectItem key={m} value={m}>{m}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </Field>
         <Field label="Año" htmlFor="year" error={errors.year}>
           <Input id="year" inputMode="numeric" placeholder="2019" {...register("year")} />

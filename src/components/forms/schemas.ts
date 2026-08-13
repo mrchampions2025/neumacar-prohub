@@ -141,6 +141,8 @@ export const valuationSchema = z.object({
   knownIssues: notes,
   // Paso 3 — equipamiento
   equipment: z.array(z.string()),
+  // Paso 4 — imágenes
+  images: z.array(z.string()).optional(),
   // Paso 5 — propietario
   name: nameSchema,
   surname: nameSchema,
