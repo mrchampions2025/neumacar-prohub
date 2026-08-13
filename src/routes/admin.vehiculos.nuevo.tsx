@@ -56,14 +56,14 @@ function AdminNuevoVehiculo() {
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      const { error, data } = await supabase.storage.from("vehicle_images").upload(filePath, file);
+      const { error, data } = await supabase.storage.from("vehicle-images").upload(filePath, file);
 
       if (error) {
         toast.error(`Error al subir ${file.name}`);
         console.error(error);
       } else {
         const { data: publicUrlData } = supabase.storage
-          .from("vehicle_images")
+          .from("vehicle-images")
           .getPublicUrl(filePath);
 
         newImages.push(publicUrlData.publicUrl);
@@ -190,7 +190,7 @@ function AdminNuevoVehiculo() {
             </label>
           </div>
           <p className="text-xs text-muted-foreground">
-            Nota: Debes haber creado el bucket "vehicle_images" en Supabase primero.
+            Nota: Debes haber creado el bucket "vehicle-images" en Supabase primero.
           </p>
         </div>
 
