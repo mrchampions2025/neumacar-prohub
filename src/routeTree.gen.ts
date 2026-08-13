@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccesoRouteImport } from './routes/acceso'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as CitaRouteImport } from './routes/cita'
 import { Route as ContactoRouteImport } from './routes/contacto'
@@ -20,10 +21,16 @@ import { Route as PresupuestoRouteImport } from './routes/presupuesto'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as TallerRouteImport } from './routes/taller'
 import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
 import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
 import { Route as VehiculosIndexRouteImport } from './routes/vehiculos.index'
 import { Route as VehiculosVehicleIdRouteImport } from './routes/vehiculos.$vehicleId'
+import { Route as AdminCitasIndexRouteImport } from './routes/admin.citas.index'
+import { Route as AdminLeadsIndexRouteImport } from './routes/admin.leads.index'
+import { Route as AdminVehiculosIndexRouteImport } from './routes/admin.vehiculos.index'
+import { Route as AdminVehiculosNuevoRouteImport } from './routes/admin.vehiculos.nuevo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -33,6 +40,11 @@ const IndexRoute = IndexRouteImport.update({
 const AccesoRoute = AccesoRouteImport.update({
   id: '/acceso',
   path: '/acceso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AvisoLegalRoute = AvisoLegalRouteImport.update({
@@ -80,6 +92,16 @@ const VenderMiCocheRoute = VenderMiCocheRouteImport.update({
   path: '/vender-mi-coche',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ServiciosIndexRoute = ServiciosIndexRouteImport.update({
   id: '/servicios/',
   path: '/servicios/',
@@ -100,10 +122,31 @@ const VehiculosVehicleIdRoute = VehiculosVehicleIdRouteImport.update({
   path: '/vehiculos/$vehicleId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCitasIndexRoute = AdminCitasIndexRouteImport.update({
+  id: '/citas/',
+  path: '/citas/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLeadsIndexRoute = AdminLeadsIndexRouteImport.update({
+  id: '/leads/',
+  path: '/leads/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVehiculosIndexRoute = AdminVehiculosIndexRouteImport.update({
+  id: '/vehiculos/',
+  path: '/vehiculos/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVehiculosNuevoRoute = AdminVehiculosNuevoRouteImport.update({
+  id: '/vehiculos/nuevo',
+  path: '/vehiculos/nuevo',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/admin': typeof AdminRouteWithChildren
   '/aviso-legal': typeof AvisoLegalRoute
   '/cita': typeof CitaRoute
   '/contacto': typeof ContactoRoute
@@ -113,10 +156,16 @@ export interface FileRoutesByFullPath {
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/admin/login': typeof AdminLoginRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/servicios/': typeof ServiciosIndexRoute
   '/vehiculos/': typeof VehiculosIndexRoute
+  '/admin/vehiculos/nuevo': typeof AdminVehiculosNuevoRoute
+  '/admin/citas/': typeof AdminCitasIndexRoute
+  '/admin/leads/': typeof AdminLeadsIndexRoute
+  '/admin/vehiculos/': typeof AdminVehiculosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -130,15 +179,22 @@ export interface FileRoutesByTo {
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/admin/login': typeof AdminLoginRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
+  '/admin': typeof AdminIndexRoute
   '/servicios': typeof ServiciosIndexRoute
   '/vehiculos': typeof VehiculosIndexRoute
+  '/admin/vehiculos/nuevo': typeof AdminVehiculosNuevoRoute
+  '/admin/citas': typeof AdminCitasIndexRoute
+  '/admin/leads': typeof AdminLeadsIndexRoute
+  '/admin/vehiculos': typeof AdminVehiculosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/admin': typeof AdminRouteWithChildren
   '/aviso-legal': typeof AvisoLegalRoute
   '/cita': typeof CitaRoute
   '/contacto': typeof ContactoRoute
@@ -148,16 +204,23 @@ export interface FileRoutesById {
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/admin/login': typeof AdminLoginRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/vehiculos/$vehicleId': typeof VehiculosVehicleIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/servicios/': typeof ServiciosIndexRoute
   '/vehiculos/': typeof VehiculosIndexRoute
+  '/admin/vehiculos/nuevo': typeof AdminVehiculosNuevoRoute
+  '/admin/citas/': typeof AdminCitasIndexRoute
+  '/admin/leads/': typeof AdminLeadsIndexRoute
+  '/admin/vehiculos/': typeof AdminVehiculosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/acceso'
+    | '/admin'
     | '/aviso-legal'
     | '/cita'
     | '/contacto'
@@ -167,10 +230,16 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
+    | '/admin/login'
     | '/servicios/$slug'
     | '/vehiculos/$vehicleId'
+    | '/admin/'
     | '/servicios/'
     | '/vehiculos/'
+    | '/admin/vehiculos/nuevo'
+    | '/admin/citas/'
+    | '/admin/leads/'
+    | '/admin/vehiculos/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -184,14 +253,21 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
+    | '/admin/login'
     | '/servicios/$slug'
     | '/vehiculos/$vehicleId'
+    | '/admin'
     | '/servicios'
     | '/vehiculos'
+    | '/admin/vehiculos/nuevo'
+    | '/admin/citas'
+    | '/admin/leads'
+    | '/admin/vehiculos'
   id:
     | '__root__'
     | '/'
     | '/acceso'
+    | '/admin'
     | '/aviso-legal'
     | '/cita'
     | '/contacto'
@@ -201,15 +277,22 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
+    | '/admin/login'
     | '/servicios/$slug'
     | '/vehiculos/$vehicleId'
+    | '/admin/'
     | '/servicios/'
     | '/vehiculos/'
+    | '/admin/vehiculos/nuevo'
+    | '/admin/citas/'
+    | '/admin/leads/'
+    | '/admin/vehiculos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccesoRoute: typeof AccesoRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AvisoLegalRoute: typeof AvisoLegalRoute
   CitaRoute: typeof CitaRoute
   ContactoRoute: typeof ContactoRoute
@@ -239,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/acceso'
       fullPath: '/acceso'
       preLoaderRoute: typeof AccesoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/aviso-legal': {
@@ -304,6 +394,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VenderMiCocheRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/servicios/': {
       id: '/servicios/'
       path: '/servicios'
@@ -332,12 +436,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VehiculosVehicleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/citas/': {
+      id: '/admin/citas/'
+      path: '/citas'
+      fullPath: '/admin/citas/'
+      preLoaderRoute: typeof AdminCitasIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/leads/': {
+      id: '/admin/leads/'
+      path: '/leads'
+      fullPath: '/admin/leads/'
+      preLoaderRoute: typeof AdminLeadsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/vehiculos/': {
+      id: '/admin/vehiculos/'
+      path: '/vehiculos'
+      fullPath: '/admin/vehiculos/'
+      preLoaderRoute: typeof AdminVehiculosIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/vehiculos/nuevo': {
+      id: '/admin/vehiculos/nuevo'
+      path: '/vehiculos/nuevo'
+      fullPath: '/admin/vehiculos/nuevo'
+      preLoaderRoute: typeof AdminVehiculosNuevoRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminVehiculosNuevoRoute: typeof AdminVehiculosNuevoRoute
+  AdminCitasIndexRoute: typeof AdminCitasIndexRoute
+  AdminLeadsIndexRoute: typeof AdminLeadsIndexRoute
+  AdminVehiculosIndexRoute: typeof AdminVehiculosIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminLoginRoute: AdminLoginRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminVehiculosNuevoRoute: AdminVehiculosNuevoRoute,
+  AdminCitasIndexRoute: AdminCitasIndexRoute,
+  AdminLeadsIndexRoute: AdminLeadsIndexRoute,
+  AdminVehiculosIndexRoute: AdminVehiculosIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccesoRoute: AccesoRoute,
+  AdminRoute: AdminRouteWithChildren,
   AvisoLegalRoute: AvisoLegalRoute,
   CitaRoute: CitaRoute,
   ContactoRoute: ContactoRoute,

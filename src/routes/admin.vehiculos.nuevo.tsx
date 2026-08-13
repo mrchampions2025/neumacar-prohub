@@ -52,6 +52,8 @@ function AdminNuevoVehiculo() {
 
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i];
+      if (!file) continue;
+      
       const fileExt = file.name.split(".").pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
       const filePath = `${fileName}`;
