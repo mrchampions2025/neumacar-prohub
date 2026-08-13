@@ -181,7 +181,7 @@ function AdminCitas() {
       </div>
 
       <Dialog open={!!selectedEvent} onOpenChange={(o) => !o && setSelectedEvent(null)}>
-        <DialogContent>
+        <DialogContent className="bg-white text-slate-800 border-slate-200">
           <DialogHeader>
             <DialogTitle>Detalle de la Cita</DialogTitle>
           </DialogHeader>
@@ -192,46 +192,46 @@ function AdminCitas() {
                 <Badge variant={selectedEvent.status === "nuevo" ? "default" : "outline"} className="capitalize">
                   {selectedEvent.status}
                 </Badge>
-                <span className="text-sm text-muted-foreground font-medium flex items-center gap-1">
+                <span className="text-sm text-slate-500 font-medium flex items-center gap-1">
                   <Clock className="size-3" />
                   {selectedEvent.data?.date} a las {selectedEvent.data?.time}
                 </span>
               </div>
               
-              <div className="grid gap-2 text-sm bg-muted/30 p-4 rounded-md">
+              <div className="grid gap-2 text-sm bg-slate-50 p-4 rounded-md border border-slate-100">
                 <div className="flex gap-2">
-                  <span className="font-semibold w-24 text-muted-foreground">Cliente:</span>
+                  <span className="font-semibold w-24 text-slate-500">Cliente:</span>
                   <span>{selectedEvent.name}</span>
                 </div>
                 <div className="flex gap-2">
-                  <span className="font-semibold w-24 text-muted-foreground">Teléfono:</span>
+                  <span className="font-semibold w-24 text-slate-500">Teléfono:</span>
                   <span className="flex items-center gap-1"><Phone className="size-3" /> {selectedEvent.phone}</span>
                 </div>
                 <div className="flex gap-2">
-                  <span className="font-semibold w-24 text-muted-foreground">Vehículo:</span>
+                  <span className="font-semibold w-24 text-slate-500">Vehículo:</span>
                   <span className="flex items-center gap-1"><Car className="size-3" /> {selectedEvent.data?.brand} {selectedEvent.data?.model} ({selectedEvent.data?.plate})</span>
                 </div>
                 <div className="flex gap-2">
-                  <span className="font-semibold w-24 text-muted-foreground">Servicio:</span>
+                  <span className="font-semibold w-24 text-slate-500">Servicio:</span>
                   <span className="capitalize">{selectedEvent.data?.service}</span>
                 </div>
               </div>
 
               {selectedEvent.message && (
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Comentarios</h4>
-                  <p className="text-sm p-3 border border-border rounded-md bg-background">
+                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Comentarios</h4>
+                  <p className="text-sm p-3 border border-slate-200 rounded-md bg-white">
                     {selectedEvent.message}
                   </p>
                 </div>
               )}
 
               <div className="pt-4 flex flex-col gap-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Cambiar Estado</label>
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Cambiar Estado</label>
                 <select
                   value={selectedEvent.status}
                   onChange={(e) => updateStatus(selectedEvent.id, e.target.value)}
-                  className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+                  className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm"
                 >
                   <option value="nuevo">Pendiente</option>
                   <option value="contactado">Contactado</option>

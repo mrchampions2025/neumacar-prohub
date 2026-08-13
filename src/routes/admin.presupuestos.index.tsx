@@ -468,9 +468,10 @@ function AdminPresupuestos() {
         </div>
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
           <Input 
             placeholder="Buscar por Referencia o Nombre..." 
-            className="pl-9"
+            className="pl-9 bg-white border-slate-200 text-slate-800"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -568,32 +569,32 @@ function AdminPresupuestos() {
       </div>
 
       <Dialog open={!!selectedLead && !isBuildingQuote} onOpenChange={(open) => !open && setSelectedLead(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white text-slate-800 border-slate-200">
           <DialogHeader>
-            <DialogTitle className="uppercase tracking-wider font-display text-primary">
+            <DialogTitle className="uppercase tracking-wider font-display text-[#1da1f2]">
               Detalles de Presupuesto {selectedLead?.reference ? `- ${selectedLead.reference}` : ''}
             </DialogTitle>
           </DialogHeader>
           
           {selectedLead && (
             <div className="space-y-6 mt-4">
-              <div className="grid grid-cols-2 gap-4 bg-muted/20 p-4 rounded-lg">
+              <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Cliente</h4>
+                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Cliente</h4>
                   <p className="font-medium">{selectedLead.name}</p>
-                  <p className="text-sm text-muted-foreground">{selectedLead.email || 'Sin email'}</p>
+                  <p className="text-sm text-slate-500">{selectedLead.email || 'Sin email'}</p>
                   <p className="text-sm font-semibold mt-1">{selectedLead.phone}</p>
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Tipo y Estado</h4>
+                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Tipo y Estado</h4>
                   <p className="font-medium capitalize">{selectedLead.type.replace("_", " ")}</p>
-                  <p className="text-sm text-muted-foreground">Estado actual: <span className="capitalize">{selectedLead.status}</span></p>
+                  <p className="text-sm text-slate-500">Estado actual: <span className="capitalize">{selectedLead.status}</span></p>
                 </div>
               </div>
 
               {selectedLead.data && (
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Datos Proporcionados</h4>
+                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Datos Proporcionados</h4>
                   <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                     {Object.entries(selectedLead.data).map(([key, value]) => {
                       if (key === 'images' || key === 'consent' || key === 'adminNotes' || key === 'generated_quote' || typeof value === 'object' || !value) return null;
@@ -606,7 +607,7 @@ function AdminPresupuestos() {
 
                       return (
                         <div key={key} className="border-b border-border pb-1">
-                          <span className="text-muted-foreground capitalize mr-2">{labelMap[key] || key}:</span>
+                          <span className="text-slate-500 capitalize mr-2">{labelMap[key] || key}:</span>
                           <span className="font-medium">{String(value)}</span>
                         </div>
                       )
@@ -617,21 +618,21 @@ function AdminPresupuestos() {
 
               {selectedLead.message && (
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Mensaje / Notas</h4>
-                  <p className="text-sm bg-muted/30 p-3 rounded-md">{selectedLead.message}</p>
+                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Mensaje / Notas</h4>
+                  <p className="text-sm bg-slate-50 p-3 rounded-md border border-slate-100">{selectedLead.message}</p>
                 </div>
               )}
 
               <div className="border-t border-border pt-4 mt-6">
-                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Comentarios Internos</h4>
+                <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Comentarios Internos</h4>
                 
                 {selectedLead.data?.adminNotes && Array.isArray(selectedLead.data.adminNotes) && (
                   <div className="space-y-3 mb-6">
                     {selectedLead.data.adminNotes.map((note: any, i: number) => (
-                      <div key={i} className="bg-muted/30 p-3 rounded-md text-sm">
+                      <div key={i} className="bg-slate-50 p-3 rounded-md text-sm border border-slate-100">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="font-semibold text-primary">{note.role || 'Admin'}</span>
-                          <span className="text-xs text-muted-foreground">
+                          <span className="font-semibold text-[#1da1f2]">{note.role || 'Admin'}</span>
+                          <span className="text-xs text-slate-500">
                             {note.date ? new Date(note.date).toLocaleString() : ''}
                           </span>
                         </div>
@@ -645,7 +646,7 @@ function AdminPresupuestos() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium">Autor:</span>
                     <select 
-                      className="text-sm border-0 bg-muted/50 rounded-md px-2 py-1"
+                      className="text-sm border-0 bg-slate-100 rounded-md px-2 py-1"
                       value={noteAuthor}
                       onChange={(e) => setNoteAuthor(e.target.value)}
                     >
@@ -656,7 +657,7 @@ function AdminPresupuestos() {
                   </div>
                   <Textarea 
                     placeholder="Escribe un nuevo comentario..."
-                    className="min-h-[80px]"
+                    className="min-h-[80px] bg-white border-slate-200 text-slate-800"
                     value={adminNotes}
                     onChange={(e) => setAdminNotes(e.target.value)}
                   />
