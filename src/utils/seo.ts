@@ -11,10 +11,13 @@ export function generateVehicleSlug(vehicle: any): string {
 export function parseVehicleIdFromSlug(slug: string): string | null {
   if (!slug) return null;
   // Slugs look like: brand-model-ocasion-sevilla-[id]
-  // The ID is the last part of the hyphen-separated string
-  const parts = slug.split("-");
-  const id = parts[parts.length - 1];
-  return id || null;
+  // The ID might contain hyphens, so we split by the known delimiter
+  const delimiter = "-ocasion-sevilla-";
+  const index = slug.lastIndexOf(delimiter);
+  
+  if (index === -1) return null;
+  
+  return slug.slice(index + delimiter.length);
 }
 
 export function generateVehicleSEO(vehicle: any) {
