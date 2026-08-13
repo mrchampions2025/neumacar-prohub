@@ -168,32 +168,13 @@ export function ValuationWizard() {
           title="Valoración enviada"
           pendingBackend={false}
           reference={reference}
-          description="Hemos recibido los datos de tu vehículo. En las próximas 24 horas laborables nos pondremos en contacto contigo con nuestra oferta."
+          description="Hemos recibido los datos de tu vehículo. En las próximas 24 horas laborables nos pondremos en contacto contigo con nuestra oferta aproximada. No obstante, la valoración final será tras revisión in situ."
           action={
             <Button asChild variant="outline">
               <Link to="/">Volver al inicio</Link>
             </Button>
           }
         />
-        <div className="surface-card rounded-lg p-6">
-          <h3 className="font-display text-lg font-bold uppercase">Estados de tu solicitud</h3>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {[
-              "recibida",
-              "en_revision",
-              "pendiente_inspeccion",
-              "oferta_realizada",
-              "aceptada",
-              "rechazada",
-              "comprada",
-            ].map((s) => (
-              <StatusBadge key={s} status={s} className={s === "recibida" ? "" : "opacity-45"} />
-            ))}
-          </div>
-          <p className="mt-4 text-sm text-muted-foreground">
-            Podrás seguir el estado desde tu área de cliente cuando la autenticación esté activa.
-          </p>
-        </div>
       </div>
     );
   }

@@ -3,8 +3,9 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Trash2, Eye, Printer, Plus, ArrowLeft } from "lucide-react";
+import { Trash2, Printer, Plus, ArrowLeft, Search } from "lucide-react";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +22,10 @@ function AdminPresupuestos() {
   const [loading, setLoading] = useState(true);
   const [selectedLead, setSelectedLead] = useState<any | null>(null);
   const [isBuildingQuote, setIsBuildingQuote] = useState(false);
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [adminNotes, setAdminNotes] = useState("");
+  const [savingNotes, setSavingNotes] = useState(false);
 
   // Quote State
   const [quoteItems, setQuoteItems] = useState<Array<{ qty: number; concept: string; price: number; discount: number }>>([
@@ -82,6 +87,29 @@ function AdminPresupuestos() {
     // Preset values from lead
     setQuoteItems([{ qty: 1, concept: selectedLead.data?.service || "", price: 0, discount: 0 }]);
   };
+  
+  const handleSaveNotes = async () => {
+    if (!selectedLead) return;
+    setSavingNotes(true);
+    const updatedData = {
+      ...selectedLead.data,
+      adminNotes: adminNotes
+    };
+
+    const { error } = await supabase
+      .from("leads")
+      .update({ data: updatedData })
+      .eq("id", selectedLead.id);
+
+    if (error) {
+      toast.error("Error al guardar el comentario");
+    } else {
+      toast.success("Comentario interno guardado");
+      setLeads(leads.map(l => l.id === selectedLead.id ? { ...l, data: updatedData } : l));
+      setSelectedLead({ ...selectedLead, data: updatedData });
+    }
+    setSavingNotes(false);
+  };
 
   // Quote Math
   const totalBase = quoteItems.reduce((acc, item) => acc + (item.qty * item.price * (1 - item.discount / 100)), 0);
@@ -120,6 +148,12 @@ function AdminPresupuestos() {
       setSelectedLead({ ...selectedLead, status: "realizado", data: updatedLeadData });
     }
   };
+  
+  const filteredLeads = leads.filter(l => 
+    !searchTerm || 
+    (l.reference && l.reference.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (l.name && l.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   if (isBuildingQuote && selectedLead) {
     const quoteNumber = `PRE${new Date().getFullYear()}${(selectedLead.id as string).substring(0, 4).toUpperCase()}`;
@@ -409,11 +443,22 @@ function AdminPresupuestos() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-display text-2xl font-bold uppercase">Solicitudes de Presupuestos</h1>
-        <p className="text-sm text-muted-foreground">
-          Revisa y genera presupuestos
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="font-display text-2xl font-bold uppercase">Solicitudes de Presupuestos</h1>
+          <p className="text-sm text-muted-foreground">
+            Revisa y genera presupuestos
+          </p>
+        </div>
+        <div className="relative w-full sm:w-72">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Input 
+            placeholder="Buscar por Referencia o Nombre..." 
+            className="pl-9"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="rounded-xl border border-border bg-background shadow-sm">
@@ -435,14 +480,14 @@ function AdminPresupuestos() {
                     Cargando presupuestos...
                   </td>
                 </tr>
-              ) : leads.length === 0 ? (
+              ) : filteredLeads.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-8 text-center text-muted-foreground">
-                    No hay solicitudes de presupuestos todavía.
+                    No se encontraron resultados.
                   </td>
                 </tr>
               ) : (
-                leads.map((l) => (
+                filteredLeads.map((l) => (
                   <tr key={l.id} className="transition-colors hover:bg-muted/10">
                     <td className="p-4 text-muted-foreground">
                       {new Date(l.created_at).toLocaleDateString()}
@@ -450,13 +495,12 @@ function AdminPresupuestos() {
                     <td className="p-4">
                       <span className="font-medium capitalize">{l.data?.service || "General"}</span>
                       {l.reference && (
-                        <div className="text-xs text-muted-foreground">Ref: {l.reference}</div>
+                        <div className="text-xs text-muted-foreground font-semibold text-primary">Ref: {l.reference}</div>
                       )}
                     </td>
                     <td className="p-4">
                       <div className="font-medium text-foreground">{l.name}</div>
                       <div className="text-xs text-muted-foreground">{l.phone}</div>
-                      {l.email && <div className="text-xs text-muted-foreground">{l.email}</div>}
                     </td>
                     <td className="p-4">
                       <select
@@ -478,19 +522,22 @@ function AdminPresupuestos() {
                         <option value="perdido">Rechazado</option>
                       </select>
                     </td>
-                    <td className="p-4 text-right flex justify-end gap-2">
+                    <td className="p-4 text-right flex justify-end gap-2 items-center">
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-muted-foreground hover:bg-muted"
-                        onClick={() => setSelectedLead(l)}
+                        variant="secondary"
+                        size="sm"
+                        className="font-bold text-xs"
+                        onClick={() => {
+                          setSelectedLead(l);
+                          setAdminNotes(l.data?.adminNotes || "");
+                        }}
                       >
-                        <Eye className="size-4" />
+                        VER
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 w-8"
                         onClick={() => handleDelete(l.id)}
                       >
                         <Trash2 className="size-4" />
@@ -508,36 +555,42 @@ function AdminPresupuestos() {
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="uppercase tracking-wider font-display text-primary">
-              Detalles de la Solicitud
+              Detalles de Presupuesto {selectedLead?.reference ? `- ${selectedLead.reference}` : ''}
             </DialogTitle>
           </DialogHeader>
           
           {selectedLead && (
             <div className="space-y-6 mt-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 bg-muted/20 p-4 rounded-lg">
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Cliente</h4>
                   <p className="font-medium">{selectedLead.name}</p>
                   <p className="text-sm text-muted-foreground">{selectedLead.email || 'Sin email'}</p>
-                  <p className="text-sm text-muted-foreground">{selectedLead.phone}</p>
+                  <p className="text-sm font-semibold mt-1">{selectedLead.phone}</p>
                 </div>
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Tipo y Estado</h4>
                   <p className="font-medium capitalize">{selectedLead.type.replace("_", " ")}</p>
                   <p className="text-sm text-muted-foreground">Estado actual: <span className="capitalize">{selectedLead.status}</span></p>
-                  <p className="text-sm text-muted-foreground">Referencia: {selectedLead.reference}</p>
                 </div>
               </div>
 
               {selectedLead.data && (
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Datos del Vehículo / Formulario</h4>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Datos Proporcionados</h4>
                   <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                     {Object.entries(selectedLead.data).map(([key, value]) => {
-                      if (key === 'images' || key === 'consent' || typeof value === 'object' || !value) return null;
+                      if (key === 'images' || key === 'consent' || key === 'adminNotes' || key === 'generated_quote' || typeof value === 'object' || !value) return null;
+                      
+                      const labelMap: Record<string, string> = {
+                        brand: "Marca", model: "Modelo", year: "Año",
+                        plate: "Matrícula", service: "Servicio Requerido",
+                        date: "Fecha Preferente"
+                      };
+
                       return (
-                        <div key={key}>
-                          <span className="text-muted-foreground capitalize mr-2">{key}:</span>
+                        <div key={key} className="border-b border-border pb-1">
+                          <span className="text-muted-foreground capitalize mr-2">{labelMap[key] || key}:</span>
                           <span className="font-medium">{String(value)}</span>
                         </div>
                       )
@@ -552,6 +605,23 @@ function AdminPresupuestos() {
                   <p className="text-sm bg-muted/30 p-3 rounded-md">{selectedLead.message}</p>
                 </div>
               )}
+
+              <div>
+                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Comentarios Internos (Admin)</h4>
+                <div className="flex flex-col gap-2">
+                  <Textarea 
+                    placeholder="Escribe notas sobre el cliente, piezas necesarias, o valoración..."
+                    className="min-h-[80px]"
+                    value={adminNotes}
+                    onChange={(e) => setAdminNotes(e.target.value)}
+                  />
+                  <div className="flex justify-end">
+                    <Button onClick={handleSaveNotes} disabled={savingNotes} size="sm">
+                      {savingNotes ? "Guardando..." : "Guardar Comentario"}
+                    </Button>
+                  </div>
+                </div>
+              </div>
 
               <div className="pt-4 border-t border-border flex justify-end gap-3">
                 <Button variant="outline" onClick={() => setSelectedLead(null)}>

@@ -2,8 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Trash2, Eye } from "lucide-react";
+import { Trash2, Search } from "lucide-react";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +21,9 @@ function AdminLeads() {
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLead, setSelectedLead] = useState<any | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [adminNotes, setAdminNotes] = useState("");
+  const [savingNotes, setSavingNotes] = useState(false);
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -58,16 +63,57 @@ function AdminLeads() {
     } else {
       toast.success("Tasación eliminada");
       setLeads((prev) => prev.filter((l) => l.id !== id));
+      if (selectedLead?.id === id) setSelectedLead(null);
     }
   };
 
+  const handleSaveNotes = async () => {
+    if (!selectedLead) return;
+    setSavingNotes(true);
+    const updatedData = {
+      ...selectedLead.data,
+      adminNotes: adminNotes
+    };
+
+    const { error } = await supabase
+      .from("leads")
+      .update({ data: updatedData })
+      .eq("id", selectedLead.id);
+
+    if (error) {
+      toast.error("Error al guardar el comentario");
+    } else {
+      toast.success("Comentario interno guardado");
+      setLeads(leads.map(l => l.id === selectedLead.id ? { ...l, data: updatedData } : l));
+      setSelectedLead({ ...selectedLead, data: updatedData });
+    }
+    setSavingNotes(false);
+  };
+
+  const filteredLeads = leads.filter(l => 
+    !searchTerm || 
+    (l.reference && l.reference.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (l.name && l.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-display text-2xl font-bold uppercase">Tasaciones de Vehículos</h1>
-        <p className="text-sm text-muted-foreground">
-          Revisa solicitudes de "Compramos tu coche"
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="font-display text-2xl font-bold uppercase">Tasaciones de Vehículos</h1>
+          <p className="text-sm text-muted-foreground">
+            Revisa solicitudes de "Compramos tu coche"
+          </p>
+        </div>
+        <div className="relative w-full sm:w-72">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Input 
+            placeholder="Buscar por Referencia o Nombre..." 
+            className="pl-9"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="rounded-xl border border-border bg-background shadow-sm">
@@ -76,7 +122,7 @@ function AdminLeads() {
             <thead className="border-b border-border bg-muted/30 uppercase text-muted-foreground">
               <tr>
                 <th className="p-4 font-medium">Fecha</th>
-                <th className="p-4 font-medium">Tipo</th>
+                <th className="p-4 font-medium">Referencia</th>
                 <th className="p-4 font-medium">Cliente</th>
                 <th className="p-4 font-medium">Estado</th>
                 <th className="p-4 font-medium text-right">Acciones</th>
@@ -86,31 +132,29 @@ function AdminLeads() {
               {loading ? (
                 <tr>
                   <td colSpan={5} className="p-8 text-center text-muted-foreground">
-                    Cargando leads...
+                    Cargando tasaciones...
                   </td>
                 </tr>
-              ) : leads.length === 0 ? (
+              ) : filteredLeads.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-8 text-center text-muted-foreground">
-                    No hay solicitudes de clientes todavía.
+                    No se encontraron resultados.
                   </td>
                 </tr>
               ) : (
-                leads.map((l) => (
+                filteredLeads.map((l) => (
                   <tr key={l.id} className="transition-colors hover:bg-muted/10">
                     <td className="p-4 text-muted-foreground">
                       {new Date(l.created_at).toLocaleDateString()}
                     </td>
                     <td className="p-4">
-                      <span className="font-medium capitalize">{l.type.replace("_", " ")}</span>
                       {l.reference && (
-                        <div className="text-xs text-muted-foreground">Ref: {l.reference}</div>
+                        <div className="font-semibold text-primary">{l.reference}</div>
                       )}
                     </td>
                     <td className="p-4">
                       <div className="font-medium text-foreground">{l.name}</div>
                       <div className="text-xs text-muted-foreground">{l.phone}</div>
-                      {l.email && <div className="text-xs text-muted-foreground">{l.email}</div>}
                     </td>
                     <td className="p-4">
                       <select
@@ -133,19 +177,22 @@ function AdminLeads() {
                         <option value="perdido">Perdido</option>
                       </select>
                     </td>
-                    <td className="p-4 text-right flex justify-end gap-2">
+                    <td className="p-4 text-right flex justify-end gap-2 items-center">
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-muted-foreground hover:bg-muted"
-                        onClick={() => setSelectedLead(l)}
+                        variant="secondary"
+                        size="sm"
+                        className="font-bold text-xs"
+                        onClick={() => {
+                          setSelectedLead(l);
+                          setAdminNotes(l.data?.adminNotes || "");
+                        }}
                       >
-                        <Eye className="size-4" />
+                        VER
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 w-8"
                         onClick={() => handleDelete(l.id)}
                       >
                         <Trash2 className="size-4" />
@@ -160,39 +207,50 @@ function AdminLeads() {
       </div>
 
       <Dialog open={!!selectedLead} onOpenChange={(open) => !open && setSelectedLead(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="uppercase tracking-wider font-display text-primary">
-              Detalles de la Solicitud
+              Detalles de Tasación {selectedLead?.reference ? `- ${selectedLead.reference}` : ''}
             </DialogTitle>
           </DialogHeader>
           
           {selectedLead && (
             <div className="space-y-6 mt-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 bg-muted/20 p-4 rounded-lg">
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Cliente</h4>
-                  <p className="font-medium">{selectedLead.name}</p>
+                  <p className="font-medium text-base">{selectedLead.name}</p>
                   <p className="text-sm text-muted-foreground">{selectedLead.email || 'Sin email'}</p>
-                  <p className="text-sm text-muted-foreground">{selectedLead.phone}</p>
+                  <p className="text-sm font-semibold mt-1">{selectedLead.phone}</p>
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Tipo y Estado</h4>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Información</h4>
                   <p className="font-medium capitalize">{selectedLead.type.replace("_", " ")}</p>
-                  <p className="text-sm text-muted-foreground">Estado actual: <span className="capitalize">{selectedLead.status}</span></p>
-                  <p className="text-sm text-muted-foreground">Referencia: {selectedLead.reference}</p>
+                  <p className="text-sm text-muted-foreground">Estado: <span className="capitalize">{selectedLead.status}</span></p>
                 </div>
               </div>
 
               {selectedLead.data && (
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Datos del Vehículo / Formulario</h4>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Datos del Vehículo</h4>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
                     {Object.entries(selectedLead.data).map(([key, value]) => {
-                      if (key === 'images' || key === 'consent' || typeof value === 'object' || !value) return null;
+                      if (key === 'images' || key === 'consent' || key === 'adminNotes' || typeof value === 'object' || !value) return null;
+                      
+                      const labelMap: Record<string, string> = {
+                        brand: "Marca", model: "Modelo", version: "Versión", year: "Año",
+                        plate: "Matrícula", mileage: "Kilómetros", fuel: "Combustible",
+                        transmission: "Cambio", power: "Potencia (CV)", bodyType: "Carrocería",
+                        conditionGeneral: "Estado Gen.", conditionBody: "Carrocería",
+                        conditionInterior: "Interior", conditionMechanical: "Mecánica",
+                        conditionTyres: "Neumáticos", maintenanceHistory: "Historial Maint.",
+                        owners: "Propietarios", itv: "ITV", accidents: "Accidentes",
+                        knownIssues: "Averías Conocidas"
+                      };
+
                       return (
-                        <div key={key}>
-                          <span className="text-muted-foreground capitalize mr-2">{key}:</span>
+                        <div key={key} className="border-b border-border pb-1">
+                          <span className="text-muted-foreground capitalize mr-2">{labelMap[key] || key}:</span>
                           <span className="font-medium">{String(value)}</span>
                         </div>
                       )
@@ -201,25 +259,48 @@ function AdminLeads() {
                 </div>
               )}
 
-              {selectedLead.message && (
+              {selectedLead.data?.equipment && Array.isArray(selectedLead.data.equipment) && selectedLead.data.equipment.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Mensaje / Notas</h4>
-                  <p className="text-sm bg-muted/30 p-3 rounded-md">{selectedLead.message}</p>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Equipamiento Extra</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedLead.data.equipment.map((eq: string) => (
+                      <span key={eq} className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-medium">
+                        {eq}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
 
               {selectedLead.data?.images && Array.isArray(selectedLead.data.images) && selectedLead.data.images.length > 0 && (
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Fotografías Adjuntas</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {selectedLead.data.images.map((img: string, i: number) => (
-                      <a href={img} target="_blank" rel="noopener noreferrer" key={i} className="block aspect-square rounded-md overflow-hidden border border-border hover:opacity-80 transition-opacity">
-                        <img src={img} alt={`Foto ${i + 1}`} className="w-full h-full object-cover" />
-                      </a>
+                      <div key={i} className="rounded-md overflow-hidden border border-border bg-black">
+                        <img src={img} alt={`Foto ${i + 1}`} className="w-full h-auto object-contain max-h-64 mx-auto" />
+                      </div>
                     ))}
                   </div>
                 </div>
               )}
+
+              <div>
+                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Comentarios Internos (Admin)</h4>
+                <div className="flex flex-col gap-2">
+                  <Textarea 
+                    placeholder="Añade una valoración aproximada o comentarios para el recepcionista..."
+                    className="min-h-[100px]"
+                    value={adminNotes}
+                    onChange={(e) => setAdminNotes(e.target.value)}
+                  />
+                  <div className="flex justify-end">
+                    <Button onClick={handleSaveNotes} disabled={savingNotes} size="sm">
+                      {savingNotes ? "Guardando..." : "Guardar Comentario"}
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </DialogContent>

@@ -29,7 +29,13 @@ import { supabase } from "@/integrations/supabase/client";
  * Guarda la solicitud en la tabla `leads` de Supabase.
  */
 export async function submitLead(payload: LeadPayload): Promise<SubmitResult> {
-  const reference = `${payload.type.toUpperCase().slice(0, 3)}-${Date.now().toString(36).toUpperCase()}`;
+  // Obtener el conteo total para hacer una referencia correlativa
+  const { count, error: countError } = await supabase
+    .from("leads")
+    .select("*", { count: "exact", head: true });
+    
+  const nextNumber = (count || 0) + 1;
+  const reference = `NM-${String(nextNumber).padStart(6, '0')}`;
 
   const { error } = await supabase.from("leads").insert([
     {
