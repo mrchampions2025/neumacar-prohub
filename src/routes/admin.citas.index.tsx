@@ -93,7 +93,7 @@ function AdminCitas() {
 
   const eventStyleGetter = (event: any) => {
     const status = event.resource.status;
-    let backgroundColor = "hsl(var(--primary))";
+    let backgroundColor = "#f97316"; // orange for nuevo/pendiente
     
     if (status === "convertido") backgroundColor = "#22c55e"; // green
     if (status === "perdido") backgroundColor = "#ef4444"; // red
@@ -103,10 +103,12 @@ function AdminCitas() {
       style: {
         backgroundColor,
         borderRadius: "4px",
-        opacity: 0.9,
-        color: "white",
-        border: "0px",
+        color: "#ffffff",
+        border: "none",
         display: "block",
+        fontWeight: "bold",
+        padding: "2px 5px",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.3)"
       }
     };
   };

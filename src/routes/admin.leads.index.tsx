@@ -25,10 +25,11 @@ function AdminLeads() {
     const { data, error } = await supabase
       .from("leads")
       .select("*")
+      .eq("type", "vender_vehiculo")
       .order("created_at", { ascending: false });
 
     if (error) {
-      toast.error("Error al cargar leads");
+      toast.error("Error al cargar tasaciones");
     } else {
       setLeads(data);
     }
@@ -50,12 +51,12 @@ function AdminLeads() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este lead?")) return;
+    if (!window.confirm("¿Seguro que deseas eliminar esta tasación?")) return;
     const { error } = await supabase.from("leads").delete().eq("id", id);
     if (error) {
       toast.error("Error al eliminar");
     } else {
-      toast.success("Lead eliminado");
+      toast.success("Tasación eliminada");
       setLeads((prev) => prev.filter((l) => l.id !== id));
     }
   };
@@ -63,9 +64,9 @@ function AdminLeads() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-2xl font-bold uppercase">Clientes y Leads</h1>
+        <h1 className="font-display text-2xl font-bold uppercase">Tasaciones de Vehículos</h1>
         <p className="text-sm text-muted-foreground">
-          Revisa solicitudes de presupuestos, citas y valoraciones
+          Revisa solicitudes de "Compramos tu coche"
         </p>
       </div>
 

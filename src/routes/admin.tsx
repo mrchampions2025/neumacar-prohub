@@ -90,9 +90,15 @@ function AdminLayout() {
             </Link>
           </Button>
           <Button asChild variant="ghost" className="justify-start">
-            <Link to="/admin/leads" className="[&.active]:bg-primary/10 [&.active]:text-primary">
+            <Link to="/admin/presupuestos" className="[&.active]:bg-primary/10 [&.active]:text-primary">
               <Users className="mr-2 size-4" />
-              Otros Leads
+              Presupuestos
+            </Link>
+          </Button>
+          <Button asChild variant="ghost" className="justify-start">
+            <Link to="/admin/leads" className="[&.active]:bg-primary/10 [&.active]:text-primary">
+              <Car className="mr-2 size-4" />
+              Tasaciones
             </Link>
           </Button>
         </nav>
