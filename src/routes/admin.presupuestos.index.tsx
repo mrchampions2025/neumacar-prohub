@@ -297,29 +297,41 @@ function AdminPresupuestos() {
                       <td className="py-2 px-1">
                         <Input type="number" className="h-8 print:border-0 print:bg-transparent print:p-0 focus-visible:ring-0" value={item.qty} onChange={(e) => {
                           const newItems = [...quoteItems];
-                          newItems[idx].qty = Number(e.target.value);
-                          setQuoteItems(newItems);
+                          const currentItem = newItems[idx];
+                          if (currentItem) {
+                            currentItem.qty = Number(e.target.value);
+                            setQuoteItems(newItems);
+                          }
                         }} />
                       </td>
                       <td className="py-2 px-1">
                         <Input className="h-8 print:border-0 print:bg-transparent print:p-0 focus-visible:ring-0 uppercase font-semibold" value={item.concept} onChange={(e) => {
                           const newItems = [...quoteItems];
-                          newItems[idx].concept = e.target.value;
-                          setQuoteItems(newItems);
+                          const currentItem = newItems[idx];
+                          if (currentItem) {
+                            currentItem.concept = e.target.value;
+                            setQuoteItems(newItems);
+                          }
                         }} />
                       </td>
                       <td className="py-2 px-1">
                         <Input type="number" step="0.01" className="h-8 text-right print:border-0 print:bg-transparent print:p-0 focus-visible:ring-0" value={item.price} onChange={(e) => {
                           const newItems = [...quoteItems];
-                          newItems[idx].price = Number(e.target.value);
-                          setQuoteItems(newItems);
+                          const currentItem = newItems[idx];
+                          if (currentItem) {
+                            currentItem.price = Number(e.target.value);
+                            setQuoteItems(newItems);
+                          }
                         }} />
                       </td>
                       <td className="py-2 px-1">
                         <Input type="number" className="h-8 text-center print:border-0 print:bg-transparent print:p-0 focus-visible:ring-0" value={item.discount} onChange={(e) => {
                           const newItems = [...quoteItems];
-                          newItems[idx].discount = Number(e.target.value);
-                          setQuoteItems(newItems);
+                          const currentItem = newItems[idx];
+                          if (currentItem) {
+                            currentItem.discount = Number(e.target.value);
+                            setQuoteItems(newItems);
+                          }
                         }} />
                       </td>
                       <td className="py-2 px-1 text-right font-bold">

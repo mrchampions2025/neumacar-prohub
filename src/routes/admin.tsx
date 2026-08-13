@@ -68,7 +68,7 @@ function AdminLayout() {
           <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center shadow-md">
             <LayoutDashboard className="size-4 text-white" />
           </div>
-          <span className="text-slate-700">Pro</span>Hub
+          Neumacar Motor´s
         </div>
         
         <nav className="flex flex-col gap-1 p-4">
