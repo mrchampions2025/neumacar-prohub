@@ -51,7 +51,7 @@ export function Header() {
               Neumacar <span className="text-primary">Motors</span>
             </span>
             <span className="hidden text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:block">
-              Taller · Neumáticos · Ocasión
+              TALLER · NEUMÁTICOS · VEHICULOS DE&nbsp; OCASIÓN
             </span>
           </span>
         </Link>
