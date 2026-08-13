@@ -130,7 +130,7 @@ function AdminCitas() {
         </Button>
       </div>
 
-      <div className="flex-grow bg-white rounded-xl border border-slate-200 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] p-4 overflow-hidden min-h-[700px] text-slate-800">
+      <div className="flex-grow bg-slate-200 rounded-xl border border-slate-300 shadow-sm p-4 overflow-hidden min-h-[700px] text-slate-800">
         {loading ? (
           <div className="h-full flex items-center justify-center text-slate-500">Cargando calendario...</div>
         ) : (
@@ -138,7 +138,7 @@ function AdminCitas() {
             <style dangerouslySetInnerHTML={{__html: `
               .rbc-calendar { font-family: inherit; }
               .rbc-header { padding: 8px; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; color: #64748b; border-bottom: 1px solid #e2e8f0 !important; }
-              .rbc-month-view, .rbc-time-view, .rbc-agenda-view { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background: #ffffff; }
+              .rbc-month-view, .rbc-time-view, .rbc-agenda-view { border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #f1f5f9; }
               .rbc-day-bg { border-left: 1px solid #e2e8f0 !important; }
               .rbc-month-row { border-top: 1px solid #e2e8f0 !important; }
               .rbc-off-range-bg { background-color: #f8fafc; }
@@ -181,7 +181,7 @@ function AdminCitas() {
       </div>
 
       <Dialog open={!!selectedEvent} onOpenChange={(o) => !o && setSelectedEvent(null)}>
-        <DialogContent className="bg-white text-slate-800 border-slate-200">
+        <DialogContent className="bg-slate-200 text-slate-800 border-slate-300">
           <DialogHeader>
             <DialogTitle>Detalle de la Cita</DialogTitle>
           </DialogHeader>
@@ -198,7 +198,7 @@ function AdminCitas() {
                 </span>
               </div>
               
-              <div className="grid gap-2 text-sm bg-slate-50 p-4 rounded-md border border-slate-100">
+              <div className="grid gap-2 text-sm bg-slate-300 p-4 rounded-md border border-slate-400">
                 <div className="flex gap-2">
                   <span className="font-semibold w-24 text-slate-500">Cliente:</span>
                   <span>{selectedEvent.name}</span>
@@ -220,7 +220,7 @@ function AdminCitas() {
               {selectedEvent.message && (
                 <div>
                   <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Comentarios</h4>
-                  <p className="text-sm p-3 border border-slate-200 rounded-md bg-white">
+                  <p className="text-sm p-3 border border-slate-300 rounded-md bg-slate-100">
                     {selectedEvent.message}
                   </p>
                 </div>
@@ -231,7 +231,7 @@ function AdminCitas() {
                 <select
                   value={selectedEvent.status}
                   onChange={(e) => updateStatus(selectedEvent.id, e.target.value)}
-                  className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm"
+                  className="h-10 rounded-md border border-slate-300 bg-slate-100 px-3 text-sm"
                 >
                   <option value="nuevo">Pendiente</option>
                   <option value="contactado">Contactado</option>

@@ -111,12 +111,10 @@ export function ValuationWizard() {
       return;
     }
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const back = () => {
     setStep((s) => Math.max(s - 1, 0));
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const onSubmit = async (values: ValuationValues) => {

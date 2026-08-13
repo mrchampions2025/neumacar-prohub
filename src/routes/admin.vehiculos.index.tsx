@@ -61,10 +61,10 @@ function AdminVehiculos() {
         </Button>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+      <div className="rounded-xl border border-slate-300 bg-slate-200 shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+            <thead className="border-b border-slate-300 bg-slate-300 uppercase text-slate-700">
               <tr>
                 <th className="p-4 font-medium">Vehículo</th>
                 <th className="p-4 font-medium">Precio</th>

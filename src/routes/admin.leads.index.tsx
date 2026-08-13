@@ -125,17 +125,17 @@ function AdminLeads() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
           <Input 
             placeholder="Buscar por Referencia o Nombre..." 
-            className="pl-9 bg-white border-slate-200 text-slate-800"
+            className="pl-9 bg-slate-100 border-slate-300 text-slate-800"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+      <div className="rounded-xl border border-slate-300 bg-slate-200 shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-200 bg-slate-50 uppercase text-slate-500">
+            <thead className="border-b border-slate-300 bg-slate-300 uppercase text-slate-700">
               <tr>
                 <th className="p-4 font-medium">Fecha</th>
                 <th className="p-4 font-medium">Referencia</th>
@@ -223,7 +223,7 @@ function AdminLeads() {
       </div>
 
       <Dialog open={!!selectedLead} onOpenChange={(open) => !open && setSelectedLead(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white text-slate-800 border-slate-200">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-200 text-slate-800 border-slate-300">
           <DialogHeader>
             <DialogTitle className="uppercase tracking-wider font-display text-[#1da1f2]">
               Detalles de Tasación {selectedLead?.reference ? `- ${selectedLead.reference}` : ''}
@@ -232,7 +232,7 @@ function AdminLeads() {
           
           {selectedLead && (
             <div className="space-y-6 mt-4">
-              <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
+              <div className="grid grid-cols-2 gap-4 bg-slate-300 p-4 rounded-lg border border-slate-400">
                 <div>
                   <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Cliente</h4>
                   <p className="font-medium text-base">{selectedLead.name}</p>
@@ -311,7 +311,7 @@ function AdminLeads() {
                 {selectedLead.data?.adminNotes && Array.isArray(selectedLead.data.adminNotes) && (
                   <div className="space-y-3 mb-6">
                     {selectedLead.data.adminNotes.map((note: any, i: number) => (
-                      <div key={i} className="bg-slate-50 p-3 rounded-md text-sm border border-slate-100">
+                      <div key={i} className="bg-slate-300 p-3 rounded-md text-sm border border-slate-400">
                         <div className="flex justify-between items-center mb-1">
                           <span className="font-semibold text-[#1da1f2]">{note.role || 'Admin'}</span>
                           <span className="text-xs text-slate-500">
@@ -328,7 +328,7 @@ function AdminLeads() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium">Autor:</span>
                     <select 
-                      className="text-sm border-0 bg-slate-100 rounded-md px-2 py-1"
+                      className="text-sm border-0 bg-slate-200 rounded-md px-2 py-1"
                       value={noteAuthor}
                       onChange={(e) => setNoteAuthor(e.target.value)}
                     >
@@ -339,7 +339,7 @@ function AdminLeads() {
                   </div>
                   <Textarea 
                     placeholder="Escribe un nuevo comentario..."
-                    className="min-h-[80px] bg-white border-slate-200 text-slate-800"
+                    className="min-h-[80px] bg-slate-100 border-slate-300 text-slate-800"
                     value={adminNotes}
                     onChange={(e) => setAdminNotes(e.target.value)}
                   />

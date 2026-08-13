@@ -61,7 +61,7 @@ function AdminDashboard() {
         {cards.map((card) => (
           <div
             key={card.title}
-            className="bg-white rounded-xl p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border border-slate-200"
+            className="bg-slate-200 rounded-xl p-6 shadow-sm border border-slate-300"
           >
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-slate-500">{card.title}</p>
@@ -74,7 +74,7 @@ function AdminDashboard() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-xl border border-slate-200 bg-white p-8 text-center text-slate-500 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+      <div className="mt-8 rounded-xl border border-slate-300 bg-slate-200 p-8 text-center text-slate-600 shadow-sm">
         <TrendingUp className="mx-auto mb-4 size-8 text-slate-300" />
         <h3 className="font-display text-lg font-semibold uppercase text-slate-800">
           Bienvenido al Panel de Administración
