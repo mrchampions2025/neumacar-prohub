@@ -11,7 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Logo } from "@/components/ui/logo";
 
 export const Route = createFileRoute("/admin/presupuestos/")({
   component: AdminPresupuestos,
@@ -152,9 +151,7 @@ function AdminPresupuestos() {
             
             {/* Header */}
             <div className="flex justify-between items-start mb-12">
-              <div className="w-48">
-                <Logo />
-              </div>
+                <img src="/logo-neumacar.png" alt="Neumacar Motors" className="w-48 object-contain" />
               <div className="text-right">
                 <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
                   <div className="font-semibold text-red-600 uppercase">Fecha Emisión</div>
