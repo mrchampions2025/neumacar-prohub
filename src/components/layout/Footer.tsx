@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook, Music2, Phone, Mail, MapPin, Clock } from "lucide-react";
 
-import logo from "@/assets/logo-neumacar.png.asset.json";
 import { site } from "@/config/site";
 
 export function Footer() {
@@ -11,12 +10,9 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-3">
             <img
-              src={logo.url}
-              alt=""
-              width={48}
-              height={48}
-              loading="lazy"
-              className="h-11 w-auto"
+              src="/logo-neumacar.png"
+              alt="Neumacar Motors"
+              className="h-10 w-auto object-contain"
             />
             <span className="font-display text-lg font-bold uppercase tracking-wide text-chrome">
               Neumacar <span className="text-primary">Motors</span>

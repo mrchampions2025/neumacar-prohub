@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, Phone, X, CalendarClock, MessageCircle } from "lucide-react";
 
-import logo from "@/assets/logo-neumacar.png.asset.json";
 import { site } from "@/config/site";
 import { whatsapp } from "@/services/whatsapp";
 import { Button } from "@/components/ui/button";
@@ -39,13 +38,7 @@ export function Header() {
     >
       <div className="container-page grid h-16 grid-cols-[minmax(0,1fr)_auto] items-center gap-4 md:h-20 lg:flex lg:justify-between">
         <Link to="/" className="flex min-w-0 items-center gap-3" aria-label={site.name}>
-          <img
-            src={logo.url}
-            alt={`${site.name} logo`}
-            width={48}
-            height={48}
-            className="h-9 w-auto shrink-0 md:h-12"
-          />
+          <img src="/logo-neumacar.png" alt="Neumacar Motors" className="h-10 w-auto object-contain" />
           <span className="min-w-0 leading-none">
             <span className="block truncate font-display text-lg font-bold uppercase tracking-wide text-chrome md:text-xl">
               Neumacar <span className="text-primary">Motors</span>
