@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Trash2, Search, X } from "lucide-react";
+import { Trash2, Search, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,7 +25,7 @@ function AdminLeads() {
   const [adminNotes, setAdminNotes] = useState("");
   const [noteAuthor, setNoteAuthor] = useState("Experto");
   const [savingNotes, setSavingNotes] = useState(false);
-  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+  const [expandedImageIndex, setExpandedImageIndex] = useState<number | null>(null);
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -46,6 +46,36 @@ function AdminLeads() {
   useEffect(() => {
     fetchLeads();
   }, []);
+
+  const hasImages = selectedLead?.data?.images && Array.isArray(selectedLead.data.images) && selectedLead.data.images.length > 0;
+  const totalImages = hasImages ? selectedLead.data.images.length : 0;
+
+  const handlePrevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (expandedImageIndex !== null && totalImages > 0) {
+      setExpandedImageIndex((prev) => (prev! > 0 ? prev! - 1 : totalImages - 1));
+    }
+  };
+
+  const handleNextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (expandedImageIndex !== null && totalImages > 0) {
+      setExpandedImageIndex((prev) => (prev! < totalImages - 1 ? prev! + 1 : 0));
+    }
+  };
+
+  useEffect(() => {
+    if (expandedImageIndex === null) return;
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") handlePrevImage();
+      else if (e.key === "ArrowRight") handleNextImage();
+      else if (e.key === "Escape") setExpandedImageIndex(null);
+    };
+    
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [expandedImageIndex, totalImages]);
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     const { error } = await supabase.from("leads").update({ status: newStatus }).eq("id", id);
@@ -223,7 +253,15 @@ function AdminLeads() {
       </div>
 
       <Dialog open={!!selectedLead} onOpenChange={(open) => !open && setSelectedLead(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-200 text-slate-800 border-slate-300">
+        <DialogContent 
+          className="max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-200 text-slate-800 border-slate-300"
+          onEscapeKeyDown={(e) => {
+            if (expandedImageIndex !== null) e.preventDefault();
+          }}
+          onInteractOutside={(e) => {
+            if (expandedImageIndex !== null) e.preventDefault();
+          }}
+        >
           <DialogHeader>
             <DialogTitle className="uppercase tracking-wider font-display text-[#1da1f2]">
               Detalles de Tasación {selectedLead?.reference ? `- ${selectedLead.reference}` : ''}
@@ -296,7 +334,7 @@ function AdminLeads() {
                       <div 
                         key={i} 
                         className="rounded-md overflow-hidden border border-border bg-black cursor-pointer hover:opacity-80 transition-opacity"
-                        onClick={() => setExpandedImage(img)}
+                        onClick={() => setExpandedImageIndex(i)}
                       >
                         <img src={img} alt={`Foto ${i + 1}`} className="w-full h-24 object-cover" />
                       </div>
@@ -356,23 +394,47 @@ function AdminLeads() {
       </Dialog>
       
       {/* Lightbox para Imágenes */}
-      {expandedImage && (
+      {expandedImageIndex !== null && selectedLead?.data?.images && (
         <div 
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-zoom-out"
-          onClick={() => setExpandedImage(null)}
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
+          onClick={() => setExpandedImageIndex(null)}
         >
           <button 
-            className="absolute top-4 right-4 text-white hover:text-gray-300 p-2"
-            onClick={(e) => { e.stopPropagation(); setExpandedImage(null); }}
+            className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 z-50"
+            onClick={(e) => { e.stopPropagation(); setExpandedImageIndex(null); }}
           >
             <X className="size-8" />
           </button>
-          <img 
-            src={expandedImage} 
-            alt="Ampliación" 
-            className="max-w-full max-h-[90vh] object-contain rounded-md" 
-            onClick={(e) => e.stopPropagation()}
-          />
+
+          {totalImages > 1 && (
+            <>
+              <button 
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-2 z-50 bg-black/50 rounded-full"
+                onClick={handlePrevImage}
+              >
+                <ChevronLeft className="size-10" />
+              </button>
+              <button 
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-2 z-50 bg-black/50 rounded-full"
+                onClick={handleNextImage}
+              >
+                <ChevronRight className="size-10" />
+              </button>
+            </>
+          )}
+          
+          <div className="relative w-full max-w-5xl max-h-[90vh] flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={selectedLead.data.images[expandedImageIndex]} 
+              alt={`Ampliación ${expandedImageIndex + 1}`} 
+              className="max-w-full max-h-[85vh] object-contain rounded-md" 
+            />
+            {totalImages > 1 && (
+              <div className="mt-4 text-white text-sm">
+                Imagen {expandedImageIndex + 1} de {totalImages}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
