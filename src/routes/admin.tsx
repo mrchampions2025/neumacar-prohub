@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, LayoutDashboard, Car, Users, LogOut } from "lucide-react";
+import { Loader2, LayoutDashboard, Car, Users, LogOut, CalendarClock } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 
@@ -84,9 +84,15 @@ function AdminLayout() {
             </Link>
           </Button>
           <Button asChild variant="ghost" className="justify-start">
+            <Link to="/admin/citas" className="[&.active]:bg-primary/10 [&.active]:text-primary">
+              <CalendarClock className="mr-2 size-4" />
+              Citas
+            </Link>
+          </Button>
+          <Button asChild variant="ghost" className="justify-start">
             <Link to="/admin/leads" className="[&.active]:bg-primary/10 [&.active]:text-primary">
               <Users className="mr-2 size-4" />
-              Clientes & Leads
+              Otros Leads
             </Link>
           </Button>
         </nav>

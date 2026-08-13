@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
@@ -19,7 +19,7 @@ import {
 import { Field, FormSection } from "./fields";
 import { appointmentSchema, type AppointmentValues } from "./schemas";
 import { serviceOptions } from "@/data/services";
-import { submitLead } from "@/services/leads";
+import { submitLead, fetchDailyAppointmentCount } from "@/services/leads";
 import { SubmittedState } from "@/components/common/states";
 
 const TIME_SLOTS = [
@@ -35,8 +35,13 @@ const TIME_SLOTS = [
   "18:15",
 ];
 
+const MAX_DIRECT_APPOINTMENTS = 10;
+
 export function AppointmentForm({ defaultService }: { defaultService?: string }) {
   const [reference, setReference] = useState<string | null>(null);
+  const [appointmentsCount, setAppointmentsCount] = useState<number | null>(null);
+  const [loadingCount, setLoadingCount] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -62,6 +67,35 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
       consent: false,
     },
   });
+
+  const selectedDate = watch("date");
+
+  useEffect(() => {
+    async function checkAvailability() {
+      if (!selectedDate) {
+        setAppointmentsCount(null);
+        return;
+      }
+      setLoadingCount(true);
+      try {
+        const count = await fetchDailyAppointmentCount(selectedDate);
+        setAppointmentsCount(count);
+        // If it's full, we clear the time so it won't fail validation
+        // Wait, schema requires time, so we must set it to a special value or make schema optional.
+        if (count >= MAX_DIRECT_APPOINTMENTS) {
+          setValue("time", "A concretar", { shouldValidate: true });
+        } else {
+          setValue("time", "", { shouldValidate: true });
+        }
+      } catch (error) {
+        console.error(error);
+        setAppointmentsCount(0); // Fallback
+      } finally {
+        setLoadingCount(false);
+      }
+    }
+    checkAvailability();
+  }, [selectedDate, setValue]);
 
   const onSubmit = async (values: AppointmentValues) => {
     try {
@@ -89,7 +123,8 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
       <SubmittedState
         title="Cita solicitada"
         reference={reference}
-        description="Hemos recogido los datos de tu cita. La sincronización con Google Calendar se activará cuando la integración esté configurada."
+        pendingBackend={false}
+        description="Hemos registrado tu solicitud de cita. En breve nos pondremos en contacto contigo."
         action={
           <>
             <Button asChild variant="outline">
@@ -105,6 +140,7 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
   }
 
   const today = new Date().toISOString().slice(0, 10);
+  const isFull = appointmentsCount !== null && appointmentsCount >= MAX_DIRECT_APPOINTMENTS;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
@@ -163,27 +199,40 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
         <Field label="Fecha" htmlFor="date" error={errors.date}>
           <Input id="date" type="date" min={today} {...register("date")} />
         </Field>
+        
         <Field
           label="Hora"
           error={errors.time}
-          hint="Franjas orientativas; confirmamos disponibilidad."
+          hint={isFull ? "Cupo lleno. Te asignaremos hora." : "Selecciona una franja."}
         >
-          <Select
-            value={watch("time")}
-            onValueChange={(v) => setValue("time", v, { shouldValidate: true })}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Selecciona una franja" />
-            </SelectTrigger>
-            <SelectContent>
-              {TIME_SLOTS.map((t) => (
-                <SelectItem key={t} value={t}>
-                  {t}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {loadingCount ? (
+            <div className="flex h-10 w-full items-center justify-center rounded-md border border-input">
+              <Loader2 className="size-4 animate-spin text-muted-foreground" />
+            </div>
+          ) : isFull ? (
+            <div className="flex h-10 w-full items-center rounded-md border border-input bg-muted px-3 text-sm text-muted-foreground">
+              A concretar por teléfono
+            </div>
+          ) : (
+            <Select
+              value={watch("time")}
+              onValueChange={(v) => setValue("time", v, { shouldValidate: true })}
+              disabled={!selectedDate}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={selectedDate ? "Selecciona hora" : "Elige fecha primero"} />
+              </SelectTrigger>
+              <SelectContent>
+                {TIME_SLOTS.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </Field>
+        
         <Field label="Comentarios" htmlFor="notes" error={errors.notes} className="sm:col-span-2">
           <Textarea
             id="notes"
@@ -192,13 +241,6 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
             {...register("notes")}
           />
         </Field>
-        <div className="sm:col-span-2 flex items-start gap-2 rounded-md border border-dashed border-border p-3 text-xs text-muted-foreground">
-          <Paperclip className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-          <span>
-            Adjuntar fotografías o documentos estará disponible al activar el almacenamiento de
-            archivos. De momento puedes enviarlos por WhatsApp.
-          </span>
-        </div>
       </FormSection>
 
       <div className="flex items-start gap-3">

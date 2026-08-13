@@ -20,8 +20,7 @@ export interface LeadPayload {
   data?: Record<string, unknown> | undefined;
 }
 
-export type SubmitResult =
-  { status: "pending_backend"; reference: string } | { status: "ok"; reference: string };
+export type SubmitResult = { status: "ok"; reference: string };
 
 import { supabase } from "@/integrations/supabase/client";
 
@@ -47,11 +46,26 @@ export async function submitLead(payload: LeadPayload): Promise<SubmitResult> {
 
   if (error) {
     console.error("[leads] Error al guardar en Supabase:", error);
-    // Si hay un error, podemos seguir mostrando pending_backend o manejarlo distinto,
-    // pero idealmente deberíamos devolver pending_backend para que no pete la app,
-    // o un nuevo estado de error. De momento devolvemos pending_backend por compatibilidad.
-    return { status: "pending_backend", reference };
+    throw new Error(error.message);
   }
 
   return { status: "ok", reference };
+}
+
+/**
+ * Obtiene el número de citas registradas para una fecha concreta usando la vista daily_appointment_counts
+ */
+export async function fetchDailyAppointmentCount(date: string): Promise<number> {
+  const { data, error } = await supabase
+    .from("daily_appointment_counts")
+    .select("count")
+    .eq("date", date)
+    .single();
+
+  if (error || !data) {
+    // Si la vista no existe o hay error, asumimos 0 (o podríamos lanzar error, pero mejor fallback suave)
+    return 0;
+  }
+  
+  return data.count;
 }
