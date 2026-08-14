@@ -9,9 +9,8 @@ import {
   type VehicleFilterState,
 } from "@/components/vehicles/VehicleFilters";
 import { Button } from "@/components/ui/button";
-import type { Database } from "@/types/supabase";
-
-type Vehicle = Database["public"]["Tables"]["vehicles"]["Row"];
+// import type { Database } from "@/types/supabase";
+// type Vehicle = Database["public"]["Tables"]["vehicles"]["Row"];
 
 interface VehiclesListProps {
   vehicles: any[]; // Using any to avoid complex TS types right now, but should ideally be Vehicle[]

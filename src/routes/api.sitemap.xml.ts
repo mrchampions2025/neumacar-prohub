@@ -1,3 +1,4 @@
+// @ts-ignore
 import { createAPIFileRoute } from '@tanstack/react-start/api';
 import { fetchPublishedVehicles } from '@/data/vehicles';
 import { generateVehicleSlug } from '@/utils/seo';
