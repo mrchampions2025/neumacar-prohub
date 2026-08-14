@@ -40,6 +40,12 @@ function AdminEditarVehiculo() {
     color: "",
     description: "",
     equipment: "",
+    conditionGeneral: "Bueno",
+    conditionItv: "En vigor",
+    conditionMaintenance: "Al día",
+    conditionTyres: "Buen estado",
+    conditionBrakes: "Buen estado",
+    conditionHistory: "Desconocido",
   });
 
   useEffect(() => {
@@ -59,6 +65,7 @@ function AdminEditarVehiculo() {
 
       const vData: any = data;
       const isKnownBrand = CAR_BRANDS.includes(vData.brand);
+      const cond = vData.condition || {};
 
       setFormData({
         brand: isKnownBrand ? vData.brand : "Otro",
@@ -81,6 +88,12 @@ function AdminEditarVehiculo() {
         equipment: Array.isArray(vData.equipment)
           ? vData.equipment.join("\n")
           : vData.equipment || "",
+        conditionGeneral: cond.general || "Bueno",
+        conditionItv: cond.itv || "En vigor",
+        conditionMaintenance: cond.maintenance || "Al día",
+        conditionTyres: cond.tyres || "Buen estado",
+        conditionBrakes: cond.brakes || "Buen estado",
+        conditionHistory: cond.history || "Desconocido",
       });
 
       setImages(vData.images || vData.image_urls || []);
@@ -168,6 +181,14 @@ function AdminEditarVehiculo() {
         images: images,
         description: formData.description,
         equipment: equipmentArray,
+        condition: {
+          general: formData.conditionGeneral || "Bueno",
+          itv: formData.conditionItv || "En vigor",
+          maintenance: formData.conditionMaintenance || "Al día",
+          tyres: formData.conditionTyres || "Buen estado",
+          brakes: formData.conditionBrakes || "Buen estado",
+          history: formData.conditionHistory || "Desconocido",
+        },
       })
       .eq("id", vehicleId);
 
@@ -554,6 +575,91 @@ function AdminEditarVehiculo() {
                   className="text-xs bg-zinc-900 border-zinc-700 text-white"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ESTADO Y REVISIÓN DEL VEHÍCULO */}
+        <div className="glass-panel-dark rounded-2xl border border-zinc-800 p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-lg font-bold uppercase text-white">
+              Estado y Revisión del Vehículo
+            </h2>
+            <span className="text-xs text-zinc-400">Valores mostrados en la ficha técnica pública</span>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
+                Estado general
+              </label>
+              <Input
+                name="conditionGeneral"
+                value={formData.conditionGeneral}
+                onChange={handleChange}
+                placeholder="Ej: Bueno, Excelente, Impecable"
+                className="text-xs bg-zinc-900 border-zinc-700 text-white"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
+                ITV
+              </label>
+              <Input
+                name="conditionItv"
+                value={formData.conditionItv}
+                onChange={handleChange}
+                placeholder="Ej: En vigor, Recién pasada"
+                className="text-xs bg-zinc-900 border-zinc-700 text-white"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
+                Mantenimiento
+              </label>
+              <Input
+                name="conditionMaintenance"
+                value={formData.conditionMaintenance}
+                onChange={handleChange}
+                placeholder="Ej: Al día, Recién realizado"
+                className="text-xs bg-zinc-900 border-zinc-700 text-white"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
+                Neumáticos
+              </label>
+              <Input
+                name="conditionTyres"
+                value={formData.conditionTyres}
+                onChange={handleChange}
+                placeholder="Ej: Buen estado, Nuevos"
+                className="text-xs bg-zinc-900 border-zinc-700 text-white"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
+                Frenos
+              </label>
+              <Input
+                name="conditionBrakes"
+                value={formData.conditionBrakes}
+                onChange={handleChange}
+                placeholder="Ej: Buen estado, Revisados"
+                className="text-xs bg-zinc-900 border-zinc-700 text-white"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
+                Historial
+              </label>
+              <Input
+                name="conditionHistory"
+                value={formData.conditionHistory}
+                onChange={handleChange}
+                placeholder="Ej: Desconocido, Libro oficial"
+                className="text-xs bg-zinc-900 border-zinc-700 text-white"
+              />
             </div>
           </div>
         </div>

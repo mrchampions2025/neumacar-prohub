@@ -38,6 +38,12 @@ function AdminNuevoVehiculo() {
     color: "",
     description: "",
     equipment: "",
+    conditionGeneral: "Bueno",
+    conditionItv: "En vigor",
+    conditionMaintenance: "Al día",
+    conditionTyres: "Buen estado",
+    conditionBrakes: "Buen estado",
+    conditionHistory: "Desconocido",
   });
 
   const handleChange = (
@@ -127,12 +133,12 @@ function AdminNuevoVehiculo() {
         description: formData.description,
         equipment: equipmentArray,
         condition: {
-          general: "Bueno",
-          itv: "En vigor",
-          maintenance: "Al día",
-          tyres: "Buen estado",
-          brakes: "Buen estado",
-          history: "Desconocido",
+          general: formData.conditionGeneral || "Bueno",
+          itv: formData.conditionItv || "En vigor",
+          maintenance: formData.conditionMaintenance || "Al día",
+          tyres: formData.conditionTyres || "Buen estado",
+          brakes: formData.conditionBrakes || "Buen estado",
+          history: formData.conditionHistory || "Desconocido",
         },
       },
     ]);
@@ -488,6 +494,85 @@ function AdminNuevoVehiculo() {
                 </label>
                 <Input name="seats" type="number" value={formData.seats} onChange={handleChange} />
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ESTADO Y MANTENIMIENTO DEL VEHÍCULO */}
+        <div className="surface-card rounded-xl border border-border p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-lg font-semibold uppercase">
+              Estado y Revisión del Vehículo
+            </h2>
+            <span className="text-xs text-muted-foreground">Prevalores por defecto modificables</span>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div>
+              <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
+                Estado general
+              </label>
+              <Input
+                name="conditionGeneral"
+                value={formData.conditionGeneral}
+                onChange={handleChange}
+                placeholder="Ej: Bueno, Excelente, Impecable"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
+                ITV
+              </label>
+              <Input
+                name="conditionItv"
+                value={formData.conditionItv}
+                onChange={handleChange}
+                placeholder="Ej: En vigor, Recién pasada"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
+                Mantenimiento
+              </label>
+              <Input
+                name="conditionMaintenance"
+                value={formData.conditionMaintenance}
+                onChange={handleChange}
+                placeholder="Ej: Al día, Recién realizado"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
+                Neumáticos
+              </label>
+              <Input
+                name="conditionTyres"
+                value={formData.conditionTyres}
+                onChange={handleChange}
+                placeholder="Ej: Buen estado, Nuevos"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
+                Frenos
+              </label>
+              <Input
+                name="conditionBrakes"
+                value={formData.conditionBrakes}
+                onChange={handleChange}
+                placeholder="Ej: Buen estado, Revisados"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
+                Historial
+              </label>
+              <Input
+                name="conditionHistory"
+                value={formData.conditionHistory}
+                onChange={handleChange}
+                placeholder="Ej: Desconocido, Libro oficial"
+              />
             </div>
           </div>
         </div>
