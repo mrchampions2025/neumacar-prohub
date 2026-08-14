@@ -439,14 +439,14 @@ function AdminLeads() {
                 {selectedLead.data?.adminNotes && Array.isArray(selectedLead.data.adminNotes) && (
                   <div className="space-y-3 mb-6">
                     {selectedLead.data.adminNotes.map((note: any, i: number) => (
-                      <div key={i} className="bg-slate-300 p-3 rounded-md text-sm border border-slate-400">
+                      <div key={i} className="bg-zinc-900 p-3 rounded-md text-sm border border-zinc-800">
                         <div className="flex justify-between items-center mb-1">
                           <span className="font-semibold text-[#1da1f2]">{note.role || 'Admin'}</span>
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-zinc-500">
                             {note.date ? new Date(note.date).toLocaleString() : ''}
                           </span>
                         </div>
-                        <p className="whitespace-pre-wrap">{note.text}</p>
+                        <p className="whitespace-pre-wrap text-zinc-300">{note.text}</p>
                       </div>
                     ))}
                   </div>
@@ -456,7 +456,7 @@ function AdminLeads() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium">Autor:</span>
                     <select 
-                      className="text-sm border-0 bg-slate-200 rounded-md px-2 py-1"
+                      className="text-sm border border-zinc-800 bg-zinc-900 text-white rounded-md px-2 py-1 outline-none focus:ring-1 focus:ring-red-500"
                       value={noteAuthor}
                       onChange={(e) => setNoteAuthor(e.target.value)}
                     >
@@ -467,7 +467,7 @@ function AdminLeads() {
                   </div>
                   <Textarea 
                     placeholder="Escribe un nuevo comentario..."
-                    className="min-h-[80px] bg-slate-100 border-slate-300 text-slate-800"
+                    className="min-h-[80px] bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-500 focus-visible:ring-red-500"
                     value={adminNotes}
                     onChange={(e) => setAdminNotes(e.target.value)}
                   />

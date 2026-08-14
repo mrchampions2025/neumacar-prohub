@@ -667,7 +667,7 @@ function AdminPresupuestos() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium">Autor:</span>
                     <select 
-                      className="text-sm border-0 bg-slate-200 rounded-md px-2 py-1"
+                      className="text-sm border border-zinc-800 bg-zinc-900 text-white rounded-md px-2 py-1 outline-none focus:ring-1 focus:ring-red-500"
                       value={noteAuthor}
                       onChange={(e) => setNoteAuthor(e.target.value)}
                     >
@@ -678,7 +678,7 @@ function AdminPresupuestos() {
                   </div>
                   <Textarea 
                     placeholder="Escribe un nuevo comentario..."
-                    className="min-h-[80px] bg-slate-100 border-slate-300 text-slate-800"
+                    className="min-h-[80px] bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-500 focus-visible:ring-red-500"
                     value={adminNotes}
                     onChange={(e) => setAdminNotes(e.target.value)}
                   />
