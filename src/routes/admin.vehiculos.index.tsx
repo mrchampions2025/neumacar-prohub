@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Trash2, Search, Car, LayoutGrid, List, Gauge, Calendar, Tag, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import type { StockVehicle } from "@/data/vehicles";
+import { generateVehicleSlug } from "@/utils/seo";
 
 export const Route = createFileRoute("/admin/vehiculos/")({
   component: AdminVehiculos,
@@ -225,9 +226,9 @@ function AdminVehiculos() {
                         </span>
                       </td>
                       <td className="p-4 text-right">
-                        <div className="flex justify-end gap-1.5">
+                        <div className="flex justify-end gap-1.5 items-center">
                           <a
-                            href={`/coches/${v.id}`}
+                            href={`/coches/${generateVehicleSlug(v)}`}
                             target="_blank"
                             rel="noreferrer"
                             className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
@@ -235,6 +236,17 @@ function AdminVehiculos() {
                           >
                             <ExternalLink className="size-4" />
                           </a>
+                          <Button
+                            asChild
+                            variant="ghost"
+                            size="icon"
+                            className="text-amber-400 hover:bg-amber-950/40 hover:text-amber-300"
+                            title="Editar Vehículo"
+                          >
+                            <Link to="/admin/vehiculos/editar/$vehicleId" params={{ vehicleId: v.id }}>
+                              <Pencil className="size-4" />
+                            </Link>
+                          </Button>
                           <Button
                             variant="ghost"
                             size="icon"
@@ -328,21 +340,33 @@ function AdminVehiculos() {
 
                 <div className="p-4 bg-zinc-900/60 border-t border-zinc-800/80 flex items-center justify-between">
                   <a
-                    href={`/coches/${v.id}`}
+                    href={`/coches/${generateVehicleSlug(v)}`}
                     target="_blank"
                     rel="noreferrer"
                     className="text-xs font-semibold text-zinc-400 hover:text-white flex items-center gap-1"
                   >
                     Ver Ficha Web <ExternalLink className="size-3" />
                   </a>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-400 hover:bg-red-950/40 hover:text-red-300 text-xs gap-1"
-                    onClick={() => handleDelete(v.id)}
-                  >
-                    <Trash2 className="size-3.5" /> Eliminar
-                  </Button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="sm"
+                      className="text-amber-400 hover:bg-amber-950/40 hover:text-amber-300 text-xs gap-1"
+                    >
+                      <Link to="/admin/vehiculos/editar/$vehicleId" params={{ vehicleId: v.id }}>
+                        <Pencil className="size-3.5" /> Editar
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-400 hover:bg-red-950/40 hover:text-red-300 text-xs gap-1"
+                      onClick={() => handleDelete(v.id)}
+                    >
+                      <Trash2 className="size-3.5" /> Eliminar
+                    </Button>
+                  </div>
                 </div>
               </div>
             );

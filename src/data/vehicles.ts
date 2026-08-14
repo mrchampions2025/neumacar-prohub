@@ -76,13 +76,30 @@ export async function fetchAllVehicles(): Promise<StockVehicle[]> {
 }
 
 export async function fetchVehicleById(id: string): Promise<StockVehicle | null> {
-  const { data, error } = await supabase.from("stock_vehicles").select("*").eq("id", id).single();
+  if (!id) return null;
+
+  // 1. Coincidencia exacta por ID
+  const { data, error } = await supabase.from("stock_vehicles").select("*").eq("id", id).maybeSingle();
+
+  if (data) {
+    return data as unknown as StockVehicle;
+  }
+
+  // 2. Coincidencia parcial si el ID en la URL contiene prefijo/sufijo
+  const { data: listData } = await supabase
+    .from("stock_vehicles")
+    .select("*")
+    .like("id", `%${id}%`)
+    .limit(1);
+
+  if (listData && listData.length > 0) {
+    return listData[0] as unknown as StockVehicle;
+  }
 
   if (error) {
     console.error("Error fetching vehicle by id:", error);
-    return null;
   }
-  return data as unknown as StockVehicle;
+  return null;
 }
 
 export const vehicleTitle = (v: StockVehicle) => `${v.brand} ${v.model} ${v.version}`;

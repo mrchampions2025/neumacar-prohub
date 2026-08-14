@@ -4,9 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Upload, X } from "lucide-react";
+import { ArrowLeft, Save, Upload, X, Sparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { CAR_BRANDS, getModelsForBrand } from "@/data/cars";
+import { autoFillVehicleSpecs } from "@/services/vehicleSpecsService";
 
 export const Route = createFileRoute("/admin/vehiculos/nuevo")({
   component: AdminNuevoVehiculo,
@@ -203,7 +204,39 @@ function AdminNuevoVehiculo() {
         <div className="grid gap-6 md:grid-cols-2">
           {/* DATOS PRINCIPALES */}
           <div className="surface-card rounded-xl border border-border p-6 shadow-sm space-y-4">
-            <h2 className="font-display text-lg font-semibold uppercase">Datos Principales</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="font-display text-lg font-semibold uppercase">Datos Principales</h2>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="text-xs bg-zinc-900 border-red-500/40 text-red-400 hover:bg-red-950/40 hover:text-red-300 gap-1.5 shadow-sm"
+                onClick={() => {
+                  const b = formData.brand === "Otro" ? formData.customBrand : formData.brand;
+                  if (!b || !formData.model) {
+                    toast.error("Selecciona una Marca y Modelo primero");
+                    return;
+                  }
+                  const specs = autoFillVehicleSpecs(b, formData.model, Number(formData.year), formData.version);
+                  setFormData((prev) => ({
+                    ...prev,
+                    fuel: specs.fuel,
+                    transmission: specs.transmission,
+                    power: specs.power.toString(),
+                    displacement: specs.displacement.toString(),
+                    doors: specs.doors,
+                    seats: specs.seats,
+                    bodyType: specs.bodyType,
+                    description: prev.description || specs.description,
+                    equipment: specs.equipment.join("\n"),
+                  }));
+                  toast.success("Especificaciones y equipamiento autorrellenados");
+                }}
+              >
+                <Sparkles className="size-3.5" />
+                Autorellenar Ficha
+              </Button>
+            </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>

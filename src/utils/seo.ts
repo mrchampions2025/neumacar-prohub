@@ -10,14 +10,27 @@ export function generateVehicleSlug(vehicle: any): string {
 
 export function parseVehicleIdFromSlug(slug: string): string | null {
   if (!slug) return null;
-  // Slugs look like: brand-model-ocasion-sevilla-[id]
-  // The ID might contain hyphens, so we split by the known delimiter
+  
+  // 1. Intentar el delimitador estándar SEO: "-ocasion-sevilla-"
   const delimiter = "-ocasion-sevilla-";
   const index = slug.lastIndexOf(delimiter);
-  
-  if (index === -1) return null;
-  
-  return slug.slice(index + delimiter.length);
+  if (index !== -1) {
+    return slug.slice(index + delimiter.length);
+  }
+
+  // 2. Si no contiene el delimitador SEO, extraer el ID al final tras el último guión
+  // Ejemplos: "mg-mg4-1786669236870", "audi-a3-872"
+  const parts = slug.split("-");
+  if (parts.length > 1) {
+    const candidateId = parts[parts.length - 1];
+    if (candidateId && candidateId.length >= 3) {
+      // Si las últimas partes forman un ID compuesto, o si el slug entero es el ID
+      return candidateId;
+    }
+  }
+
+  // 3. Fallback: devolver el slug directamente si coincide con un ID
+  return slug;
 }
 
 export function generateVehicleSEO(vehicle: any) {

@@ -36,6 +36,7 @@ import { Route as AdminLeadsIndexRouteImport } from './routes/admin.leads.index'
 import { Route as AdminPresupuestosIndexRouteImport } from './routes/admin.presupuestos.index'
 import { Route as AdminVehiculosIndexRouteImport } from './routes/admin.vehiculos.index'
 import { Route as AdminVehiculosNuevoRouteImport } from './routes/admin.vehiculos.nuevo'
+import { Route as AdminVehiculosEditarVehicleIdRouteImport } from './routes/admin.vehiculos.editar.$vehicleId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -173,6 +174,12 @@ const AdminVehiculosNuevoRoute = AdminVehiculosNuevoRouteImport.update({
   path: '/vehiculos/nuevo',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminVehiculosEditarVehicleIdRoute =
+  AdminVehiculosEditarVehicleIdRouteImport.update({
+    id: '/vehiculos/editar/$vehicleId',
+    path: '/vehiculos/editar/$vehicleId',
+    getParentRoute: () => AdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -202,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/admin/leads/': typeof AdminLeadsIndexRoute
   '/admin/presupuestos/': typeof AdminPresupuestosIndexRoute
   '/admin/vehiculos/': typeof AdminVehiculosIndexRoute
+  '/admin/vehiculos/editar/$vehicleId': typeof AdminVehiculosEditarVehicleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -230,6 +238,7 @@ export interface FileRoutesByTo {
   '/admin/leads': typeof AdminLeadsIndexRoute
   '/admin/presupuestos': typeof AdminPresupuestosIndexRoute
   '/admin/vehiculos': typeof AdminVehiculosIndexRoute
+  '/admin/vehiculos/editar/$vehicleId': typeof AdminVehiculosEditarVehicleIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -260,6 +269,7 @@ export interface FileRoutesById {
   '/admin/leads/': typeof AdminLeadsIndexRoute
   '/admin/presupuestos/': typeof AdminPresupuestosIndexRoute
   '/admin/vehiculos/': typeof AdminVehiculosIndexRoute
+  '/admin/vehiculos/editar/$vehicleId': typeof AdminVehiculosEditarVehicleIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -291,6 +301,7 @@ export interface FileRouteTypes {
     | '/admin/leads/'
     | '/admin/presupuestos/'
     | '/admin/vehiculos/'
+    | '/admin/vehiculos/editar/$vehicleId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -319,6 +330,7 @@ export interface FileRouteTypes {
     | '/admin/leads'
     | '/admin/presupuestos'
     | '/admin/vehiculos'
+    | '/admin/vehiculos/editar/$vehicleId'
   id:
     | '__root__'
     | '/'
@@ -348,6 +360,7 @@ export interface FileRouteTypes {
     | '/admin/leads/'
     | '/admin/presupuestos/'
     | '/admin/vehiculos/'
+    | '/admin/vehiculos/editar/$vehicleId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -564,6 +577,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminVehiculosNuevoRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/vehiculos/editar/$vehicleId': {
+      id: '/admin/vehiculos/editar/$vehicleId'
+      path: '/vehiculos/editar/$vehicleId'
+      fullPath: '/admin/vehiculos/editar/$vehicleId'
+      preLoaderRoute: typeof AdminVehiculosEditarVehicleIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
@@ -575,6 +595,7 @@ interface AdminRouteChildren {
   AdminLeadsIndexRoute: typeof AdminLeadsIndexRoute
   AdminPresupuestosIndexRoute: typeof AdminPresupuestosIndexRoute
   AdminVehiculosIndexRoute: typeof AdminVehiculosIndexRoute
+  AdminVehiculosEditarVehicleIdRoute: typeof AdminVehiculosEditarVehicleIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -585,6 +606,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminLeadsIndexRoute: AdminLeadsIndexRoute,
   AdminPresupuestosIndexRoute: AdminPresupuestosIndexRoute,
   AdminVehiculosIndexRoute: AdminVehiculosIndexRoute,
+  AdminVehiculosEditarVehicleIdRoute: AdminVehiculosEditarVehicleIdRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
