@@ -273,20 +273,41 @@ function AdminNuevoVehiculo() {
                     required
                     value={formData.model}
                     onChange={handleChange}
-                    placeholder="Ej: Serie 1"
+                    placeholder="Escribe el modelo exacto"
                   />
                 ) : (
-                  <select
-                    name="model"
-                    required
-                    value={formData.model}
-                    onChange={handleChange}
-                    disabled={!formData.brand}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm disabled:opacity-50"
-                  >
-                    <option value="">{formData.brand ? "Selecciona el modelo" : "Elige una marca primero"}</option>
-                    {getModelsForBrand(formData.brand).map(m => <option key={m} value={m}>{m}</option>)}
-                  </select>
+                  <div className="space-y-2">
+                    <select
+                      name="model"
+                      required
+                      value={getModelsForBrand(formData.brand).includes(formData.model) ? formData.model : formData.model ? "Otro" : ""}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setFormData((prev) => ({ ...prev, model: val }));
+                      }}
+                      disabled={!formData.brand}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm disabled:opacity-50"
+                    >
+                      <option value="">{formData.brand ? "Selecciona el modelo" : "Elige una marca primero"}</option>
+                      {getModelsForBrand(formData.brand).map((m) => (
+                        <option key={m} value={m}>
+                          {m === "Otro" ? "Añadir otro..." : m}
+                        </option>
+                      ))}
+                    </select>
+
+                    {(formData.model === "Otro" ||
+                      (!getModelsForBrand(formData.brand).includes(formData.model) &&
+                        formData.model !== "")) && (
+                      <Input
+                        name="model"
+                        value={formData.model === "Otro" ? "" : formData.model}
+                        onChange={handleChange}
+                        placeholder="Escribe el modelo exacto del vehículo"
+                        className="mt-2"
+                      />
+                    )}
+                  </div>
                 )}
               </div>
             </div>
@@ -306,14 +327,14 @@ function AdminNuevoVehiculo() {
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
-                  Año *
+                  Año (opcional)
                 </label>
                 <Input
                   name="year"
                   type="number"
-                  required
                   value={formData.year}
                   onChange={handleChange}
+                  placeholder="Ej: 2021"
                 />
               </div>
               <div>
@@ -433,14 +454,14 @@ function AdminNuevoVehiculo() {
             <div className="grid gap-4 grid-cols-4">
               <div className="col-span-2">
                 <label className="mb-1.5 block text-xs font-medium uppercase text-muted-foreground">
-                  Potencia (CV)
+                  Potencia (CV - opcional)
                 </label>
                 <Input
                   name="power"
                   type="number"
                   value={formData.power}
                   onChange={handleChange}
-                  placeholder="150"
+                  placeholder="Ej: 150 (opcional)"
                 />
               </div>
               <div className="col-span-2">

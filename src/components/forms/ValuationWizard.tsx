@@ -101,6 +101,8 @@ export function ValuationWizard() {
     },
   });
 
+  const [customModel, setCustomModel] = useState("");
+
   const equipment = watch("equipment");
 
   const next = async () => {
@@ -212,29 +214,58 @@ export function ValuationWizard() {
           
           <Field label="Modelo" htmlFor="v-model" error={errors.model}>
             {watch("brand") === "Otro" ? (
-              <Input id="v-model" placeholder="Especifica el modelo" {...register("model")} />
+              <Input id="v-model" placeholder="Escribe el modelo exacto" {...register("model")} />
             ) : (
-              <Select
-                value={watch("model")}
-                onValueChange={(v) => setValue("model", v, { shouldValidate: true })}
-                disabled={!watch("brand")}
-              >
-                <SelectTrigger id="v-model">
-                  <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
-                </SelectTrigger>
-                <SelectContent>
-                  {getModelsForBrand(watch("brand")).map((m) => (
-                    <SelectItem key={m} value={m}>{m}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="space-y-2">
+                <Select
+                  value={
+                    getModelsForBrand(watch("brand")).includes(watch("model"))
+                      ? watch("model")
+                      : watch("model")
+                        ? "Otro"
+                        : ""
+                  }
+                  onValueChange={(v) => {
+                    if (v === "Otro") {
+                      setValue("model", customModel || "Otro", { shouldValidate: true });
+                    } else {
+                      setValue("model", v, { shouldValidate: true });
+                    }
+                  }}
+                  disabled={!watch("brand")}
+                >
+                  <SelectTrigger id="v-model">
+                    <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {getModelsForBrand(watch("brand")).map((m) => (
+                      <SelectItem key={m} value={m}>
+                        {m === "Otro" ? "Añadir otro..." : m}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {(watch("model") === "Otro" ||
+                  (!getModelsForBrand(watch("brand")).includes(watch("model")) &&
+                    watch("model") !== "")) && (
+                  <Input
+                    placeholder="Escribe el modelo exacto de tu vehículo"
+                    value={customModel || (watch("model") !== "Otro" ? watch("model") : "")}
+                    onChange={(e) => {
+                      setCustomModel(e.target.value);
+                      setValue("model", e.target.value, { shouldValidate: true });
+                    }}
+                  />
+                )}
+              </div>
             )}
           </Field>
-          <Field label="Versión" htmlFor="v-version" error={errors.version}>
+          <Field label="Versión (opcional)" htmlFor="v-version" error={errors.version}>
             <Input id="v-version" placeholder="1.5 TSI FR 150 CV" {...register("version")} />
           </Field>
-          <Field label="Año" htmlFor="v-year" error={errors.year}>
-            <Input id="v-year" inputMode="numeric" placeholder="2019" {...register("year")} />
+          <Field label="Año (opcional)" htmlFor="v-year" error={errors.year}>
+            <Input id="v-year" inputMode="numeric" placeholder="Ej: 2019 (opcional)" {...register("year")} />
           </Field>
           <Field label="Matrícula" htmlFor="v-plate" error={errors.plate}>
             <Input id="v-plate" placeholder="1234 ABC" {...register("plate")} />
@@ -255,8 +286,8 @@ export function ValuationWizard() {
             "GLP",
           ])}
           {selectField("transmission", "Cambio", ["Manual", "Automático"])}
-          <Field label="Potencia (CV)" htmlFor="v-power" error={errors.power}>
-            <Input id="v-power" inputMode="numeric" placeholder="150" {...register("power")} />
+          <Field label="Potencia (CV - opcional)" htmlFor="v-power" error={errors.power}>
+            <Input id="v-power" inputMode="numeric" placeholder="150 (opcional)" {...register("power")} />
           </Field>
           {selectField("bodyType", "Carrocería", [
             "Compacto",

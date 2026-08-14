@@ -69,6 +69,8 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
     },
   });
 
+  const [customModel, setCustomModel] = useState("");
+
   const selectedDate = watch("date");
 
   useEffect(() => {
@@ -185,26 +187,55 @@ export function AppointmentForm({ defaultService }: { defaultService?: string })
         
         <Field label="Modelo" htmlFor="model" error={errors.model}>
           {watch("brand") === "Otro" ? (
-            <Input id="model" placeholder="Especifica el modelo" {...register("model")} />
+            <Input id="model" placeholder="Escribe el modelo exacto" {...register("model")} />
           ) : (
-            <Select
-              value={watch("model")}
-              onValueChange={(v) => setValue("model", v, { shouldValidate: true })}
-              disabled={!watch("brand")}
-            >
-              <SelectTrigger id="model">
-                <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
-              </SelectTrigger>
-              <SelectContent>
-                {getModelsForBrand(watch("brand")).map((m) => (
-                  <SelectItem key={m} value={m}>{m}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="space-y-2">
+              <Select
+                value={
+                  getModelsForBrand(watch("brand")).includes(watch("model"))
+                    ? watch("model")
+                    : watch("model")
+                      ? "Otro"
+                      : ""
+                }
+                onValueChange={(v) => {
+                  if (v === "Otro") {
+                    setValue("model", customModel || "Otro", { shouldValidate: true });
+                  } else {
+                    setValue("model", v, { shouldValidate: true });
+                  }
+                }}
+                disabled={!watch("brand")}
+              >
+                <SelectTrigger id="model">
+                  <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {getModelsForBrand(watch("brand")).map((m) => (
+                    <SelectItem key={m} value={m}>
+                      {m === "Otro" ? "Añadir otro..." : m}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {(watch("model") === "Otro" ||
+                (!getModelsForBrand(watch("brand")).includes(watch("model")) &&
+                  watch("model") !== "")) && (
+                <Input
+                  placeholder="Escribe el modelo exacto de tu vehículo"
+                  value={customModel || (watch("model") !== "Otro" ? watch("model") : "")}
+                  onChange={(e) => {
+                    setCustomModel(e.target.value);
+                    setValue("model", e.target.value, { shouldValidate: true });
+                  }}
+                />
+              )}
+            </div>
           )}
         </Field>
-        <Field label="Año" htmlFor="year" error={errors.year}>
-          <Input id="year" inputMode="numeric" placeholder="2019" {...register("year")} />
+        <Field label="Año (opcional)" htmlFor="year" error={errors.year}>
+          <Input id="year" inputMode="numeric" placeholder="Ej: 2019 (opcional)" {...register("year")} />
         </Field>
         <Field label="Kilómetros" htmlFor="mileage" error={errors.mileage}>
           <Input id="mileage" inputMode="numeric" placeholder="98000" {...register("mileage")} />

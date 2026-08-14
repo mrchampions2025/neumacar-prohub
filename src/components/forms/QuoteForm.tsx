@@ -50,6 +50,8 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
     },
   });
 
+  const [customModel, setCustomModel] = useState("");
+
   const onSubmit = async (values: QuoteValues) => {
     try {
       const result = await submitLead({
@@ -125,22 +127,51 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
         
         <Field label="Modelo" htmlFor="q-model" error={errors.model}>
           {watch("brand") === "Otro" ? (
-            <Input id="q-model" placeholder="Especifica el modelo" {...register("model")} />
+            <Input id="q-model" placeholder="Escribe el modelo exacto" {...register("model")} />
           ) : (
-            <Select
-              value={watch("model")}
-              onValueChange={(v) => setValue("model", v, { shouldValidate: true })}
-              disabled={!watch("brand")}
-            >
-              <SelectTrigger id="q-model">
-                <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
-              </SelectTrigger>
-              <SelectContent>
-                {getModelsForBrand(watch("brand")).map((m) => (
-                  <SelectItem key={m} value={m}>{m}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="space-y-2">
+              <Select
+                value={
+                  getModelsForBrand(watch("brand")).includes(watch("model"))
+                    ? watch("model")
+                    : watch("model")
+                      ? "Otro"
+                      : ""
+                }
+                onValueChange={(v) => {
+                  if (v === "Otro") {
+                    setValue("model", customModel || "Otro", { shouldValidate: true });
+                  } else {
+                    setValue("model", v, { shouldValidate: true });
+                  }
+                }}
+                disabled={!watch("brand")}
+              >
+                <SelectTrigger id="q-model">
+                  <SelectValue placeholder={watch("brand") ? "Selecciona el modelo" : "Elige una marca primero"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {getModelsForBrand(watch("brand")).map((m) => (
+                    <SelectItem key={m} value={m}>
+                      {m === "Otro" ? "Añadir otro..." : m}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {(watch("model") === "Otro" ||
+                (!getModelsForBrand(watch("brand")).includes(watch("model")) &&
+                  watch("model") !== "")) && (
+                <Input
+                  placeholder="Escribe el modelo exacto de tu vehículo"
+                  value={customModel || (watch("model") !== "Otro" ? watch("model") : "")}
+                  onChange={(e) => {
+                    setCustomModel(e.target.value);
+                    setValue("model", e.target.value, { shouldValidate: true });
+                  }}
+                />
+              )}
+            </div>
           )}
         </Field>
         <Field label="Servicio" error={errors.service} className="sm:col-span-2">

@@ -321,27 +321,44 @@ function AdminEditarVehiculo() {
                     required
                     value={formData.model}
                     onChange={handleChange}
-                    placeholder="Ej: Serie 1"
+                    placeholder="Escribe el modelo exacto"
                     className="text-xs bg-zinc-900 border-zinc-700 text-white"
                   />
                 ) : (
-                  <select
-                    name="model"
-                    required
-                    value={formData.model}
-                    onChange={handleChange}
-                    disabled={!formData.brand}
-                    className="flex h-10 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-xs text-white focus:border-red-500 focus:outline-none disabled:opacity-50"
-                  >
-                    <option value="">
-                      {formData.brand ? "Selecciona el modelo" : "Elige una marca primero"}
-                    </option>
-                    {getModelsForBrand(formData.brand).map((m) => (
-                      <option key={m} value={m}>
-                        {m}
+                  <div className="space-y-2">
+                    <select
+                      name="model"
+                      required
+                      value={getModelsForBrand(formData.brand).includes(formData.model) ? formData.model : formData.model ? "Otro" : ""}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setFormData((prev) => ({ ...prev, model: val }));
+                      }}
+                      disabled={!formData.brand}
+                      className="flex h-10 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-xs text-white focus:border-red-500 focus:outline-none disabled:opacity-50"
+                    >
+                      <option value="">
+                        {formData.brand ? "Selecciona el modelo" : "Elige una marca primero"}
                       </option>
-                    ))}
-                  </select>
+                      {getModelsForBrand(formData.brand).map((m) => (
+                        <option key={m} value={m}>
+                          {m === "Otro" ? "Añadir otro..." : m}
+                        </option>
+                      ))}
+                    </select>
+
+                    {(formData.model === "Otro" ||
+                      (!getModelsForBrand(formData.brand).includes(formData.model) &&
+                        formData.model !== "")) && (
+                      <Input
+                        name="model"
+                        value={formData.model === "Otro" ? "" : formData.model}
+                        onChange={handleChange}
+                        placeholder="Escribe el modelo exacto del vehículo"
+                        className="mt-2 text-xs bg-zinc-900 border-zinc-700 text-white"
+                      />
+                    )}
+                  </div>
                 )}
               </div>
             </div>
@@ -362,14 +379,14 @@ function AdminEditarVehiculo() {
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
-                  Año *
+                  Año (opcional)
                 </label>
                 <Input
                   name="year"
                   type="number"
-                  required
                   value={formData.year}
                   onChange={handleChange}
+                  placeholder="Ej: 2021"
                   className="text-xs bg-zinc-900 border-zinc-700 text-white"
                 />
               </div>
@@ -474,14 +491,14 @@ function AdminEditarVehiculo() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
-                  Potencia (CV)
+                  Potencia (CV - opcional)
                 </label>
                 <Input
                   name="power"
                   type="number"
                   value={formData.power}
                   onChange={handleChange}
-                  placeholder="Ej: 195"
+                  placeholder="Ej: 195 (opcional)"
                   className="text-xs bg-zinc-900 border-zinc-700 text-white"
                 />
               </div>

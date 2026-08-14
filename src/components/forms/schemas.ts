@@ -31,6 +31,16 @@ export const consentSchema = z
 
 const notes = z.string().trim().max(1500, { message: "Texto demasiado largo" });
 
+export const optionalYearSchema = z
+  .string()
+  .trim()
+  .refine((v) => v === "" || /^(19|20)\d{2}$/.test(v), { message: "Año no válido (ej: 2020)" });
+
+export const optionalPowerSchema = z
+  .string()
+  .trim()
+  .refine((v) => v === "" || /^\d{1,4}$/.test(v), { message: "Potencia no válida" });
+
 export const appointmentSchema = z.object({
   name: nameSchema,
   surname: nameSchema,
@@ -39,10 +49,7 @@ export const appointmentSchema = z.object({
   plate: plateSchema,
   brand: z.string().trim().min(2, { message: "Indica la marca" }).max(40),
   model: z.string().trim().min(1, { message: "Indica el modelo" }).max(40),
-  year: z
-    .string()
-    .trim()
-    .regex(/^(19|20)\d{2}$/, { message: "Año no válido" }),
+  year: optionalYearSchema,
   mileage: z
     .string()
     .trim()
@@ -109,10 +116,7 @@ export const valuationSchema = z.object({
   brand: z.string().trim().min(2, { message: "Indica la marca" }).max(40),
   model: z.string().trim().min(1, { message: "Indica el modelo" }).max(40),
   version: z.string().trim().max(80, { message: "Texto demasiado largo" }),
-  year: z
-    .string()
-    .trim()
-    .regex(/^(19|20)\d{2}$/, { message: "Año no válido" }),
+  year: optionalYearSchema,
   plate: plateSchema,
   mileage: z
     .string()
@@ -120,10 +124,7 @@ export const valuationSchema = z.object({
     .regex(/^\d{1,7}$/, { message: "Kilómetros no válidos" }),
   fuel: z.string().min(1, { message: "Selecciona el combustible" }),
   transmission: z.string().min(1, { message: "Selecciona el cambio" }),
-  power: z
-    .string()
-    .trim()
-    .regex(/^\d{1,4}$/, { message: "Potencia no válida" }),
+  power: optionalPowerSchema,
   bodyType: z.string().min(1, { message: "Selecciona la carrocería" }),
   // Paso 2 — estado
   conditionGeneral: z.string().min(1, { message: "Selecciona una opción" }),
