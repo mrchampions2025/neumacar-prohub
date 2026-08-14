@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar as CalendarIcon, Clock, Phone, Car, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, Phone, Car, Plus, Sparkles, User, Wrench, FileText, CheckCircle, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
@@ -31,7 +31,7 @@ function AdminCitas() {
   const [appointments, setAppointments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [statusFilter, setStatusFilter] = useState<string>("todos");
 
   useEffect(() => {
     async function fetchAppointments() {
@@ -61,54 +61,68 @@ function AdminCitas() {
       if (selectedEvent && selectedEvent.id === id) {
         setSelectedEvent({ ...selectedEvent, status: newStatus });
       }
-      toast.success("Estado actualizado");
+      toast.success("Estado de cita actualizado");
     } else {
-      toast.error("Error al actualizar");
+      toast.error("Error al actualizar estado");
     }
   };
 
+  const filteredAppointments = useMemo(() => {
+    if (statusFilter === "todos") return appointments;
+    return appointments.filter((app) => app.status === statusFilter);
+  }, [appointments, statusFilter]);
+
   const events = useMemo(() => {
-    return appointments.map((app) => {
+    return filteredAppointments.map((app) => {
       const dateStr = app.data?.date; // "YYYY-MM-DD"
       let timeStr = app.data?.time; // "HH:mm"
       
       if (!dateStr) return null;
-      if (!timeStr || timeStr === "A concretar") timeStr = "09:00"; // fallback
+      if (!timeStr || timeStr === "A concretar") timeStr = "09:00";
 
       const [year, month, day] = dateStr.split('-').map(Number);
       const [hours, minutes] = timeStr.split(':').map(Number);
       
       const start = new Date(year, month - 1, day, hours, minutes);
-      const end = new Date(start.getTime() + 45 * 60000); // Add 45 minutes
+      const end = new Date(start.getTime() + 45 * 60000);
 
       return {
         id: app.id,
-        title: `${app.name} - ${app.data?.brand} ${app.data?.model}`,
+        title: `${app.name} - ${app.data?.brand || ''} ${app.data?.model || ''}`,
         start,
         end,
         resource: app,
       };
     }).filter(Boolean);
-  }, [appointments]);
+  }, [filteredAppointments]);
 
   const eventStyleGetter = (event: any) => {
     const status = event.resource.status;
-    let backgroundColor = "#f97316"; // orange for nuevo/pendiente
-    
-    if (status === "convertido") backgroundColor = "#22c55e"; // green
-    if (status === "perdido") backgroundColor = "#ef4444"; // red
-    if (status === "contactado") backgroundColor = "#3b82f6"; // blue
-    
+    let backgroundColor = "rgba(234, 88, 12, 0.9)"; // amber/orange
+    let borderColor = "#f97316";
+
+    if (status === "convertido" || status === "confirmada") {
+      backgroundColor = "rgba(16, 185, 129, 0.9)"; // emerald
+      borderColor = "#10b981";
+    } else if (status === "perdido" || status === "cancelada") {
+      backgroundColor = "rgba(239, 68, 68, 0.9)"; // red
+      borderColor = "#ef4444";
+    } else if (status === "contactado") {
+      backgroundColor = "rgba(59, 130, 246, 0.9)"; // blue
+      borderColor = "#3b82f6";
+    }
+
     return {
       style: {
         backgroundColor,
-        borderRadius: "4px",
+        borderColor,
+        borderRadius: "8px",
         color: "#ffffff",
-        border: "none",
-        display: "block",
-        fontWeight: "bold",
-        padding: "2px 5px",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.3)"
+        borderLeft: `4px solid ${borderColor}`,
+        fontWeight: "600",
+        fontSize: "0.75rem",
+        padding: "4px 8px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.5)"
       }
     };
   };
@@ -118,55 +132,88 @@ function AdminCitas() {
   };
 
   return (
-    <div className="space-y-6 pb-12 h-full flex flex-col">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 pb-12 animate-fade-in-up">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800/80 pb-5">
         <div>
-          <h1 className="font-display text-2xl font-bold uppercase text-slate-800">Gestión de Citas</h1>
-          <p className="text-sm text-slate-500">Calendario avanzado de taller</p>
+          <h1 className="font-display text-3xl font-extrabold uppercase tracking-tight text-white flex items-center gap-2">
+            Agenda de Taller <CalendarIcon className="size-6 text-red-500" />
+          </h1>
+          <p className="text-sm text-zinc-400 mt-1">
+            Calendario interactivo de servicios de mantenimiento, cambio de neumáticos y reparaciones.
+          </p>
         </div>
-        <Button variant="hero">
-          <Plus className="mr-2 size-4" />
-          Nueva cita
-        </Button>
       </div>
 
-      <div className="flex-grow bg-slate-200 rounded-xl border border-slate-300 shadow-sm p-4 overflow-hidden min-h-[700px] text-slate-800">
+      {/* Filter Tabs */}
+      <div className="glass-panel-dark rounded-2xl p-4 border border-zinc-800 flex items-center justify-between">
+        <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden sm:inline">
+          Filtrar Citas por Estado:
+        </span>
+        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
+          {[
+            { id: "todos", label: "Todas" },
+            { id: "nuevo", label: "Pendientes" },
+            { id: "contactado", label: "Contactadas" },
+            { id: "convertido", label: "Confirmadas" },
+            { id: "perdido", label: "Canceladas" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setStatusFilter(tab.id)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize whitespace-nowrap transition-all ${
+                statusFilter === tab.id
+                  ? "bg-red-600 text-white shadow-md shadow-red-950"
+                  : "text-zinc-400 hover:text-white hover:bg-zinc-800/80"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Calendar Area */}
+      <div className="glass-panel-dark rounded-2xl border border-zinc-800/80 shadow-2xl p-4 overflow-hidden min-h-[650px] text-zinc-200">
         {loading ? (
-          <div className="h-full flex items-center justify-center text-slate-500">Cargando calendario...</div>
+          <div className="h-[600px] flex items-center justify-center text-zinc-500">
+            <span className="animate-pulse">Cargando agenda del taller...</span>
+          </div>
         ) : (
           <>
             <style dangerouslySetInnerHTML={{__html: `
-              .rbc-calendar { font-family: inherit; }
-              .rbc-header { padding: 8px; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; color: #64748b; border-bottom: 1px solid #e2e8f0 !important; }
-              .rbc-month-view, .rbc-time-view, .rbc-agenda-view { border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #f1f5f9; }
-              .rbc-day-bg { border-left: 1px solid #e2e8f0 !important; }
-              .rbc-month-row { border-top: 1px solid #e2e8f0 !important; }
-              .rbc-off-range-bg { background-color: #f8fafc; }
-              .rbc-today { background-color: #f1f5f9; }
-              .rbc-event { padding: 2px 4px; font-size: 0.75rem; font-weight: 500; }
-              .rbc-toolbar button { color: #475569; border-color: #cbd5e1; }
-              .rbc-toolbar button:active, .rbc-toolbar button.rbc-active { background-color: #1da1f2; color: white; border-color: #1da1f2; box-shadow: none; }
-              .rbc-toolbar button:hover:not(.rbc-active) { background-color: #f1f5f9; }
-              .rbc-time-content { border-top: 1px solid #e2e8f0; }
-              .rbc-timeslot-group { border-bottom: 1px solid #e2e8f0; }
-              .rbc-time-view .rbc-day-slot .rbc-time-slot { border-top: 1px solid #f1f5f9; }
-              .rbc-time-header-content { border-left: 1px solid #e2e8f0; }
-              .rbc-time-content > * + * > * { border-left: 1px solid #e2e8f0; }
-              .rbc-label { color: #64748b; padding: 0 4px; }
+              .rbc-calendar { font-family: inherit; color: #e4e4e7; }
+              .rbc-header { padding: 10px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: #a1a1aa; border-bottom: 1px solid #27272a !important; background: rgba(24, 24, 27, 0.8); }
+              .rbc-month-view, .rbc-time-view, .rbc-agenda-view { border: 1px solid #27272a; border-radius: 12px; overflow: hidden; background: #09090b; }
+              .rbc-day-bg { border-left: 1px solid #27272a !important; }
+              .rbc-month-row { border-top: 1px solid #27272a !important; }
+              .rbc-off-range-bg { background-color: #09090b; opacity: 0.4; }
+              .rbc-today { background-color: rgba(225, 29, 72, 0.08); }
+              .rbc-event { padding: 3px 6px; font-size: 0.75rem; }
+              .rbc-toolbar button { color: #a1a1aa; border-color: #27272a; background: #18181b; font-size: 0.75rem; border-radius: 8px; margin-right: 4px; }
+              .rbc-toolbar button:active, .rbc-toolbar button.rbc-active { background-color: #dc2626 !important; color: white !important; border-color: #dc2626 !important; font-weight: bold; }
+              .rbc-toolbar button:hover:not(.rbc-active) { background-color: #27272a; color: white; }
+              .rbc-time-content { border-top: 1px solid #27272a; }
+              .rbc-timeslot-group { border-bottom: 1px solid #27272a; }
+              .rbc-time-view .rbc-day-slot .rbc-time-slot { border-top: 1px solid #18181b; }
+              .rbc-time-header-content { border-left: 1px solid #27272a; }
+              .rbc-time-content > * + * > * { border-left: 1px solid #27272a; }
+              .rbc-label { color: #71717a; font-size: 0.75rem; }
+              .rbc-toolbar-label { font-weight: bold; font-family: var(--font-display); font-size: 1.1rem; text-transform: uppercase; color: #fff; }
             `}} />
             <Calendar
               localizer={localizer}
               events={events}
               startAccessor="start"
               endAccessor="end"
-              style={{ height: "100%" }}
+              style={{ height: 600 }}
               views={[Views.MONTH, Views.WEEK, Views.DAY]}
               defaultView={Views.WEEK}
               culture="es"
               eventPropGetter={eventStyleGetter}
               onSelectEvent={handleSelectEvent}
-              min={new Date(0, 0, 0, 8, 0, 0)} // Start at 8am
-              max={new Date(0, 0, 0, 20, 0, 0)} // End at 8pm
+              min={new Date(0, 0, 0, 8, 0, 0)}
+              max={new Date(0, 0, 0, 20, 0, 0)}
               messages={{
                 next: "Sig",
                 previous: "Ant",
@@ -180,60 +227,81 @@ function AdminCitas() {
         )}
       </div>
 
+      {/* Appointment Detail Dialog */}
       <Dialog open={!!selectedEvent} onOpenChange={(o) => !o && setSelectedEvent(null)}>
-        <DialogContent className="bg-slate-200 text-slate-800 border-slate-300">
+        <DialogContent className="bg-zinc-950 text-white border-zinc-800 max-w-md rounded-2xl shadow-2xl">
           <DialogHeader>
-            <DialogTitle>Detalle de la Cita</DialogTitle>
+            <DialogTitle className="font-display font-bold text-xl uppercase flex items-center gap-2">
+              <Wrench className="size-5 text-red-500" /> Detalle de la Cita
+            </DialogTitle>
           </DialogHeader>
           
           {selectedEvent && (
-            <div className="space-y-4 mt-4">
-              <div className="flex items-center gap-2">
-                <Badge variant={selectedEvent.status === "nuevo" ? "default" : "outline"} className="capitalize">
+            <div className="space-y-4 mt-2">
+              <div className="flex items-center justify-between bg-zinc-900/80 p-3 rounded-xl border border-zinc-800">
+                <span
+                  className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                    selectedEvent.status === "convertido"
+                      ? "bg-emerald-950 text-emerald-400 border border-emerald-800"
+                      : selectedEvent.status === "perdido"
+                        ? "bg-red-950 text-red-400 border border-red-800"
+                        : "bg-amber-950 text-amber-400 border border-amber-800"
+                  }`}
+                >
                   {selectedEvent.status}
-                </Badge>
-                <span className="text-sm text-slate-500 font-medium flex items-center gap-1">
-                  <Clock className="size-3" />
+                </span>
+                <span className="text-xs text-zinc-300 font-medium flex items-center gap-1.5">
+                  <Clock className="size-3.5 text-red-400" />
                   {selectedEvent.data?.date} a las {selectedEvent.data?.time}
                 </span>
               </div>
               
-              <div className="grid gap-2 text-sm bg-slate-300 p-4 rounded-md border border-slate-400">
-                <div className="flex gap-2">
-                  <span className="font-semibold w-24 text-slate-500">Cliente:</span>
-                  <span>{selectedEvent.name}</span>
+              <div className="grid gap-3 text-xs bg-zinc-900/50 p-4 rounded-xl border border-zinc-800/80">
+                <div className="flex items-center gap-2 text-zinc-300">
+                  <User className="size-4 text-zinc-500 shrink-0" />
+                  <span className="font-semibold text-zinc-400 w-20">Cliente:</span>
+                  <span className="font-bold text-white">{selectedEvent.name}</span>
                 </div>
-                <div className="flex gap-2">
-                  <span className="font-semibold w-24 text-slate-500">Teléfono:</span>
-                  <span className="flex items-center gap-1"><Phone className="size-3" /> {selectedEvent.phone}</span>
+                <div className="flex items-center gap-2 text-zinc-300">
+                  <Phone className="size-4 text-zinc-500 shrink-0" />
+                  <span className="font-semibold text-zinc-400 w-20">Teléfono:</span>
+                  <a href={`tel:${selectedEvent.phone}`} className="text-red-400 hover:underline">
+                    {selectedEvent.phone}
+                  </a>
                 </div>
-                <div className="flex gap-2">
-                  <span className="font-semibold w-24 text-slate-500">Vehículo:</span>
-                  <span className="flex items-center gap-1"><Car className="size-3" /> {selectedEvent.data?.brand} {selectedEvent.data?.model} ({selectedEvent.data?.plate})</span>
+                <div className="flex items-center gap-2 text-zinc-300">
+                  <Car className="size-4 text-zinc-500 shrink-0" />
+                  <span className="font-semibold text-zinc-400 w-20">Vehículo:</span>
+                  <span className="text-zinc-200">
+                    {selectedEvent.data?.brand} {selectedEvent.data?.model} ({selectedEvent.data?.plate || "Sin matrícula"})
+                  </span>
                 </div>
-                <div className="flex gap-2">
-                  <span className="font-semibold w-24 text-slate-500">Servicio:</span>
-                  <span className="capitalize">{selectedEvent.data?.service}</span>
+                <div className="flex items-center gap-2 text-zinc-300">
+                  <Wrench className="size-4 text-zinc-500 shrink-0" />
+                  <span className="font-semibold text-zinc-400 w-20">Servicio:</span>
+                  <span className="capitalize text-zinc-200">{selectedEvent.data?.service || "Mantenimiento general"}</span>
                 </div>
               </div>
 
               {selectedEvent.message && (
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Comentarios</h4>
-                  <p className="text-sm p-3 border border-slate-300 rounded-md bg-slate-100">
+                  <h4 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                    <FileText className="size-3 text-zinc-500" /> Comentarios del Cliente
+                  </h4>
+                  <p className="text-xs p-3 border border-zinc-800 rounded-xl bg-zinc-900/80 text-zinc-300 leading-relaxed">
                     {selectedEvent.message}
                   </p>
                 </div>
               )}
 
-              <div className="pt-4 flex flex-col gap-2">
-                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Cambiar Estado</label>
+              <div className="pt-3 border-t border-zinc-800 space-y-2">
+                <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Actualizar Estado de la Cita</label>
                 <select
                   value={selectedEvent.status}
                   onChange={(e) => updateStatus(selectedEvent.id, e.target.value)}
-                  className="h-10 rounded-md border border-slate-300 bg-slate-100 px-3 text-sm"
+                  className="w-full h-10 rounded-xl border border-zinc-700 bg-zinc-900 px-3 text-xs text-white focus:border-red-500 focus:outline-none"
                 >
-                  <option value="nuevo">Pendiente</option>
+                  <option value="nuevo">Pendiente / Nuevo</option>
                   <option value="contactado">Contactado</option>
                   <option value="convertido">Confirmada (Ganada)</option>
                   <option value="perdido">Cancelada (Perdida)</option>
@@ -246,3 +314,4 @@ function AdminCitas() {
     </div>
   );
 }
+

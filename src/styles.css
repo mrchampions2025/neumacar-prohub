@@ -243,3 +243,49 @@
     padding-left: 1.25rem;
   }
 }
+
+/* --- Admin Panel Animations & Glassmorphism Utilities --- */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlowRed {
+  0%, 100% {
+    box-shadow: 0 0 8px oklch(0.556 0.213 26.5 / 30%);
+  }
+  50% {
+    box-shadow: 0 0 18px oklch(0.556 0.213 26.5 / 65%);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.glass-panel-dark {
+  background-color: oklch(0.16 0.006 285 / 85%);
+  backdrop-filter: blur(14px);
+  border: 1px solid oklch(1 0 0 / 10%);
+}
+
+.hover-card-lift {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.hover-card-lift:hover {
+  transform: translateY(-3px);
+  border-color: oklch(0.556 0.213 26.5 / 45%);
+  box-shadow: 0 14px 30px -10px oklch(0 0 0 / 70%), 0 0 20px -5px oklch(0.556 0.213 26.5 / 20%);
+}
+
+.glow-red-active {
+  animation: pulseGlowRed 3s infinite ease-in-out;
+}
+
