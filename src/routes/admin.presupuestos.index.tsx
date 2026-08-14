@@ -599,24 +599,24 @@ function AdminPresupuestos() {
           
           {selectedLead && (
             <div className="space-y-6 mt-4">
-              <div className="grid grid-cols-2 gap-4 bg-slate-300 p-4 rounded-lg border border-slate-400">
+              <div className="grid grid-cols-2 gap-4 bg-zinc-900 p-4 rounded-lg border border-zinc-800">
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Cliente</h4>
-                  <p className="font-medium">{selectedLead.name}</p>
-                  <p className="text-sm text-slate-500">{selectedLead.email || 'Sin email'}</p>
-                  <p className="text-sm font-semibold mt-1">{selectedLead.phone}</p>
+                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Cliente</h4>
+                  <p className="font-medium text-white">{selectedLead.name}</p>
+                  <p className="text-sm text-zinc-300">{selectedLead.email || 'Sin email'}</p>
+                  <p className="text-sm font-semibold mt-1 text-white">{selectedLead.phone}</p>
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Tipo y Estado</h4>
-                  <p className="font-medium capitalize">{selectedLead.type.replace("_", " ")}</p>
-                  <p className="text-sm text-slate-500">Estado actual: <span className="capitalize">{selectedLead.status}</span></p>
+                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Tipo y Estado</h4>
+                  <p className="font-medium capitalize text-white">{selectedLead.type.replace("_", " ")}</p>
+                  <p className="text-sm text-zinc-300">Estado actual: <span className="capitalize text-white">{selectedLead.status}</span></p>
                 </div>
               </div>
 
               {selectedLead.data && (
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Datos Proporcionados</h4>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Datos Proporcionados</h4>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-zinc-300">
                     {Object.entries(selectedLead.data).map(([key, value]) => {
                       if (key === 'images' || key === 'consent' || key === 'adminNotes' || key === 'generated_quote' || typeof value === 'object' || !value) return null;
                       
@@ -627,9 +627,9 @@ function AdminPresupuestos() {
                       };
 
                       return (
-                        <div key={key} className="border-b border-border pb-1">
-                          <span className="text-slate-500 capitalize mr-2">{labelMap[key] || key}:</span>
-                          <span className="font-medium">{String(value)}</span>
+                        <div key={key} className="border-b border-zinc-800 pb-1">
+                          <span className="text-zinc-500 capitalize mr-2">{labelMap[key] || key}:</span>
+                          <span className="font-medium text-white">{String(value)}</span>
                         </div>
                       )
                     })}
@@ -639,25 +639,25 @@ function AdminPresupuestos() {
 
               {selectedLead.message && (
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Mensaje / Notas</h4>
-                  <p className="text-sm bg-slate-300 p-3 rounded-md border border-slate-400">{selectedLead.message}</p>
+                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Mensaje / Notas</h4>
+                  <p className="text-sm bg-zinc-900 text-zinc-300 p-3 rounded-md border border-zinc-800">{selectedLead.message}</p>
                 </div>
               )}
 
-              <div className="border-t border-border pt-4 mt-6">
-                <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Comentarios Internos</h4>
+              <div className="border-t border-zinc-800 pt-4 mt-6">
+                <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">Comentarios Internos</h4>
                 
                 {selectedLead.data?.adminNotes && Array.isArray(selectedLead.data.adminNotes) && (
                   <div className="space-y-3 mb-6">
                     {selectedLead.data.adminNotes.map((note: any, i: number) => (
-                      <div key={i} className="bg-slate-300 p-3 rounded-md text-sm border border-slate-400">
+                      <div key={i} className="bg-zinc-900 p-3 rounded-md text-sm border border-zinc-800">
                         <div className="flex justify-between items-center mb-1">
                           <span className="font-semibold text-[#1da1f2]">{note.role || 'Admin'}</span>
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-zinc-500">
                             {note.date ? new Date(note.date).toLocaleString() : ''}
                           </span>
                         </div>
-                        <p className="whitespace-pre-wrap">{note.text}</p>
+                        <p className="whitespace-pre-wrap text-zinc-300">{note.text}</p>
                       </div>
                     ))}
                   </div>

@@ -187,7 +187,6 @@ function AdminEditarVehiculo() {
           maintenance: formData.conditionMaintenance || "Al día",
           tyres: formData.conditionTyres || "Buen estado",
           brakes: formData.conditionBrakes || "Buen estado",
-          history: formData.conditionHistory || "Desconocido",
         },
       })
       .eq("id", vehicleId);
@@ -593,73 +592,83 @@ function AdminEditarVehiculo() {
               <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
                 Estado general
               </label>
-              <Input
+              <select
                 name="conditionGeneral"
                 value={formData.conditionGeneral}
                 onChange={handleChange}
-                placeholder="Ej: Bueno, Excelente, Impecable"
-                className="text-xs bg-zinc-900 border-zinc-700 text-white"
-              />
+                className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-xs ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-900 border-zinc-700 text-white"
+              >
+                <option value="Impecable">Impecable</option>
+                <option value="Excelente">Excelente</option>
+                <option value="Muy Bueno">Muy Bueno</option>
+                <option value="Bueno">Bueno</option>
+                <option value="Aceptable">Aceptable</option>
+              </select>
             </div>
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
                 ITV
               </label>
-              <Input
+              <select
                 name="conditionItv"
                 value={formData.conditionItv}
                 onChange={handleChange}
-                placeholder="Ej: En vigor, Recién pasada"
-                className="text-xs bg-zinc-900 border-zinc-700 text-white"
-              />
+                className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-xs ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-900 border-zinc-700 text-white"
+              >
+                <option value="En vigor">En vigor</option>
+                <option value="Recién pasada">Recién pasada</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Caducada">Caducada</option>
+                <option value="No aplicable">No aplicable</option>
+              </select>
             </div>
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
                 Mantenimiento
               </label>
-              <Input
+              <select
                 name="conditionMaintenance"
                 value={formData.conditionMaintenance}
                 onChange={handleChange}
-                placeholder="Ej: Al día, Recién realizado"
-                className="text-xs bg-zinc-900 border-zinc-700 text-white"
-              />
+                className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-xs ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-900 border-zinc-700 text-white"
+              >
+                <option value="Al día">Al día</option>
+                <option value="Recién realizado">Recién realizado</option>
+                <option value="Libro oficial">Libro oficial</option>
+                <option value="Pendiente">Pendiente</option>
+              </select>
             </div>
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
                 Neumáticos
               </label>
-              <Input
+              <select
                 name="conditionTyres"
                 value={formData.conditionTyres}
                 onChange={handleChange}
-                placeholder="Ej: Buen estado, Nuevos"
-                className="text-xs bg-zinc-900 border-zinc-700 text-white"
-              />
+                className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-xs ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-900 border-zinc-700 text-white"
+              >
+                <option value="Nuevos">Nuevos</option>
+                <option value="Buen estado">Buen estado</option>
+                <option value="Medio uso">Medio uso</option>
+                <option value="Para cambiar">Para cambiar</option>
+              </select>
             </div>
             <div>
               <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
                 Frenos
               </label>
-              <Input
+              <select
                 name="conditionBrakes"
                 value={formData.conditionBrakes}
                 onChange={handleChange}
-                placeholder="Ej: Buen estado, Revisados"
-                className="text-xs bg-zinc-900 border-zinc-700 text-white"
-              />
-            </div>
-            <div>
-              <label className="mb-1.5 block text-xs font-semibold uppercase text-zinc-400">
-                Historial
-              </label>
-              <Input
-                name="conditionHistory"
-                value={formData.conditionHistory}
-                onChange={handleChange}
-                placeholder="Ej: Desconocido, Libro oficial"
-                className="text-xs bg-zinc-900 border-zinc-700 text-white"
-              />
+                className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-xs ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-900 border-zinc-700 text-white"
+              >
+                <option value="Nuevos">Nuevos</option>
+                <option value="Buen estado">Buen estado</option>
+                <option value="Revisados">Revisados</option>
+                <option value="Para cambiar">Para cambiar</option>
+              </select>
             </div>
           </div>
         </div>

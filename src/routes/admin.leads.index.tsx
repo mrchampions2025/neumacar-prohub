@@ -35,6 +35,7 @@ function AdminLeads() {
     const { data, error } = await supabase
       .from("leads")
       .select("*")
+      .in("type", ["vender_vehiculo", "prueba_vehiculo", "comprar_vehiculo"])
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -153,9 +154,7 @@ function AdminLeads() {
           ? l.type === "vender_vehiculo"
           : typeFilter === "prueba"
             ? l.type === "prueba_vehiculo" || l.type === "comprar_vehiculo"
-            : typeFilter === "presupuesto"
-              ? l.type === "presupuesto"
-              : true;
+            : true;
 
     return matchesSearch && matchesType;
   });
@@ -168,7 +167,7 @@ function AdminLeads() {
             Tasaciones y Solicitudes <Search className="size-6 text-red-500" />
           </h1>
           <p className="text-sm text-zinc-400 mt-1">
-            Gestión de solicitudes de tasación ("Compramos tu coche"), pruebas de conducción y consultas de clientes.
+            Gestión de solicitudes de tasación ("Compramos tu coche") y pruebas de conducción de clientes.
           </p>
         </div>
         <div className="relative w-full md:w-80">
@@ -189,7 +188,6 @@ function AdminLeads() {
           { id: "todos", label: "Todas las Solicitudes" },
           { id: "tasacion", label: "Tasaciones (Compramos tu coche)" },
           { id: "prueba", label: "Pruebas de Vehículo" },
-          { id: "presupuesto", label: "Presupuestos" },
         ].map((tab) => (
           <button
             key={tab.id}
