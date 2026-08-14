@@ -19,22 +19,38 @@ export const trustPoints = [
 ];
 
 export const whyUs = [
-  { title: "Experiencia", text: "Años de trabajo diario con todo tipo de marcas y averías." },
   {
-    title: "Transparencia",
-    text: "Te mostramos las piezas sustituidas y el detalle de cada partida.",
-  },
-  { title: "Diagnóstico profesional", text: "Localizamos la causa real, no solo el síntoma." },
-  {
-    title: "Recambios de calidad",
-    text: "Original o equivalente homologado, nunca a costa de la seguridad.",
+    title: "Experiencia y Especialización Multimarca",
+    text: "Amplia trayectoria en mecánica general, electrónica e híbridos. Resolvemos desde mantenimientos periódicos oficiales hasta las averías más complejas en cualquier marca.",
   },
   {
-    title: "Atención personalizada",
-    text: "Un interlocutor claro desde la entrada hasta la entrega.",
+    title: "Transparencia Total",
+    text: "Te entregamos el desglose detallado de cada trabajo y te mostramos las piezas sustituidas al retirar tu vehículo. Claridad absoluta en cada paso.",
   },
-  { title: "Presupuestos previos", text: "Nada se repara sin tu autorización expresa." },
-  { title: "Seguimiento del vehículo", text: "Te informamos del estado de la reparación." },
+  {
+    title: "Diagnóstico Avanzado de Precisión",
+    text: "Contamos con equipos de diagnosis multimarca de última generación para identificar el origen real de la avería sin rodeos ni sustitución innecesaria de piezas.",
+  },
+  {
+    title: "Recambios Homologados de Calidad",
+    text: "Instalamos componentes originales o recambios de calidad equivalente de primer equipo homologado, priorizando siempre tu seguridad y el rendimiento óptimo.",
+  },
+  {
+    title: "Atención Cercana y Asesoramiento",
+    text: "Dispondrás de un asesor técnico asignado de principio a fin, dispuesto a resolver tus dudas y explicarte de forma sencilla qué necesita tu vehículo.",
+  },
+  {
+    title: "Presupuestos Previos Sin Sorpresas",
+    text: "Elaboramos una valoración económica detallada y por escrito antes de realizar cualquier intervención. Nada se repara sin tu autorización previa y expresa.",
+  },
+  {
+    title: "Seguimiento Continuo del Servicio",
+    text: "Te mantenemos informado en todo momento sobre la evolución del trabajo en taller y te avisamos de inmediato en cuanto tu vehículo está listo para recoger.",
+  },
+  {
+    title: "Mantenimiento Oficial Garantizado",
+    text: "Realizamos las revisiones respetando las especificaciones del fabricante para mantener intacta la garantía oficial de tu vehículo según la normativa europea.",
+  },
 ];
 
 export const workflow = [

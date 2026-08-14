@@ -54,12 +54,23 @@ function WorkshopPage() {
       <section className="section-y">
         <div className="container-page">
           <SectionHeading eyebrow="Por qué elegirnos" title="Lo que nos diferencia" />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {whyUs.map((w) => (
-              <div key={w.title} className="surface-card rounded-lg p-6">
-                <CheckCircle2 className="size-5 text-primary" />
-                <h3 className="mt-4 font-display text-base font-bold uppercase">{w.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{w.text}</p>
+              <div
+                key={w.title}
+                className="surface-card rounded-xl p-6 border border-border/80 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <CheckCircle2 className="size-5 text-primary" />
+                  </div>
+                  <h3 className="font-display text-base font-bold uppercase leading-snug text-foreground">
+                    {w.title}
+                  </h3>
+                  <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">
+                    {w.text}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
