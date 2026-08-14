@@ -14,7 +14,6 @@ import heroTaller from "@/assets/hero-taller.jpg";
 import compramos from "@/assets/compramos-coche.jpg";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { DemoDataNotice } from "@/components/common/DemoDataNotice";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { VehicleCard } from "@/components/vehicles/VehicleCard";
 import { Button } from "@/components/ui/button";
@@ -157,9 +156,7 @@ function Home() {
             title="Vehículos seleccionados"
             description="Cada unidad pasa una revisión mecánica antes de publicarse. Financiación sujeta a aprobación."
           />
-          <DemoDataNotice>
-            El stock mostrado es de demostración hasta conectar la base de datos de vehículos.
-          </DemoDataNotice>
+
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {vehicles.map((v) => (
               <VehicleCard key={v.id} vehicle={v} />
@@ -243,10 +240,7 @@ function Home() {
       <section className="section-y">
         <div className="container-page">
           <SectionHeading eyebrow="Opiniones" title="Lo que dicen nuestros clientes" />
-          <DemoDataNotice>
-            Reseñas de demostración. Antes de publicar, se sustituirán por reseñas reales
-            verificadas.
-          </DemoDataNotice>
+
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {demoTestimonials.map((t) => (
               <figure key={t.name} className="surface-card rounded-lg p-5">
