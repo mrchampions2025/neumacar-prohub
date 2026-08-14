@@ -137,23 +137,6 @@ function AdminAjustes() {
         </div>
       </div>
 
-      <div className="bg-red-950/20 border border-red-900/50 rounded-xl p-6 text-red-200">
-        <h3 className="flex items-center gap-2 font-bold uppercase text-red-400 mb-2">
-          <Info className="size-5" /> Importante: Configuración inicial
-        </h3>
-        <p className="text-sm opacity-90 mb-4">
-          Para que estos ajustes funcionen, necesitas ejecutar este comando en el editor SQL de tu panel de Supabase:
-        </p>
-        <pre className="bg-zinc-950 p-4 rounded-lg text-xs font-mono text-zinc-300 border border-zinc-900 overflow-x-auto">
-{`create table public.site_settings (
-  key text primary key,
-  value text not null
-);
-alter table public.site_settings enable row level security;
-create policy "Public Access" on public.site_settings for select using (true);
-create policy "Admin Access" on public.site_settings for all using (true);`}
-        </pre>
-      </div>
     </div>
   );
 }
