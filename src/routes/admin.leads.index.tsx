@@ -28,18 +28,19 @@ function AdminLeads() {
   const [savingNotes, setSavingNotes] = useState(false);
   const [expandedImageIndex, setExpandedImageIndex] = useState<number | null>(null);
 
+  const [typeFilter, setTypeFilter] = useState("todos");
+
   const fetchLeads = async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("leads")
       .select("*")
-      .eq("type", "vender_vehiculo")
       .order("created_at", { ascending: false });
 
     if (error) {
-      toast.error("Error al cargar tasaciones");
+      toast.error("Error al cargar solicitudes");
     } else {
-      setLeads(data);
+      setLeads(data || []);
     }
     setLoading(false);
   };
@@ -137,33 +138,71 @@ function AdminLeads() {
     setSavingNotes(false);
   };
 
-  const filteredLeads = leads.filter(l => 
-    !searchTerm || 
-    (l.reference && l.reference.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (l.name && l.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredLeads = leads.filter((l) => {
+    const matchesSearch =
+      !searchTerm ||
+      (l.reference && l.reference.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (l.name && l.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (l.email && l.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (l.data?.vehicle && l.data.vehicle.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    const matchesType =
+      typeFilter === "todos"
+        ? true
+        : typeFilter === "tasacion"
+          ? l.type === "vender_vehiculo"
+          : typeFilter === "prueba"
+            ? l.type === "prueba_vehiculo" || l.type === "comprar_vehiculo"
+            : typeFilter === "presupuesto"
+              ? l.type === "presupuesto"
+              : true;
+
+    return matchesSearch && matchesType;
+  });
 
   return (
     <div className="space-y-6 animate-fade-in-up">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800/80 pb-5">
         <div>
           <h1 className="font-display text-3xl font-extrabold uppercase tracking-tight text-white flex items-center gap-2">
-            Tasaciones & Leads <Search className="size-6 text-red-500" />
+            Tasaciones y Solicitudes <Search className="size-6 text-red-500" />
           </h1>
           <p className="text-sm text-zinc-400 mt-1">
-            Gestión de solicitudes del servicio "Compramos tu coche" y tasaciones online.
+            Gestión de solicitudes de tasación ("Compramos tu coche"), pruebas de conducción y consultas de clientes.
           </p>
         </div>
         <div className="relative w-full md:w-80">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-zinc-400" />
           <input
             type="text"
-            placeholder="Buscar por Referencia o Nombre..."
+            placeholder="Buscar por Referencia, Nombre o Coche..."
             className="w-full pl-10 pr-4 py-2 text-xs bg-zinc-900/90 border border-zinc-700/80 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-red-500 transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
+      </div>
+
+      {/* FILTROS POR TIPO */}
+      <div className="flex flex-wrap gap-2 items-center">
+        {[
+          { id: "todos", label: "Todas las Solicitudes" },
+          { id: "tasacion", label: "Tasaciones (Compramos tu coche)" },
+          { id: "prueba", label: "Pruebas de Vehículo" },
+          { id: "presupuesto", label: "Presupuestos" },
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setTypeFilter(tab.id)}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+              typeFilter === tab.id
+                ? "bg-red-600 text-white border-red-500 shadow-md shadow-red-950/40"
+                : "bg-zinc-900/80 text-zinc-400 border-zinc-800 hover:text-white hover:border-zinc-700"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       <div className="glass-panel-dark rounded-2xl border border-zinc-800/80 overflow-hidden shadow-2xl">
@@ -173,7 +212,8 @@ function AdminLeads() {
               <tr>
                 <th className="p-4 font-semibold">Fecha</th>
                 <th className="p-4 font-semibold">Referencia</th>
-                <th className="p-4 font-semibold">Cliente</th>
+                <th className="p-4 font-semibold">Tipo</th>
+                <th className="p-4 font-semibold">Cliente / Vehículo</th>
                 <th className="p-4 font-semibold">Estado</th>
                 <th className="p-4 font-semibold text-right">Acciones</th>
               </tr>
@@ -181,35 +221,70 @@ function AdminLeads() {
             <tbody className="divide-y divide-zinc-800/60">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-zinc-500">
-                    <span className="animate-pulse">Cargando tasaciones...</span>
+                  <td colSpan={6} className="p-8 text-center text-zinc-500">
+                    <span className="animate-pulse">Cargando solicitudes...</span>
                   </td>
                 </tr>
               ) : filteredLeads.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-zinc-500">
-                    No se encontraron solicitudes de tasación.
+                  <td colSpan={6} className="p-8 text-center text-zinc-500">
+                    No se encontraron solicitudes.
                   </td>
                 </tr>
               ) : (
-                filteredLeads.map((l) => (
-                  <tr key={l.id} className="transition-colors hover:bg-zinc-900/50 group">
-                    <td className="p-4 text-zinc-400">
-                      {new Date(l.created_at).toLocaleDateString("es-ES")}
-                    </td>
-                    <td className="p-4">
-                      {l.reference ? (
-                        <div className="font-mono font-bold text-red-400">{l.reference}</div>
-                      ) : (
-                        <span className="text-zinc-600">Sin Ref</span>
-                      )}
-                    </td>
-                    <td className="p-4">
-                      <div className="font-semibold text-white group-hover:text-red-400 transition-colors">
-                        {l.name}
-                      </div>
-                      <div className="text-[11px] text-zinc-400">{l.phone}</div>
-                    </td>
+                filteredLeads.map((l) => {
+                  const typeLabel =
+                    l.type === "vender_vehiculo"
+                      ? "Tasación"
+                      : l.type === "prueba_vehiculo"
+                        ? "Prueba de Vehículo"
+                        : l.type === "comprar_vehiculo"
+                          ? "Interés Compra"
+                          : l.type === "presupuesto"
+                            ? "Presupuesto"
+                            : l.type || "Solicitud";
+
+                  const typeBadgeClass =
+                    l.type === "vender_vehiculo"
+                      ? "bg-purple-950/80 text-purple-300 border-purple-800"
+                      : l.type === "prueba_vehiculo" || l.type === "comprar_vehiculo"
+                        ? "bg-red-950/80 text-red-300 border-red-800"
+                        : l.type === "presupuesto"
+                          ? "bg-emerald-950/80 text-emerald-300 border-emerald-800"
+                          : "bg-zinc-900 text-zinc-400 border-zinc-700";
+
+                  const vehicleInfo =
+                    l.data?.vehicle ||
+                    (l.data?.brand && l.data?.model ? `${l.data.brand} ${l.data.model}` : null);
+
+                  return (
+                    <tr key={l.id} className="transition-colors hover:bg-zinc-900/50 group">
+                      <td className="p-4 text-zinc-400">
+                        {new Date(l.created_at).toLocaleDateString("es-ES")}
+                      </td>
+                      <td className="p-4">
+                        {l.reference ? (
+                          <div className="font-mono font-bold text-red-400">{l.reference}</div>
+                        ) : (
+                          <span className="text-zinc-600">Sin Ref</span>
+                        )}
+                      </td>
+                      <td className="p-4">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase border ${typeBadgeClass}`}>
+                          {typeLabel}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <div className="font-semibold text-white group-hover:text-red-400 transition-colors">
+                          {l.name}
+                        </div>
+                        <div className="text-[11px] text-zinc-400 flex items-center gap-2">
+                          <span>{l.phone}</span>
+                          {vehicleInfo && (
+                            <span className="text-amber-400 font-medium">· {vehicleInfo}</span>
+                          )}
+                        </div>
+                      </td>
                     <td className="p-4">
                       <select
                         value={l.status || "nuevo"}
@@ -257,7 +332,8 @@ function AdminLeads() {
                       </div>
                     </td>
                   </tr>
-                ))
+                );
+              })
               )}
             </tbody>
           </table>
@@ -268,35 +344,46 @@ function AdminLeads() {
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-zinc-950 text-white border-zinc-800 rounded-2xl shadow-2xl">
 
           <DialogHeader>
-            <DialogTitle className="uppercase tracking-wider font-display text-[#1da1f2]">
-              Detalles de Tasación {selectedLead?.reference ? `- ${selectedLead.reference}` : ''}
+            <DialogTitle className="uppercase tracking-wider font-display text-red-400">
+              Detalles de la Solicitud {selectedLead?.reference ? `- ${selectedLead.reference}` : ''}
             </DialogTitle>
           </DialogHeader>
           
           {selectedLead && (
             <div className="space-y-6 mt-4">
-              <div className="grid grid-cols-2 gap-4 bg-slate-300 p-4 rounded-lg border border-slate-400">
+              <div className="grid grid-cols-2 gap-4 bg-zinc-900/90 p-4 rounded-xl border border-zinc-800">
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Cliente</h4>
-                  <p className="font-medium text-base">{selectedLead.name}</p>
-                  <p className="text-sm text-slate-500">{selectedLead.email || 'Sin email'}</p>
-                  <p className="text-sm font-semibold mt-1">{selectedLead.phone}</p>
+                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Cliente</h4>
+                  <p className="font-bold text-base text-white">{selectedLead.name}</p>
+                  <p className="text-xs text-zinc-400">{selectedLead.email || 'Sin email'}</p>
+                  <p className="text-sm font-semibold text-red-400 mt-1">{selectedLead.phone}</p>
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Información</h4>
-                  <p className="font-medium capitalize">{selectedLead.type.replace("_", " ")}</p>
-                  <p className="text-sm text-slate-500">Estado: <span className="capitalize">{selectedLead.status}</span></p>
+                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Solicitud</h4>
+                  <p className="font-bold text-sm text-white capitalize">
+                    {selectedLead.type === "vender_vehiculo"
+                      ? "Tasación (Compramos tu coche)"
+                      : selectedLead.type === "prueba_vehiculo"
+                        ? "Prueba de Vehículo"
+                        : selectedLead.type === "comprar_vehiculo"
+                          ? "Interés en Compra"
+                          : selectedLead.type === "presupuesto"
+                            ? "Presupuesto de Taller"
+                            : selectedLead.type}
+                  </p>
+                  <p className="text-xs text-zinc-400 mt-1">Estado: <span className="font-semibold text-zinc-200 capitalize">{selectedLead.status}</span></p>
                 </div>
               </div>
 
               {selectedLead.data && (
-                <div>
-                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Datos del Vehículo</h4>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                <div className="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800">
+                  <h4 className="text-xs font-semibold text-red-400 uppercase tracking-wider mb-3">Datos de la Solicitud / Vehículo</h4>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-xs">
                     {Object.entries(selectedLead.data).map(([key, value]) => {
                       if (key === 'images' || key === 'consent' || key === 'adminNotes' || typeof value === 'object' || !value) return null;
                       
                       const labelMap: Record<string, string> = {
+                        vehicle: "Vehículo", date: "Fecha preferida", time: "Hora preferida",
                         brand: "Marca", model: "Modelo", version: "Versión", year: "Año",
                         plate: "Matrícula", mileage: "Kilómetros", fuel: "Combustible",
                         transmission: "Cambio", power: "Potencia (CV)", bodyType: "Carrocería",
@@ -304,13 +391,13 @@ function AdminLeads() {
                         conditionInterior: "Interior", conditionMechanical: "Mecánica",
                         conditionTyres: "Neumáticos", maintenanceHistory: "Historial Maint.",
                         owners: "Propietarios", itv: "ITV", accidents: "Accidentes",
-                        knownIssues: "Averías Conocidas"
+                        knownIssues: "Averías Conocidas", notes: "Notas del cliente"
                       };
 
                       return (
-                        <div key={key} className="border-b border-border pb-1">
-                          <span className="text-slate-500 capitalize mr-2">{labelMap[key] || key}:</span>
-                          <span className="font-medium">{String(value)}</span>
+                        <div key={key} className="border-b border-zinc-800/80 pb-1.5 flex flex-col">
+                          <span className="text-zinc-500 uppercase text-[10px] font-semibold">{labelMap[key] || key}</span>
+                          <span className="font-medium text-zinc-200 text-xs mt-0.5">{String(value)}</span>
                         </div>
                       )
                     })}

@@ -64,7 +64,7 @@ function AdminLayout() {
     { to: "/admin/vehiculos", label: "Gestión Vehículos", icon: Car },
     { to: "/admin/citas", label: "Citas Taller", icon: CalendarClock },
     { to: "/admin/presupuestos", label: "Presupuestos", icon: FileSpreadsheet },
-    { to: "/admin/leads", label: "Tasaciones / Leads", icon: Users },
+    { to: "/admin/leads", label: "Tasaciones y Solicitudes", icon: Users },
   ];
 
   return (

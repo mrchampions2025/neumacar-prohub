@@ -76,13 +76,13 @@ function AdminDashboard() {
       link: "/admin/citas",
     },
     {
-      title: "Tasaciones / Leads",
+      title: "Tasaciones y Solicitudes",
       value: stats.leads,
       icon: Users,
       color: "from-red-600 to-rose-700",
       glowColor: "shadow-red-900/30",
       textColor: "text-red-400",
-      trend: "Total recibidos",
+      trend: "Total recibidas",
       link: "/admin/leads",
     },
     {
@@ -207,14 +207,14 @@ function AdminDashboard() {
             <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
               <Users className="size-4" /> Clientes
             </div>
-            <h3 className="font-display text-xl font-bold text-white uppercase">Leads & Tasaciones</h3>
+            <h3 className="font-display text-xl font-bold text-white uppercase">Tasaciones y Solicitudes</h3>
             <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
-              Consulta solicitudes de tasación online para compra de vehículos a particulares y dudas de clientes.
+              Consulta solicitudes de tasación online, pruebas de vehículos y mensajes de clientes.
             </p>
           </div>
           <Button asChild variant="outline" size="sm" className="mt-6 border-zinc-700 text-zinc-200 hover:bg-zinc-800 hover:text-white justify-between">
             <Link to="/admin/leads">
-              <span>Revisar Tasaciones</span>
+              <span>Revisar Solicitudes</span>
               <ArrowUpRight className="size-4" />
             </Link>
           </Button>

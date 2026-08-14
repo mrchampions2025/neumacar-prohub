@@ -195,15 +195,6 @@ function VehicleDetail() {
                     </Button>
                   }
                 />
-                <TestDriveDialog
-                  intent="reserva"
-                  vehicleTitle={`${vehicle.brand} ${vehicle.model}`}
-                  trigger={
-                    <Button variant="chrome" size="lg" disabled={vehicle.status === "reservado"}>
-                      {vehicle.status === "reservado" ? "Vehículo reservado" : "Reservar vehículo"}
-                    </Button>
-                  }
-                />
                 <Button asChild variant="whatsapp" size="lg">
                   <a href={whatsapp.vehicle(`${vehicle.brand} ${vehicle.model}`)} target="_blank" rel="noopener noreferrer">
                     <MessageCircle /> Consultar por WhatsApp
