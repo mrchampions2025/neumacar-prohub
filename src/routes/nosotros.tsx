@@ -32,14 +32,14 @@ function Nosotros() {
               <span className="text-red-600">Compromiso</span> contigo.
             </h1>
             <p className="mt-6 text-lg text-zinc-300 leading-relaxed max-w-2xl">
-              En Neumacar Prohub no solo vendemos coches; seleccionamos minuciosamente cada vehículo para garantizar que te lleves calidad, seguridad y tranquilidad. Somos tu concesionario de confianza en Los Palacios y Villafranca, Sevilla.
+              En Neumacar Motor's no solo vendemos coches; seleccionamos minuciosamente cada vehículo para garantizar que te lleves calidad, seguridad y tranquilidad. Somos tu concesionario de confianza en Sevilla.
             </p>
           </div>
         </div>
       </section>
 
       {/* Valores / Por qué elegirnos */}
-      <section className="bg-white py-20 lg:py-28">
+      <section className="bg-surface py-20 lg:py-28 border-y border-border">
         <div className="container-page">
           <SectionHeading
             eyebrow="Nuestros Valores"
@@ -71,12 +71,12 @@ function Nosotros() {
                 description: "Ubicados en Sevilla, con un equipo dispuesto a asesorarte sin compromiso ni presiones."
               }
             ].map((feature, i) => (
-              <div key={i} className="rounded-2xl border border-zinc-100 bg-zinc-50 p-6 transition-all hover:shadow-lg hover:border-red-100">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-red-100 text-red-600">
+              <div key={i} className="surface-card rounded-2xl p-6 transition-all hover:shadow-lg hover:border-red-500/30">
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/10 text-red-500 ring-1 ring-red-600/20">
                   <feature.icon className="h-6 w-6" />
                 </div>
-                <h3 className="mb-2 font-display text-xl font-bold">{feature.title}</h3>
-                <p className="text-sm text-zinc-600 leading-relaxed">{feature.description}</p>
+                <h3 className="mb-2 font-display text-xl font-bold text-foreground">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -84,10 +84,10 @@ function Nosotros() {
       </section>
 
       {/* Taller e Instalaciones */}
-      <section className="bg-zinc-50 py-20 lg:py-28">
+      <section className="bg-zinc-950 py-20 lg:py-28">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div className="order-2 lg:order-1 relative aspect-square overflow-hidden rounded-3xl lg:aspect-auto lg:h-[600px]">
+            <div className="order-2 lg:order-1 relative aspect-square overflow-hidden rounded-3xl lg:aspect-auto lg:h-[600px] border border-border">
               <img
                 src="https://images.unsplash.com/photo-1613214149922-f1809c99b414?auto=format&fit=crop&q=80&w=1200"
                 alt="Nuestro taller y equipo"
@@ -99,13 +99,13 @@ function Nosotros() {
                 eyebrow="Instalaciones"
                 title="Taller Propio y Servicio Integral"
               />
-              <p className="text-zinc-600 leading-relaxed">
-                La diferencia de comprar en Neumacar Prohub es que no dependemos de terceros para poner a punto nuestros vehículos. Contamos con instalaciones de taller propias equipadas con la última tecnología de diagnosis.
+              <p className="text-muted-foreground leading-relaxed">
+                La diferencia de comprar en Neumacar Motor's es que no dependemos de terceros para poner a punto nuestros vehículos. Contamos con instalaciones de taller propias equipadas con la última tecnología de diagnosis.
               </p>
-              <p className="text-zinc-600 leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed">
                 Esto nos permite tener un control absoluto sobre el estado mecánico de cada coche que entra en nuestra exposición. Si un vehículo no supera nuestros estrictos estándares de calidad, simplemente no lo vendemos.
               </p>
-              <ul className="space-y-3 text-zinc-600 font-medium">
+              <ul className="space-y-3 text-muted-foreground font-medium">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="h-5 w-5 text-red-500" /> Diagnosis avanzada multimarca
                 </li>

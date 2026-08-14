@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, LayoutDashboard, Car, Users, LogOut, CalendarClock, ExternalLink, ShieldCheck, FileSpreadsheet, Menu, X } from "lucide-react";
+import { Loader2, LayoutDashboard, Car, Users, LogOut, CalendarClock, ExternalLink, ShieldCheck, FileSpreadsheet, Menu, X, Settings2 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 
@@ -65,6 +65,7 @@ function AdminLayout() {
     { to: "/admin/citas", label: "Citas Taller", icon: CalendarClock },
     { to: "/admin/presupuestos", label: "Presupuestos", icon: FileSpreadsheet },
     { to: "/admin/leads", label: "Tasaciones y Solicitudes", icon: Users },
+    { to: "/admin/ajustes", label: "Ajustes Generales", icon: Settings2 },
   ];
 
   return (

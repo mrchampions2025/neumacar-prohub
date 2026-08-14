@@ -27,6 +27,7 @@ import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as TallerRouteImport } from './routes/taller'
 import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAjustesRouteImport } from './routes/admin.ajustes'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as CochesSegundaManoSevillaIndexRouteImport } from './routes/coches-segunda-mano-sevilla.index'
 import { Route as CochesVehicleSlugRouteImport } from './routes/coches.$vehicleSlug'
@@ -129,6 +130,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAjustesRoute = AdminAjustesRouteImport.update({
+  id: '/ajustes',
+  path: '/ajustes',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -205,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/login': typeof AdminLoginRoute
   '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -235,6 +242,7 @@ export interface FileRoutesByTo {
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/login': typeof AdminLoginRoute
   '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -267,6 +275,7 @@ export interface FileRoutesById {
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
+  '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/login': typeof AdminLoginRoute
   '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -300,6 +309,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
+    | '/admin/ajustes'
     | '/admin/login'
     | '/coches/$vehicleSlug'
     | '/servicios/$slug'
@@ -330,6 +340,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
+    | '/admin/ajustes'
     | '/admin/login'
     | '/coches/$vehicleSlug'
     | '/servicios/$slug'
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/taller'
     | '/vender-mi-coche'
+    | '/admin/ajustes'
     | '/admin/login'
     | '/coches/$vehicleSlug'
     | '/servicios/$slug'
@@ -527,6 +539,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/ajustes': {
+      id: '/admin/ajustes'
+      path: '/ajustes'
+      fullPath: '/admin/ajustes'
+      preLoaderRoute: typeof AdminAjustesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -608,6 +627,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAjustesRoute: typeof AdminAjustesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminVehiculosNuevoRoute: typeof AdminVehiculosNuevoRoute
@@ -619,6 +639,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAjustesRoute: AdminAjustesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminVehiculosNuevoRoute: AdminVehiculosNuevoRoute,

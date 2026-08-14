@@ -38,7 +38,6 @@ export function Testimonials() {
           title="Lo que dicen nuestros clientes"
           description="La satisfacción de nuestros clientes es nuestro mejor aval. Descubre por qué eligen Neumacar Prohub para la compra, venta o mantenimiento de su vehículo."
           align="center"
-          className="text-white"
         />
 
         <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
