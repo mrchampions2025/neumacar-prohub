@@ -21,6 +21,7 @@ import { Route as CochesOcasionSevillaRouteImport } from './routes/coches-ocasio
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as PresupuestoRouteImport } from './routes/presupuesto'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as TallerRouteImport } from './routes/taller'
@@ -96,6 +97,11 @@ const CookiesRoute = CookiesRouteImport.update({
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NosotrosRoute = NosotrosRouteImport.update({
+  id: '/nosotros',
+  path: '/nosotros',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PresupuestoRoute = PresupuestoRouteImport.update({
@@ -194,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
+  '/nosotros': typeof NosotrosRoute
   '/presupuesto': typeof PresupuestoRoute
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
@@ -223,6 +230,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
+  '/nosotros': typeof NosotrosRoute
   '/presupuesto': typeof PresupuestoRoute
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
@@ -254,6 +262,7 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/faq': typeof FaqRoute
+  '/nosotros': typeof NosotrosRoute
   '/presupuesto': typeof PresupuestoRoute
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
@@ -286,6 +295,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/faq'
+    | '/nosotros'
     | '/presupuesto'
     | '/privacidad'
     | '/taller'
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/faq'
+    | '/nosotros'
     | '/presupuesto'
     | '/privacidad'
     | '/taller'
@@ -345,6 +356,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/faq'
+    | '/nosotros'
     | '/presupuesto'
     | '/privacidad'
     | '/taller'
@@ -376,6 +388,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   CookiesRoute: typeof CookiesRoute
   FaqRoute: typeof FaqRoute
+  NosotrosRoute: typeof NosotrosRoute
   PresupuestoRoute: typeof PresupuestoRoute
   PrivacidadRoute: typeof PrivacidadRoute
   TallerRoute: typeof TallerRoute
@@ -470,6 +483,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nosotros': {
+      id: '/nosotros'
+      path: '/nosotros'
+      fullPath: '/nosotros'
+      preLoaderRoute: typeof NosotrosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/presupuesto': {
@@ -624,6 +644,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   CookiesRoute: CookiesRoute,
   FaqRoute: FaqRoute,
+  NosotrosRoute: NosotrosRoute,
   PresupuestoRoute: PresupuestoRoute,
   PrivacidadRoute: PrivacidadRoute,
   TallerRoute: TallerRoute,

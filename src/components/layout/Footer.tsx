@@ -57,9 +57,9 @@ export function Footer() {
           </h2>
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             {[
+              { to: "/nosotros", label: "El Concesionario" },
               { to: "/taller", label: "Taller" },
               { to: "/servicios", label: "Servicios" },
-              { to: "/neumaticos", label: "Neumáticos" },
               { to: "/coches-segunda-mano-sevilla", label: "Coches de ocasión" },
               { to: "/vender-mi-coche", label: "Comprar mi coche" },
               { to: "/presupuesto", label: "Presupuesto" },

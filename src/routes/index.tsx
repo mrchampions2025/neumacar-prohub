@@ -7,7 +7,6 @@ import {
   MessageCircle,
   Phone,
   ShieldCheck,
-  Star,
 } from "lucide-react";
 
 import heroTaller from "@/assets/hero-taller.jpg";
@@ -17,6 +16,7 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { VehicleCard } from "@/components/vehicles/VehicleCard";
 import { Button } from "@/components/ui/button";
+import { Testimonials } from "@/components/home/Testimonials";
 import {
   Accordion,
   AccordionContent,
@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/accordion";
 import { featuredServices } from "@/data/services";
 import { fetchPublishedVehicles } from "@/data/vehicles";
-import { trustPoints, workflow, demoTestimonials, faqs } from "@/data/content";
+import { trustPoints, workflow, faqs } from "@/data/content";
 import { site } from "@/config/site";
 import { whatsapp } from "@/services/whatsapp";
 
@@ -237,28 +237,7 @@ function Home() {
       </section>
 
       {/* OPINIONES */}
-      <section className="section-y">
-        <div className="container-page">
-          <SectionHeading eyebrow="Opiniones" title="Lo que dicen nuestros clientes" />
-
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {demoTestimonials.map((t) => (
-              <figure key={t.name} className="surface-card rounded-lg p-5">
-                <div className="flex gap-0.5" aria-label={`${t.rating} de 5`}>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`size-4 ${i < t.rating ? "fill-gold text-gold" : "text-muted-foreground/40"}`}
-                    />
-                  ))}
-                </div>
-                <blockquote className="mt-3 text-sm text-muted-foreground">{t.text}</blockquote>
-                <figcaption className="mt-4 font-display text-sm uppercase">{t.name}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Testimonials />
 
       {/* FAQ */}
       <section className="section-y border-t border-border bg-surface">

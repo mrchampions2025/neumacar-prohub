@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 
 const nav = [
   { to: "/", label: "Inicio" },
+  { to: "/nosotros", label: "Nosotros" },
   { to: "/taller", label: "Taller" },
   { to: "/servicios", label: "Servicios" },
   { to: "/coches-segunda-mano-sevilla", label: "Coches Ocasión" },
