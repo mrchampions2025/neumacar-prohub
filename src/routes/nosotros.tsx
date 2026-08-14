@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { CheckCircle2, MapPin, ShieldCheck, Wrench } from "lucide-react";
+import heroTaller from "@/assets/hero-taller.jpg";
 
 export const Route = createFileRoute("/nosotros")({
   component: Nosotros,
@@ -17,7 +18,7 @@ function Nosotros() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/90 to-transparent z-10" />
           <img
-            src="https://images.unsplash.com/photo-1560067174-c5a3a8f37060?auto=format&fit=crop&q=80&w=2000"
+            src={heroTaller}
             alt="Concesionario Neumacar"
             className="h-full w-full object-cover opacity-40"
           />
