@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Trash2, Printer, Plus, ArrowLeft, Search, FileSpreadsheet, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Trash2, Printer, Plus, ArrowLeft, Search, FileSpreadsheet, X, ChevronLeft, ChevronRight, Video, Play } from "lucide-react";
+import { isVideoUrl } from "@/components/forms/ImageUploader";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -665,17 +666,32 @@ function AdminPresupuestos() {
 
               {selectedLead.data?.images && Array.isArray(selectedLead.data.images) && selectedLead.data.images.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Fotografías / Documentos Adjuntos</h4>
+                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Archivos Fotografías y Vídeos Adjuntos</h4>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {selectedLead.data.images.map((img: string, i: number) => (
-                      <div 
-                        key={i} 
-                        className="rounded-md overflow-hidden border border-zinc-800 bg-black cursor-pointer hover:opacity-80 transition-opacity"
-                        onClick={() => setExpandedImageIndex(i)}
-                      >
-                        <img src={img} alt={`Foto ${i + 1}`} className="w-full h-24 object-cover" />
-                      </div>
-                    ))}
+                    {selectedLead.data.images.map((img: string, i: number) => {
+                      const isVid = isVideoUrl(img);
+                      return (
+                        <div 
+                          key={i} 
+                          className="group relative aspect-square rounded-md overflow-hidden border border-zinc-800 bg-black cursor-pointer hover:opacity-80 transition-opacity"
+                          onClick={() => setExpandedImageIndex(i)}
+                        >
+                          {isVid ? (
+                            <>
+                              <video src={img} className="w-full h-full object-cover opacity-80" muted />
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                                <Play className="size-8 text-white fill-white/80" />
+                              </div>
+                              <span className="absolute bottom-1 left-1 rounded bg-red-600 px-1.5 py-0.5 text-[9px] font-bold text-white uppercase tracking-wider flex items-center gap-1">
+                                <Video className="size-3" /> Vídeo
+                              </span>
+                            </>
+                          ) : (
+                            <img src={img} alt={`Adjunto ${i + 1}`} className="w-full h-full object-cover" />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -775,14 +791,23 @@ function AdminPresupuestos() {
               
               {expandedImageIndex !== null && (
                 <div className="relative w-full max-w-5xl max-h-[90vh] flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
-                  <img 
-                    src={selectedLead.data.images[expandedImageIndex]} 
-                    alt={`Ampliación ${expandedImageIndex + 1}`} 
-                    className="max-w-full max-h-[85vh] object-contain rounded-md select-none" 
-                  />
+                  {isVideoUrl(selectedLead.data.images[expandedImageIndex]) ? (
+                    <video 
+                      src={selectedLead.data.images[expandedImageIndex]} 
+                      controls 
+                      autoPlay 
+                      className="max-w-full max-h-[85vh] rounded-md"
+                    />
+                  ) : (
+                    <img 
+                      src={selectedLead.data.images[expandedImageIndex]} 
+                      alt={`Ampliación ${expandedImageIndex + 1}`} 
+                      className="max-w-full max-h-[85vh] object-contain rounded-md select-none" 
+                    />
+                  )}
                   {totalImages > 1 && (
                     <div className="mt-4 text-white text-sm">
-                      Imagen {expandedImageIndex + 1} de {totalImages}
+                      Archivo {expandedImageIndex + 1} de {totalImages}
                     </div>
                   )}
                 </div>

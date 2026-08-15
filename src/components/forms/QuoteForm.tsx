@@ -208,12 +208,13 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
           />
         </Field>
         <div className="sm:col-span-2 space-y-2">
-          <Label className="text-sm font-medium">Fotografías o documentos del vehículo (opcional)</Label>
+          <Label className="text-sm font-medium">Fotografías, vídeos o documentos del vehículo (opcional)</Label>
           <p className="text-xs text-muted-foreground mb-2">
-            Adjunta fotos de la avería, cuadro de instrumentos o ficha técnica (máx. 4 fotos).
+            Adjunta fotos o vídeos breves de la avería, ruidos, cuadro de instrumentos o ficha técnica (máx. 4 archivos).
           </p>
           <ImageUploader
             maxImages={4}
+            acceptVideo={true}
             value={watch("images") || []}
             onChange={(imgs) => setValue("images", imgs, { shouldValidate: true })}
           />
