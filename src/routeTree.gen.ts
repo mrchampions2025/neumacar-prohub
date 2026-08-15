@@ -35,6 +35,7 @@ import { Route as TallerMultimarcaSevillaRouteImport } from './routes/taller-mul
 import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAjustesRouteImport } from './routes/admin.ajustes'
+import { Route as AdminHistorialRouteImport } from './routes/admin.historial'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as CochesSegundaManoSevillaIndexRouteImport } from './routes/coches-segunda-mano-sevilla.index'
 import { Route as CochesVehicleSlugRouteImport } from './routes/coches.$vehicleSlug'
@@ -178,6 +179,11 @@ const AdminAjustesRoute = AdminAjustesRouteImport.update({
   path: '/ajustes',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminHistorialRoute = AdminHistorialRouteImport.update({
+  id: '/historial',
+  path: '/historial',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -262,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/taller-multimarca-sevilla': typeof TallerMultimarcaSevillaRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/ajustes': typeof AdminAjustesRoute
+  '/admin/historial': typeof AdminHistorialRoute
   '/admin/login': typeof AdminLoginRoute
   '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -300,6 +307,7 @@ export interface FileRoutesByTo {
   '/taller-multimarca-sevilla': typeof TallerMultimarcaSevillaRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/ajustes': typeof AdminAjustesRoute
+  '/admin/historial': typeof AdminHistorialRoute
   '/admin/login': typeof AdminLoginRoute
   '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -340,6 +348,7 @@ export interface FileRoutesById {
   '/taller-multimarca-sevilla': typeof TallerMultimarcaSevillaRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/ajustes': typeof AdminAjustesRoute
+  '/admin/historial': typeof AdminHistorialRoute
   '/admin/login': typeof AdminLoginRoute
   '/coches/$vehicleSlug': typeof CochesVehicleSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
@@ -381,6 +390,7 @@ export interface FileRouteTypes {
     | '/taller-multimarca-sevilla'
     | '/vender-mi-coche'
     | '/admin/ajustes'
+    | '/admin/historial'
     | '/admin/login'
     | '/coches/$vehicleSlug'
     | '/servicios/$slug'
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/taller-multimarca-sevilla'
     | '/vender-mi-coche'
     | '/admin/ajustes'
+    | '/admin/historial'
     | '/admin/login'
     | '/coches/$vehicleSlug'
     | '/servicios/$slug'
@@ -458,6 +469,7 @@ export interface FileRouteTypes {
     | '/taller-multimarca-sevilla'
     | '/vender-mi-coche'
     | '/admin/ajustes'
+    | '/admin/historial'
     | '/admin/login'
     | '/coches/$vehicleSlug'
     | '/servicios/$slug'
@@ -687,6 +699,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAjustesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/historial': {
+      id: '/admin/historial'
+      path: '/historial'
+      fullPath: '/admin/historial'
+      preLoaderRoute: typeof AdminHistorialRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -769,6 +788,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminAjustesRoute: typeof AdminAjustesRoute
+  AdminHistorialRoute: typeof AdminHistorialRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminVehiculosNuevoRoute: typeof AdminVehiculosNuevoRoute
@@ -781,6 +801,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAjustesRoute: AdminAjustesRoute,
+  AdminHistorialRoute: AdminHistorialRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminVehiculosNuevoRoute: AdminVehiculosNuevoRoute,

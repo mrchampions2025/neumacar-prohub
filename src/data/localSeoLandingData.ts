@@ -25,7 +25,7 @@ export const LOCAL_SEO_LANDINGS: Record<string, LocalSeoLandingConfig> = {
     badge: "Taller Mecánico de Referencia en Sevilla",
     heroHeadline: "Tu Taller Mecánico de Confianza en Sevilla",
     heroSubheadline: "Reparación integral multimarca con diagnosis avanzada, presupuesto transparente previo y garantía oficial en Sevilla y aljarafe.",
-    heroImage: "https://images.unsplash.com/photo-1613214149922-f1809c99b414?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "https://images.unsplash.com/photo-1486262715619-673322589072?auto=format&fit=crop&q=80&w=1200",
     priceFrom: 39,
     neighborhoods: ["Sevilla Centro", "Triana", "Nervión", "Macarena", "Los Remedios", "Sevilla Este", "Pino Montano", "Bellavista"],
     features: [
@@ -51,7 +51,7 @@ export const LOCAL_SEO_LANDINGS: Record<string, LocalSeoLandingConfig> = {
     badge: "Servicio Exprés de Mantenimiento en Sevilla",
     heroHeadline: "Cambio de Aceite y Filtros en Sevilla",
     heroSubheadline: "Utilizamos aceites 100% sintéticos con especificación oficial y filtros homologados para prolongar la vida útil de tu motor en Sevilla.",
-    heroImage: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "https://images.unsplash.com/photo-1635831620300-3453b519ef7d?auto=format&fit=crop&q=80&w=1200",
     priceFrom: 69,
     neighborhoods: ["Sevilla Este", "Nervión", "Macarena", "Triana", "San Pablo", "Bami"],
     features: [
@@ -76,7 +76,7 @@ export const LOCAL_SEO_LANDINGS: Record<string, LocalSeoLandingConfig> = {
     badge: "Especialistas en Transmisiones y Embragues",
     heroHeadline: "Cambio de Embrague y Bimasa en Sevilla",
     heroSubheadline: "Reparación y sustitución de kits de embrague, volante bimasa y cojinetes hidráulicos con la mayor garantía de Sevilla.",
-    heroImage: "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "https://images.unsplash.com/photo-1530906358829-e84b2769270f?auto=format&fit=crop&q=80&w=1200",
     priceFrom: 549,
     neighborhoods: ["Sevilla Capital", "Triana", "Nervión", "Los Remedios", "Aljarafe"],
     features: [
@@ -101,7 +101,7 @@ export const LOCAL_SEO_LANDINGS: Record<string, LocalSeoLandingConfig> = {
     badge: "Máxima Seguridad en Frenada",
     heroHeadline: "Cambio de Pastillas y Discos de Freno en Sevilla",
     heroSubheadline: "Mantén una frenada precisa y segura. Sustitución rápida de discos, pastillas y líquido de frenos en Sevilla.",
-    heroImage: "https://images.unsplash.com/photo-1600792580403-015058970899?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "https://images.unsplash.com/photo-1589148782290-7cb314fb73ec?auto=format&fit=crop&q=80&w=1200",
     priceFrom: 79,
     neighborhoods: ["Sevilla Centro", "Nervión", "Triana", "Macarena", "Los Remedios"],
     features: [
@@ -124,7 +124,7 @@ export const LOCAL_SEO_LANDINGS: Record<string, LocalSeoLandingConfig> = {
     badge: "Climatización Sin Pasar Calor en Sevilla",
     heroHeadline: "Carga de Aire Acondicionado y Climatización en Sevilla",
     heroSubheadline: "Combate el calor de Sevilla con un climatizador a pleno rendimiento. Carga de gas R134a y R1234yf con prueba de estanqueidad.",
-    heroImage: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&q=80&w=1200",
+    heroImage: "https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&fit=crop&q=80&w=1200",
     priceFrom: 59,
     neighborhoods: ["Sevilla Capital", "Triana", "Nervión", "Pino Montano", "Sevilla Este"],
     features: [

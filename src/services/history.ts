@@ -149,3 +149,57 @@ export async function addVehicleHistoryRecord(record: Omit<VehicleHistoryRecord,
 
   return true;
 }
+
+export async function getAllVehicleHistories(): Promise<VehicleHistoryRecord[]> {
+  try {
+    const { data, error } = await supabase
+      .from("vehicle_history")
+      .select("*")
+      .order("date", { ascending: false });
+
+    if (!error && data) {
+      return data.map((item) => ({
+        id: item.id,
+        plate: item.plate,
+        date: item.date,
+        mileage: item.mileage,
+        serviceTitle: item.service_title,
+        description: item.description,
+        cost: item.cost,
+        invoiceRef: item.invoice_ref,
+        mechanicNotes: item.mechanic_notes,
+      }));
+    }
+  } catch (err) {
+    console.warn("Could not fetch all from Supabase, using demo store", err);
+  }
+
+  // Local fallback
+  const allRecords: VehicleHistoryRecord[] = [];
+  Object.values(DEMO_HISTORY).forEach(records => allRecords.push(...records));
+  return allRecords.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+export async function deleteVehicleHistoryRecord(id: string, plate?: string): Promise<boolean> {
+  try {
+    const { error } = await supabase.from("vehicle_history").delete().eq("id", id);
+    if (!error) return true;
+  } catch (err) {
+    console.warn("Could not delete from Supabase", err);
+  }
+
+  // Local fallback
+  if (plate) {
+    const cleanPlate = plate.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+    if (DEMO_HISTORY[cleanPlate]) {
+      DEMO_HISTORY[cleanPlate] = DEMO_HISTORY[cleanPlate].filter(r => r.id !== id);
+    }
+  } else {
+    // Search everywhere
+    Object.keys(DEMO_HISTORY).forEach(p => {
+      DEMO_HISTORY[p] = DEMO_HISTORY[p].filter(r => r.id !== id);
+    });
+  }
+  
+  return true;
+}
