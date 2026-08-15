@@ -61,14 +61,8 @@ export function Footer() {
               { to: "/taller", label: "Taller" },
               { to: "/servicios", label: "Servicios" },
               { to: "/historial", label: "Libro Digital Mantenimiento" },
-              { to: "/taller-mecanico-sevilla", label: "Taller Mecánico Sevilla" },
-              { to: "/cambio-aceite-sevilla", label: "Cambio Aceite Sevilla" },
-              { to: "/embrague-sevilla", label: "Embrague Sevilla" },
-              { to: "/frenos-sevilla", label: "Frenos Sevilla" },
-              { to: "/aire-acondicionado-sevilla", label: "Aire Acondicionado Sevilla" },
-              { to: "/taller-multimarca-sevilla", label: "Taller Multimarca Sevilla" },
               { to: "/coches-segunda-mano-sevilla", label: "Coches de ocasión" },
-              { to: "/vender-mi-coche", label: "Comprar mi coche" },
+              { to: "/vender-mi-coche", label: "Vender mi coche" },
               { to: "/presupuesto", label: "Presupuesto" },
               { to: "/cita", label: "Reservar cita" },
             ].map((l) => (
@@ -120,6 +114,23 @@ export function Footer() {
               </li>
             ))}
           </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-border/50 py-3.5 bg-black/20">
+        <div className="container-page flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+          <span className="font-semibold text-zinc-400">Servicios en Sevilla:</span>
+          <Link to="/taller-mecanico-sevilla" className="hover:text-primary transition-colors">Taller Mecánico</Link>
+          <span>•</span>
+          <Link to="/cambio-aceite-sevilla" className="hover:text-primary transition-colors">Cambio Aceite</Link>
+          <span>•</span>
+          <Link to="/embrague-sevilla" className="hover:text-primary transition-colors">Embrague</Link>
+          <span>•</span>
+          <Link to="/frenos-sevilla" className="hover:text-primary transition-colors">Frenos</Link>
+          <span>•</span>
+          <Link to="/aire-acondicionado-sevilla" className="hover:text-primary transition-colors">Aire Acondicionado</Link>
+          <span>•</span>
+          <Link to="/taller-multimarca-sevilla" className="hover:text-primary transition-colors">Taller Multimarca</Link>
         </div>
       </div>
 

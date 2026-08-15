@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Trash2, Phone, Mail, Search, Calendar, Car, Shield, UserCheck, MessageSquare, Plus, FileText, CheckCircle2, Clock, X, ChevronLeft, ChevronRight, Video, Play } from "lucide-react";
 import { isVideoUrl } from "@/components/forms/ImageUploader";
+import { addVehicleHistoryRecord } from "@/services/history";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -88,6 +89,33 @@ function AdminLeads() {
     } else {
       toast.success("Estado actualizado");
       setLeads(leads.map((l) => (l.id === id ? { ...l, status: newStatus } : l)));
+      if (selectedLead && selectedLead.id === id) {
+        setSelectedLead({ ...selectedLead, status: newStatus });
+      }
+
+      // Si el estado pasa a "convertido" (reparado/ganado), registrar automáticamente en el Historial Digital por Matrícula
+      if (newStatus === "convertido") {
+        const targetLead = leads.find((l) => l.id === id) || selectedLead;
+        if (targetLead) {
+          const plate = targetLead.data?.plate || "MATRICULA";
+          const brand = targetLead.data?.brand || "";
+          const model = targetLead.data?.model || "";
+          const serviceName = targetLead.data?.service || targetLead.type || "Servicio de Taller";
+          
+          await addVehicleHistoryRecord({
+            plate: plate,
+            date: new Date().toISOString().split("T")[0],
+            mileage: Number(targetLead.data?.mileage) || 75000,
+            serviceTitle: `Trabajo Realizado: ${serviceName}`,
+            description: targetLead.message || `Intervención de taller realizada con éxito para el vehículo ${brand} ${model}.`,
+            cost: targetLead.data?.generated_quote?.total || 0,
+            invoiceRef: targetLead.reference || `NM-${Date.now().toString().slice(-6)}`,
+            mechanicNotes: `Mantenimiento verificado en taller por NeumaCar Motors. Garantía legal de reparación aplicada.`,
+          });
+
+          toast.success(`Añadido automáticamente al Libro Digital para la matrícula ${plate.toUpperCase()}`);
+        }
+      }
     }
   };
 

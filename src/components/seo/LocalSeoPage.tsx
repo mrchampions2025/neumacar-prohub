@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuoteForm } from "@/components/forms/QuoteForm";
+import { PublicLayout } from "@/components/layout/PublicLayout";
 import type { LocalSeoLandingConfig } from "@/data/localSeoLandingData";
 
 const iconMap: Record<string, any> = {
@@ -49,7 +50,8 @@ export function LocalSeoPage({ config }: { config: LocalSeoLandingConfig }) {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <PublicLayout>
+      <div className="min-h-screen bg-background text-foreground">
       {/* Schema.org Injection */}
       <script
         type="application/ld+json"
@@ -214,5 +216,6 @@ export function LocalSeoPage({ config }: { config: LocalSeoLandingConfig }) {
         </section>
       )}
     </div>
+    </PublicLayout>
   );
 }

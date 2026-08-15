@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Trash2, Printer, Plus, ArrowLeft, Search, FileSpreadsheet, X, ChevronLeft, ChevronRight, Video, Play } from "lucide-react";
 import { isVideoUrl } from "@/components/forms/ImageUploader";
+import { addVehicleHistoryRecord } from "@/services/history";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -86,6 +87,30 @@ function AdminPresupuestos() {
       setLeads(leads.map((l) => (l.id === id ? { ...l, status: newStatus } : l)));
       if (selectedLead && selectedLead.id === id) {
         setSelectedLead({ ...selectedLead, status: newStatus });
+      }
+
+      // Si el estado pasa a "convertido" (reparado/ganado), registrar automáticamente en el Historial Digital por Matrícula
+      if (newStatus === "convertido") {
+        const targetLead = leads.find((l) => l.id === id) || selectedLead;
+        if (targetLead) {
+          const plate = targetLead.data?.plate || "MATRICULA";
+          const brand = targetLead.data?.brand || "";
+          const model = targetLead.data?.model || "";
+          const serviceName = targetLead.data?.service || "Presupuesto Aceptado";
+          
+          await addVehicleHistoryRecord({
+            plate: plate,
+            date: new Date().toISOString().split("T")[0],
+            mileage: Number(targetLead.data?.mileage) || 80000,
+            serviceTitle: `Reparación Realizada: ${serviceName}`,
+            description: targetLead.message || `Presupuesto aprobado e intervención realizada para el vehículo ${brand} ${model}.`,
+            cost: targetLead.data?.generated_quote?.total || 0,
+            invoiceRef: targetLead.reference || `INV-${Date.now().toString().slice(-6)}`,
+            mechanicNotes: `Trabajo completado y verificado en taller por NeumaCar Motors.`,
+          });
+
+          toast.success(`Añadido automáticamente al Libro Digital para la matrícula ${plate.toUpperCase()}`);
+        }
       }
     }
   };
