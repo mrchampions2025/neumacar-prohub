@@ -13,18 +13,25 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrandSlugRouteImport } from './routes/$brandSlug'
 import { Route as AccesoRouteImport } from './routes/acceso'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AireAcondicionadoSevillaRouteImport } from './routes/aire-acondicionado-sevilla'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
+import { Route as CambioAceiteSevillaRouteImport } from './routes/cambio-aceite-sevilla'
 import { Route as CitaRouteImport } from './routes/cita'
 import { Route as CochesBaratosSevillaRouteImport } from './routes/coches-baratos-sevilla'
 import { Route as CochesKm0SevillaRouteImport } from './routes/coches-km0-sevilla'
 import { Route as CochesOcasionSevillaRouteImport } from './routes/coches-ocasion-sevilla'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as EmbragueSevillaRouteImport } from './routes/embrague-sevilla'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FrenosSevillaRouteImport } from './routes/frenos-sevilla'
+import { Route as HistorialRouteImport } from './routes/historial'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as PresupuestoRouteImport } from './routes/presupuesto'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as TallerRouteImport } from './routes/taller'
+import { Route as TallerMecanicoSevillaRouteImport } from './routes/taller-mecanico-sevilla'
+import { Route as TallerMultimarcaSevillaRouteImport } from './routes/taller-multimarca-sevilla'
 import { Route as VenderMiCocheRouteImport } from './routes/vender-mi-coche'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAjustesRouteImport } from './routes/admin.ajustes'
@@ -60,9 +67,20 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AireAcondicionadoSevillaRoute =
+  AireAcondicionadoSevillaRouteImport.update({
+    id: '/aire-acondicionado-sevilla',
+    path: '/aire-acondicionado-sevilla',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AvisoLegalRoute = AvisoLegalRouteImport.update({
   id: '/aviso-legal',
   path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CambioAceiteSevillaRoute = CambioAceiteSevillaRouteImport.update({
+  id: '/cambio-aceite-sevilla',
+  path: '/cambio-aceite-sevilla',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CitaRoute = CitaRouteImport.update({
@@ -95,9 +113,24 @@ const CookiesRoute = CookiesRouteImport.update({
   path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmbragueSevillaRoute = EmbragueSevillaRouteImport.update({
+  id: '/embrague-sevilla',
+  path: '/embrague-sevilla',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FrenosSevillaRoute = FrenosSevillaRouteImport.update({
+  id: '/frenos-sevilla',
+  path: '/frenos-sevilla',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistorialRoute = HistorialRouteImport.update({
+  id: '/historial',
+  path: '/historial',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NosotrosRoute = NosotrosRouteImport.update({
@@ -118,6 +151,16 @@ const PrivacidadRoute = PrivacidadRouteImport.update({
 const TallerRoute = TallerRouteImport.update({
   id: '/taller',
   path: '/taller',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TallerMecanicoSevillaRoute = TallerMecanicoSevillaRouteImport.update({
+  id: '/taller-mecanico-sevilla',
+  path: '/taller-mecanico-sevilla',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TallerMultimarcaSevillaRoute = TallerMultimarcaSevillaRouteImport.update({
+  id: '/taller-multimarca-sevilla',
+  path: '/taller-multimarca-sevilla',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VenderMiCocheRoute = VenderMiCocheRouteImport.update({
@@ -198,18 +241,25 @@ export interface FileRoutesByFullPath {
   '/$brandSlug': typeof BrandSlugRoute
   '/acceso': typeof AccesoRoute
   '/admin': typeof AdminRouteWithChildren
+  '/aire-acondicionado-sevilla': typeof AireAcondicionadoSevillaRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/cambio-aceite-sevilla': typeof CambioAceiteSevillaRoute
   '/cita': typeof CitaRoute
   '/coches-baratos-sevilla': typeof CochesBaratosSevillaRoute
   '/coches-km0-sevilla': typeof CochesKm0SevillaRoute
   '/coches-ocasion-sevilla': typeof CochesOcasionSevillaRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
+  '/embrague-sevilla': typeof EmbragueSevillaRoute
   '/faq': typeof FaqRoute
+  '/frenos-sevilla': typeof FrenosSevillaRoute
+  '/historial': typeof HistorialRoute
   '/nosotros': typeof NosotrosRoute
   '/presupuesto': typeof PresupuestoRoute
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
+  '/taller-mecanico-sevilla': typeof TallerMecanicoSevillaRoute
+  '/taller-multimarca-sevilla': typeof TallerMultimarcaSevillaRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -229,18 +279,25 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$brandSlug': typeof BrandSlugRoute
   '/acceso': typeof AccesoRoute
+  '/aire-acondicionado-sevilla': typeof AireAcondicionadoSevillaRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/cambio-aceite-sevilla': typeof CambioAceiteSevillaRoute
   '/cita': typeof CitaRoute
   '/coches-baratos-sevilla': typeof CochesBaratosSevillaRoute
   '/coches-km0-sevilla': typeof CochesKm0SevillaRoute
   '/coches-ocasion-sevilla': typeof CochesOcasionSevillaRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
+  '/embrague-sevilla': typeof EmbragueSevillaRoute
   '/faq': typeof FaqRoute
+  '/frenos-sevilla': typeof FrenosSevillaRoute
+  '/historial': typeof HistorialRoute
   '/nosotros': typeof NosotrosRoute
   '/presupuesto': typeof PresupuestoRoute
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
+  '/taller-mecanico-sevilla': typeof TallerMecanicoSevillaRoute
+  '/taller-multimarca-sevilla': typeof TallerMultimarcaSevillaRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -262,18 +319,25 @@ export interface FileRoutesById {
   '/$brandSlug': typeof BrandSlugRoute
   '/acceso': typeof AccesoRoute
   '/admin': typeof AdminRouteWithChildren
+  '/aire-acondicionado-sevilla': typeof AireAcondicionadoSevillaRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/cambio-aceite-sevilla': typeof CambioAceiteSevillaRoute
   '/cita': typeof CitaRoute
   '/coches-baratos-sevilla': typeof CochesBaratosSevillaRoute
   '/coches-km0-sevilla': typeof CochesKm0SevillaRoute
   '/coches-ocasion-sevilla': typeof CochesOcasionSevillaRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
+  '/embrague-sevilla': typeof EmbragueSevillaRoute
   '/faq': typeof FaqRoute
+  '/frenos-sevilla': typeof FrenosSevillaRoute
+  '/historial': typeof HistorialRoute
   '/nosotros': typeof NosotrosRoute
   '/presupuesto': typeof PresupuestoRoute
   '/privacidad': typeof PrivacidadRoute
   '/taller': typeof TallerRoute
+  '/taller-mecanico-sevilla': typeof TallerMecanicoSevillaRoute
+  '/taller-multimarca-sevilla': typeof TallerMultimarcaSevillaRoute
   '/vender-mi-coche': typeof VenderMiCocheRoute
   '/admin/ajustes': typeof AdminAjustesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -296,18 +360,25 @@ export interface FileRouteTypes {
     | '/$brandSlug'
     | '/acceso'
     | '/admin'
+    | '/aire-acondicionado-sevilla'
     | '/aviso-legal'
+    | '/cambio-aceite-sevilla'
     | '/cita'
     | '/coches-baratos-sevilla'
     | '/coches-km0-sevilla'
     | '/coches-ocasion-sevilla'
     | '/contacto'
     | '/cookies'
+    | '/embrague-sevilla'
     | '/faq'
+    | '/frenos-sevilla'
+    | '/historial'
     | '/nosotros'
     | '/presupuesto'
     | '/privacidad'
     | '/taller'
+    | '/taller-mecanico-sevilla'
+    | '/taller-multimarca-sevilla'
     | '/vender-mi-coche'
     | '/admin/ajustes'
     | '/admin/login'
@@ -327,18 +398,25 @@ export interface FileRouteTypes {
     | '/'
     | '/$brandSlug'
     | '/acceso'
+    | '/aire-acondicionado-sevilla'
     | '/aviso-legal'
+    | '/cambio-aceite-sevilla'
     | '/cita'
     | '/coches-baratos-sevilla'
     | '/coches-km0-sevilla'
     | '/coches-ocasion-sevilla'
     | '/contacto'
     | '/cookies'
+    | '/embrague-sevilla'
     | '/faq'
+    | '/frenos-sevilla'
+    | '/historial'
     | '/nosotros'
     | '/presupuesto'
     | '/privacidad'
     | '/taller'
+    | '/taller-mecanico-sevilla'
+    | '/taller-multimarca-sevilla'
     | '/vender-mi-coche'
     | '/admin/ajustes'
     | '/admin/login'
@@ -359,18 +437,25 @@ export interface FileRouteTypes {
     | '/$brandSlug'
     | '/acceso'
     | '/admin'
+    | '/aire-acondicionado-sevilla'
     | '/aviso-legal'
+    | '/cambio-aceite-sevilla'
     | '/cita'
     | '/coches-baratos-sevilla'
     | '/coches-km0-sevilla'
     | '/coches-ocasion-sevilla'
     | '/contacto'
     | '/cookies'
+    | '/embrague-sevilla'
     | '/faq'
+    | '/frenos-sevilla'
+    | '/historial'
     | '/nosotros'
     | '/presupuesto'
     | '/privacidad'
     | '/taller'
+    | '/taller-mecanico-sevilla'
+    | '/taller-multimarca-sevilla'
     | '/vender-mi-coche'
     | '/admin/ajustes'
     | '/admin/login'
@@ -392,18 +477,25 @@ export interface RootRouteChildren {
   BrandSlugRoute: typeof BrandSlugRoute
   AccesoRoute: typeof AccesoRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AireAcondicionadoSevillaRoute: typeof AireAcondicionadoSevillaRoute
   AvisoLegalRoute: typeof AvisoLegalRoute
+  CambioAceiteSevillaRoute: typeof CambioAceiteSevillaRoute
   CitaRoute: typeof CitaRoute
   CochesBaratosSevillaRoute: typeof CochesBaratosSevillaRoute
   CochesKm0SevillaRoute: typeof CochesKm0SevillaRoute
   CochesOcasionSevillaRoute: typeof CochesOcasionSevillaRoute
   ContactoRoute: typeof ContactoRoute
   CookiesRoute: typeof CookiesRoute
+  EmbragueSevillaRoute: typeof EmbragueSevillaRoute
   FaqRoute: typeof FaqRoute
+  FrenosSevillaRoute: typeof FrenosSevillaRoute
+  HistorialRoute: typeof HistorialRoute
   NosotrosRoute: typeof NosotrosRoute
   PresupuestoRoute: typeof PresupuestoRoute
   PrivacidadRoute: typeof PrivacidadRoute
   TallerRoute: typeof TallerRoute
+  TallerMecanicoSevillaRoute: typeof TallerMecanicoSevillaRoute
+  TallerMultimarcaSevillaRoute: typeof TallerMultimarcaSevillaRoute
   VenderMiCocheRoute: typeof VenderMiCocheRoute
   CochesVehicleSlugRoute: typeof CochesVehicleSlugRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
@@ -441,11 +533,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aire-acondicionado-sevilla': {
+      id: '/aire-acondicionado-sevilla'
+      path: '/aire-acondicionado-sevilla'
+      fullPath: '/aire-acondicionado-sevilla'
+      preLoaderRoute: typeof AireAcondicionadoSevillaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/aviso-legal': {
       id: '/aviso-legal'
       path: '/aviso-legal'
       fullPath: '/aviso-legal'
       preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cambio-aceite-sevilla': {
+      id: '/cambio-aceite-sevilla'
+      path: '/cambio-aceite-sevilla'
+      fullPath: '/cambio-aceite-sevilla'
+      preLoaderRoute: typeof CambioAceiteSevillaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cita': {
@@ -490,11 +596,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/embrague-sevilla': {
+      id: '/embrague-sevilla'
+      path: '/embrague-sevilla'
+      fullPath: '/embrague-sevilla'
+      preLoaderRoute: typeof EmbragueSevillaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faq': {
       id: '/faq'
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/frenos-sevilla': {
+      id: '/frenos-sevilla'
+      path: '/frenos-sevilla'
+      fullPath: '/frenos-sevilla'
+      preLoaderRoute: typeof FrenosSevillaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/historial': {
+      id: '/historial'
+      path: '/historial'
+      fullPath: '/historial'
+      preLoaderRoute: typeof HistorialRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/nosotros': {
@@ -523,6 +650,20 @@ declare module '@tanstack/react-router' {
       path: '/taller'
       fullPath: '/taller'
       preLoaderRoute: typeof TallerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taller-mecanico-sevilla': {
+      id: '/taller-mecanico-sevilla'
+      path: '/taller-mecanico-sevilla'
+      fullPath: '/taller-mecanico-sevilla'
+      preLoaderRoute: typeof TallerMecanicoSevillaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taller-multimarca-sevilla': {
+      id: '/taller-multimarca-sevilla'
+      path: '/taller-multimarca-sevilla'
+      fullPath: '/taller-multimarca-sevilla'
+      preLoaderRoute: typeof TallerMultimarcaSevillaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vender-mi-coche': {
@@ -657,18 +798,25 @@ const rootRouteChildren: RootRouteChildren = {
   BrandSlugRoute: BrandSlugRoute,
   AccesoRoute: AccesoRoute,
   AdminRoute: AdminRouteWithChildren,
+  AireAcondicionadoSevillaRoute: AireAcondicionadoSevillaRoute,
   AvisoLegalRoute: AvisoLegalRoute,
+  CambioAceiteSevillaRoute: CambioAceiteSevillaRoute,
   CitaRoute: CitaRoute,
   CochesBaratosSevillaRoute: CochesBaratosSevillaRoute,
   CochesKm0SevillaRoute: CochesKm0SevillaRoute,
   CochesOcasionSevillaRoute: CochesOcasionSevillaRoute,
   ContactoRoute: ContactoRoute,
   CookiesRoute: CookiesRoute,
+  EmbragueSevillaRoute: EmbragueSevillaRoute,
   FaqRoute: FaqRoute,
+  FrenosSevillaRoute: FrenosSevillaRoute,
+  HistorialRoute: HistorialRoute,
   NosotrosRoute: NosotrosRoute,
   PresupuestoRoute: PresupuestoRoute,
   PrivacidadRoute: PrivacidadRoute,
   TallerRoute: TallerRoute,
+  TallerMecanicoSevillaRoute: TallerMecanicoSevillaRoute,
+  TallerMultimarcaSevillaRoute: TallerMultimarcaSevillaRoute,
   VenderMiCocheRoute: VenderMiCocheRoute,
   CochesVehicleSlugRoute: CochesVehicleSlugRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,

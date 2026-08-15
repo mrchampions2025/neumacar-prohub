@@ -24,6 +24,7 @@ import { serviceOptions } from "@/data/services";
 import { submitLead } from "@/services/leads";
 import { SubmittedState } from "@/components/common/states";
 import { CAR_BRANDS, getModelsForBrand } from "@/data/cars";
+import { ImageUploader } from "./ImageUploader";
 
 export function QuoteForm({ defaultService }: { defaultService?: string }) {
   const [reference, setReference] = useState<string | null>(null);
@@ -46,6 +47,7 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
       service: defaultService ?? "",
       description: "",
       contactPreference: "telefono",
+      images: [],
       consent: false,
     },
   });
@@ -205,11 +207,16 @@ export function QuoteForm({ defaultService }: { defaultService?: string }) {
             {...register("description")}
           />
         </Field>
-        <div className="sm:col-span-2 flex items-start gap-2 rounded-md border border-dashed border-border p-3 text-xs text-muted-foreground">
-          <Paperclip className="mt-0.5 size-4 shrink-0" />
-          <span>
-            La subida de fotografías y documentos se habilitará con el almacenamiento de archivos.
-          </span>
+        <div className="sm:col-span-2 space-y-2">
+          <Label className="text-sm font-medium">Fotografías o documentos del vehículo (opcional)</Label>
+          <p className="text-xs text-muted-foreground mb-2">
+            Adjunta fotos de la avería, cuadro de instrumentos o ficha técnica (máx. 4 fotos).
+          </p>
+          <ImageUploader
+            maxImages={4}
+            value={watch("images") || []}
+            onChange={(imgs) => setValue("images", imgs, { shouldValidate: true })}
+          />
         </div>
       </FormSection>
 

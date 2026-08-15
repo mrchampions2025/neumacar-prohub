@@ -3,7 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Trash2, Printer, Plus, ArrowLeft, Search, FileSpreadsheet } from "lucide-react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { Trash2, Printer, Plus, ArrowLeft, Search, FileSpreadsheet, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -26,6 +27,24 @@ function AdminPresupuestos() {
   const [searchTerm, setSearchTerm] = useState("");
   const [adminNotes, setAdminNotes] = useState("");
   const [savingNotes, setSavingNotes] = useState(false);
+  const [expandedImageIndex, setExpandedImageIndex] = useState<number | null>(null);
+
+  const hasImages = selectedLead?.data?.images && Array.isArray(selectedLead.data.images) && selectedLead.data.images.length > 0;
+  const totalImages = hasImages ? selectedLead.data.images.length : 0;
+
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (expandedImageIndex !== null && totalImages > 0) {
+      setExpandedImageIndex((prev) => (prev === null || prev === 0 ? totalImages - 1 : prev - 1));
+    }
+  };
+
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (expandedImageIndex !== null && totalImages > 0) {
+      setExpandedImageIndex((prev) => (prev === null || prev === totalImages - 1 ? 0 : prev + 1));
+    }
+  };
 
   // Quote State
   const [quoteItems, setQuoteItems] = useState<Array<{ qty: number; concept: string; price: number; discount: number }>>([
@@ -644,6 +663,23 @@ function AdminPresupuestos() {
                 </div>
               )}
 
+              {selectedLead.data?.images && Array.isArray(selectedLead.data.images) && selectedLead.data.images.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Fotografías / Documentos Adjuntos</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {selectedLead.data.images.map((img: string, i: number) => (
+                      <div 
+                        key={i} 
+                        className="rounded-md overflow-hidden border border-zinc-800 bg-black cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={() => setExpandedImageIndex(i)}
+                      >
+                        <img src={img} alt={`Foto ${i + 1}`} className="w-full h-24 object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="border-t border-zinc-800 pt-4 mt-6">
                 <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">Comentarios Internos</h4>
                 
@@ -703,6 +739,58 @@ function AdminPresupuestos() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Lightbox para Imágenes */}
+      {selectedLead?.data?.images && (
+        <DialogPrimitive.Root open={expandedImageIndex !== null} onOpenChange={(open) => !open && setExpandedImageIndex(null)}>
+          <DialogPrimitive.Portal>
+            <DialogPrimitive.Overlay className="fixed inset-0 z-[100] bg-black/95 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+            <DialogPrimitive.Content 
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 outline-none"
+              onClick={() => setExpandedImageIndex(null)}
+            >
+              <button 
+                className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 z-50 cursor-pointer"
+                onClick={(e) => { e.stopPropagation(); setExpandedImageIndex(null); }}
+              >
+                <X className="size-8" />
+              </button>
+
+              {totalImages > 1 && (
+                <>
+                  <button 
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-2 z-50 bg-black/50 rounded-full cursor-pointer"
+                    onClick={handlePrevImage}
+                  >
+                    <ChevronLeft className="size-10" />
+                  </button>
+                  <button 
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-2 z-50 bg-black/50 rounded-full cursor-pointer"
+                    onClick={handleNextImage}
+                  >
+                    <ChevronRight className="size-10" />
+                  </button>
+                </>
+              )}
+              
+              {expandedImageIndex !== null && (
+                <div className="relative w-full max-w-5xl max-h-[90vh] flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+                  <img 
+                    src={selectedLead.data.images[expandedImageIndex]} 
+                    alt={`Ampliación ${expandedImageIndex + 1}`} 
+                    className="max-w-full max-h-[85vh] object-contain rounded-md select-none" 
+                  />
+                  {totalImages > 1 && (
+                    <div className="mt-4 text-white text-sm">
+                      Imagen {expandedImageIndex + 1} de {totalImages}
+                    </div>
+                  )}
+                </div>
+              )}
+            </DialogPrimitive.Content>
+          </DialogPrimitive.Portal>
+        </DialogPrimitive.Root>
+      )}
     </div>
   );
 }

@@ -21,6 +21,13 @@ export const APIRoute = createAPIFileRoute('/api/sitemap.xml')({
       '/coches-ocasion-sevilla',
       '/coches-km0-sevilla',
       '/coches-baratos-sevilla',
+      '/historial',
+      '/taller-mecanico-sevilla',
+      '/cambio-aceite-sevilla',
+      '/embrague-sevilla',
+      '/frenos-sevilla',
+      '/aire-acondicionado-sevilla',
+      '/taller-multimarca-sevilla',
     ];
 
     // 2. Dynamic Brand Pages

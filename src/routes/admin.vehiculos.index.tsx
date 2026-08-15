@@ -2,10 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Trash2, Search, Car, LayoutGrid, List, Gauge, Calendar, Tag, ExternalLink } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, Car, LayoutGrid, List, Gauge, Calendar, Tag, ExternalLink, ShieldCheck, Wrench, FileText } from "lucide-react";
 import { toast } from "sonner";
 import type { StockVehicle } from "@/data/vehicles";
 import { generateVehicleSlug } from "@/utils/seo";
+import { addVehicleHistoryRecord } from "@/services/history";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export const Route = createFileRoute("/admin/vehiculos/")({
   component: AdminVehiculos,
@@ -17,6 +21,49 @@ function AdminVehiculos() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("todos");
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
+
+  // History modal state
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [histPlate, setHistPlate] = useState("");
+  const [histDate, setHistDate] = useState(new Date().toISOString().split("T")[0]);
+  const [histMileage, setHistMileage] = useState("");
+  const [histTitle, setHistTitle] = useState("");
+  const [histDesc, setHistDesc] = useState("");
+  const [histCost, setHistCost] = useState("");
+  const [histInvoice, setHistInvoice] = useState("");
+  const [histSaving, setHistSaving] = useState(false);
+
+  const handleSaveHistory = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!histPlate || !histTitle || !histDesc || !histMileage) {
+      toast.error("Rellena los campos obligatorios");
+      return;
+    }
+
+    setHistSaving(true);
+    const ok = await addVehicleHistoryRecord({
+      plate: histPlate,
+      date: histDate,
+      mileage: Number(histMileage) || 0,
+      serviceTitle: histTitle,
+      description: histDesc,
+      cost: histCost ? Number(histCost) : undefined,
+      invoiceRef: histInvoice || undefined,
+    });
+
+    if (ok) {
+      toast.success(`Intervención guardada para la matrícula ${histPlate.toUpperCase()}`);
+      setHistoryOpen(false);
+      setHistTitle("");
+      setHistDesc("");
+      setHistMileage("");
+      setHistCost("");
+      setHistInvoice("");
+    } else {
+      toast.error("Error al guardar registro");
+    }
+    setHistSaving(false);
+  };
 
   const fetchVehicles = async () => {
     setLoading(true);
@@ -72,14 +119,24 @@ function AdminVehiculos() {
             Gestión centralizada del stock de turismos, suv y furgonetas de ocasión.
           </p>
         </div>
-        <Button
-          asChild
-          className="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white shadow-lg shadow-red-900/30 font-semibold gap-2 border border-red-500/30 shrink-0"
-        >
-          <Link to="/admin/vehiculos/nuevo">
-            <Plus className="size-4" /> Añadir Vehículo
-          </Link>
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setHistoryOpen(true)}
+            className="border-zinc-700 bg-zinc-900 text-zinc-200 hover:text-white hover:bg-zinc-800 text-xs font-semibold gap-2"
+          >
+            <ShieldCheck className="size-4 text-red-500" /> Añadir a Historial
+          </Button>
+          <Button
+            asChild
+            className="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white shadow-lg shadow-red-900/30 font-semibold gap-2 border border-red-500/30 shrink-0 text-xs"
+          >
+            <Link to="/admin/vehiculos/nuevo">
+              <Plus className="size-4" /> Añadir Vehículo
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {/* Control Bar */}
@@ -373,6 +430,108 @@ function AdminVehiculos() {
           })}
         </div>
       )}
+
+      {/* Modal para Añadir Registro de Historial */}
+      <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
+        <DialogContent className="bg-zinc-950 text-white border-zinc-800 max-w-lg rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="font-display font-bold text-xl uppercase flex items-center gap-2">
+              <ShieldCheck className="size-5 text-red-500" /> Añadir al Historial Digital
+            </DialogTitle>
+          </DialogHeader>
+
+          <form onSubmit={handleSaveHistory} className="space-y-4 text-xs mt-2">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-zinc-400 font-semibold mb-1 block">Matrícula del Vehículo *</label>
+                <Input
+                  required
+                  placeholder="Ej. 1234ABC"
+                  value={histPlate}
+                  onChange={(e) => setHistPlate(e.target.value)}
+                  className="bg-zinc-900 border-zinc-800 text-white uppercase font-mono h-9"
+                />
+              </div>
+              <div>
+                <label className="text-zinc-400 font-semibold mb-1 block">Fecha Intervención *</label>
+                <Input
+                  type="date"
+                  required
+                  value={histDate}
+                  onChange={(e) => setHistDate(e.target.value)}
+                  className="bg-zinc-900 border-zinc-800 text-white h-9"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-zinc-400 font-semibold mb-1 block">Kilómetros Actuales *</label>
+                <Input
+                  type="number"
+                  required
+                  placeholder="95000"
+                  value={histMileage}
+                  onChange={(e) => setHistMileage(e.target.value)}
+                  className="bg-zinc-900 border-zinc-800 text-white h-9"
+                />
+              </div>
+              <div>
+                <label className="text-zinc-400 font-semibold mb-1 block">Importe (€ con IVA)</label>
+                <Input
+                  type="number"
+                  placeholder="120"
+                  value={histCost}
+                  onChange={(e) => setHistCost(e.target.value)}
+                  className="bg-zinc-900 border-zinc-800 text-white h-9"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-zinc-400 font-semibold mb-1 block">Título de la Intervención *</label>
+              <Input
+                required
+                placeholder="Ej. Cambio de Kit de Distribución y Bomba de Agua"
+                value={histTitle}
+                onChange={(e) => setHistTitle(e.target.value)}
+                className="bg-zinc-900 border-zinc-800 text-white h-9"
+              />
+            </div>
+
+            <div>
+              <label className="text-zinc-400 font-semibold mb-1 block">Detalle de Trabajos Realizados *</label>
+              <Textarea
+                required
+                rows={3}
+                placeholder="Descripción detallada de piezas sustituidas, marcas y pruebas..."
+                value={histDesc}
+                onChange={(e) => setHistDesc(e.target.value)}
+                className="bg-zinc-900 border-zinc-800 text-white leading-relaxed"
+              />
+            </div>
+
+            <div>
+              <label className="text-zinc-400 font-semibold mb-1 block">Nº de Factura / Referencia (Opcional)</label>
+              <Input
+                placeholder="INV-2026-0501"
+                value={histInvoice}
+                onChange={(e) => setHistInvoice(e.target.value)}
+                className="bg-zinc-900 border-zinc-800 text-white font-mono h-9"
+              />
+            </div>
+
+            <div className="pt-2 flex justify-end gap-2">
+              <Button type="button" variant="outline" size="sm" onClick={() => setHistoryOpen(false)}>
+                Cancelar
+              </Button>
+              <Button type="submit" variant="hero" size="sm" disabled={histSaving}>
+                {histSaving ? "Guardando..." : "Guardar en Libro Digital"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

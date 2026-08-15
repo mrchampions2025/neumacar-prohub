@@ -80,6 +80,7 @@ export const quoteSchema = z.object({
     .min(10, { message: "Cuéntanos brevemente el problema (mín. 10 caracteres)" })
     .max(1500, { message: "Máximo 1500 caracteres" }),
   contactPreference: z.enum(["telefono", "whatsapp", "email"]),
+  images: z.array(z.string()).optional(),
   consent: consentSchema,
 });
 export type QuoteValues = z.infer<typeof quoteSchema>;
